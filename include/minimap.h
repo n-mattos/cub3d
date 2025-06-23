@@ -1,22 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minimap.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/23 13:37:18 by mschippe         ###   ########.fr       */
+/*   Created: 2025/06/23 13:31:00 by mschippe          #+#    #+#             */
+/*   Updated: 2025/06/23 13:49:46 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
-#include "../include/minimap.h"
+#ifndef MINIMAP_H
+# define MINIMAP_H
+#include "MLX42/MLX42.h"
 
-int	main(void)
-{
-	mlx_t	*mlx;
-
-	mlx = mlx_init(1920, 1080, "CUB3D", false);
-	return (0);
-}
+#endif

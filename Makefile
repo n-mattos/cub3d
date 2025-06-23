@@ -3,8 +3,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 # Library paths
-MLX42_PATH = ./MLX42
-LIBFT_PATH = ./libft
+MLX42_PATH = ./include/MLX42
+LIBFT_PATH = ./include/libft
 MLX42_REPO = https://github.com/codam-coding-college/MLX42.git
 MLX42_VERSION = ce254c3
 LIBFT_REPO = https://github.com/put/libft.git
