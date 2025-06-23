@@ -6,14 +6,14 @@
 /*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:31:00 by mschippe          #+#    #+#             */
-/*   Updated: 2025/06/23 15:24:48 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/06/23 16:32:03 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIMAP_H
 # define MINIMAP_H
-# define RECT_SIZE 20
-# define PLAYER_SIZE 2
+# define RECT_SIZE 40
+# define PLAYER_SIZE 8
 # define WALL_COLOR 0xFF0000FF
 # define EMPTY_COLOR 0x00000000
 # define FLOOR_COLOR 0xFF00FF00

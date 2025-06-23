@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/23 16:04:22 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/23 16:38:01 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ void	drawrectangle(mlx_image_t *img, t_point wh, t_point coord, uint32_t color)
 		y++;
 	}
 }
+t_point	get_player_draw_loc(int x, int y)
+{
+	return ((t_point){(x * RECT_SIZE) + (RECT_SIZE / 2 - (PLAYER_SIZE / 2 - 1)),
+			(y * RECT_SIZE) + (RECT_SIZE / 2 - (PLAYER_SIZE / 2 - 1))});
+}
 
 #define MAP_HEIGHT 14
 
@@ -61,32 +66,6 @@ const char *hardcoded_map[MAP_HEIGHT] = {
     "11110111 1110101 101111010001",
 	"11111111 1111111 111111111111"
 };
-
-int	**gen_ascii_map(mlx_image_t *img)
-{
-    int	**map;
-    int	i, j;
-
-    map = malloc(sizeof(int *) * MAP_HEIGHT);
-    if (!map)
-        return (NULL);
-    for (i = 0; i < MAP_HEIGHT; i++)
-    {
-        map[i] = malloc(sizeof(int) * ft_strlen(hardcoded_map[i]));
-        if (!map[i])
-            return (NULL);
-        for (j = 0; j < (int)ft_strlen(hardcoded_map[i]); j++)
-        {
-            char c = hardcoded_map[i][j];
-            map[i][j] = (int)c;
-			if (c == '1' || c == '0')
-				drawrectangle(img, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){j * RECT_SIZE, i * RECT_SIZE}, c == '1' ? WALL_COLOR : FLOOR_COLOR);
-			else if (c != ' ')
-				drawrectangle(img, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){j * RECT_SIZE, i * RECT_SIZE}, PLAYER_COLOR);
-        }
-    }
-    return map;
-}
 
 uint32_t getcolor(t_tile tile)
 {
@@ -119,7 +98,13 @@ int	main(void)
 			int x = 0;
 			while (level->map[y][x])
 			{
-				drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, getcolor(level->map[y][x]));
+				if (level->map[y][x] == WALL || level->map[y][x] == FLOOR)
+					drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, getcolor(level->map[y][x]));
+				else if (level->map[y][x] != EMPTY)
+				{
+					drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, FLOOR_COLOR);
+					drawrectangle(minimap, (t_point){PLAYER_SIZE, PLAYER_SIZE}, get_player_draw_loc(x, y), getcolor(level->map[y][x]));
+				}
 				x++;
 			}
 			y++;
