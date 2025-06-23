@@ -14,7 +14,7 @@ LIBFT_VERSION = e99f0e6
 HEADERS = -I$(MLX42_PATH)/include -I$(LIBFT_PATH)
 LIBS = $(MLX42_PATH)/build/libmlx42.a $(LIBFT_PATH)/libft.a -ldl -lglfw -pthread -lm
 
-SRCS = src/main.c
+SRCS = src/main.c src/parsing/parse.c
 OBJS = $(SRCS:.c=.o)
 
 all: mlx42 libft $(NAME)

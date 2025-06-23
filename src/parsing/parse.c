@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:14:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/23 15:23:51 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:55:24 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,25 +91,4 @@ t_level	*parse_map(int fd)
 	}
 	level->map[y] = NULL;
 	return (level);
-}
-
-int	main(void)
-{
-	int fd = open("maps/subject_example1.cub", O_RDONLY);
-	t_level *level = parse_map(fd);
-	if (level && level->map)
-	{
-		int y = 0;
-		while (level->map[y])
-		{
-			int x = 0;
-			while (level->map[y][x])
-			{
-				printf("%c", level->map[y][x]);
-				x++;
-			}
-			printf("\n");
-			y++;
-		}
-	}
 }

@@ -4,3 +4,4 @@ libft
 *.o
 *.out
 cub3d
+.vscode
