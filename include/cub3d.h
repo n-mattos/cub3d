@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/23 13:09:14 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:48:33 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 # define CUB3D_H
 
 // include mlx library
+
+typedef enum e_tile {
+	EMPTY = 'x',
+	WALL = '1',
+	FLOOR = '0',
+	NORTH = 'N',
+	EAST = 'E',
+	SOUTH = 'S',
+	WEST = 'W'
+}	t_tile;
 
 typedef struct s_level {
 	int		**map;
