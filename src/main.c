@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/23 15:59:52 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/06/23 16:04:22 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,20 @@ int	main(void)
 			}
 			y++;
 		}
+	}
+	if (level)
+	{
+		int y = 0;
+		if (level->map)
+		{
+			while (level->map[y])
+			{
+				free(level->map[y]);
+				y++;
+			}
+			free(level->map);
+		}
+		free(level);
 	}
 	mlx_image_to_window(mlx, minimap, 0, 0);
 	mlx_key_hook(mlx, &keypress, (void *)mlx);
