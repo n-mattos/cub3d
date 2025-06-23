@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:14:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/23 16:04:48 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:16:38 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_level	*parse_map(int fd)
 	raw_map = get_raw_map_data(fd);
 	level->map = malloc(sizeof(int *) * (count_newlines(raw_map) + 2));
 	if (level->map == NULL)
-			return (NULL);	// clean level
+		return (NULL);	// clean level
 	int	i = 0;
 	int	y = 0;
 	int	x = 0;
