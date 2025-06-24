@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/06/24 13:03:40 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/24 13:29:16 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*get_texture(char *str)
 char	**get_raw_texture_data(int fd)
 {
 	char	**raw_textures;
-	size_t	n_data;		// Number of data stored. (6 = NO/EA/SO/WE / F/C)
+	size_t	n_data;
 	char	*line;
 	size_t	i;
 
@@ -113,33 +113,78 @@ void	free_raw_textures(char **raw_textures)
 	free(raw_textures);
 }
 
-void	sort_texture_data(char **raw_textures, t_textures **textures)
+void	free_textures(t_textures *textures)
+{
+	if (textures == NULL)
+		return ;
+	if (textures->north != NULL)
+		free(textures->north);
+	if (textures->east != NULL)
+		free(textures->east);
+	if (textures->south != NULL)
+		free(textures->south);
+	if (textures->west != NULL)
+		free(textures->west);
+	if (textures->floor != NULL)
+		free(textures->floor);
+	if (textures->ceiling != NULL)
+		free(textures->ceiling);
+	free(textures);
+}
+
+t_textures	*sort_texture_data(char **raw_textures, t_textures *textures)
 {
 	size_t	i;
 
 	i = -1;
 	while (++i < 6)
 	{
-		if (raw_textures[i][0] == 'N')
-			(*textures)->north = raw_textures[i];
-		else if (raw_textures[i][0] == 'E')
-			(*textures)->east = raw_textures[i];
-		else if (raw_textures[i][0] == 'S')
-			(*textures)->south = raw_textures[i];
-		else if (raw_textures[i][0] == 'W')
-			(*textures)->west = raw_textures[i];
+		if (ft_strncmp(raw_textures[i], "NO", 2) == 0)
+			ft_strlcpy(textures->north, raw_textures[i] + 2, ft_strlen(raw_textures[i]));
+		else if (ft_strncmp(raw_textures[i], "EA", 2) == 0)
+			ft_strlcpy(textures->east, raw_textures[i] + 2, ft_strlen(raw_textures[i]));
+		else if (ft_strncmp(raw_textures[i], "SO", 2) == 0)
+			ft_strlcpy(textures->south, raw_textures[i] + 2, ft_strlen(raw_textures[i]));
+		else if (ft_strncmp(raw_textures[i], "WE", 2) == 0)
+			ft_strlcpy(textures->west, raw_textures[i] + 2, ft_strlen(raw_textures[i]));
 		else if (raw_textures[i][0] == 'F')
-			(*textures)->floor = raw_textures[i];
+			ft_strlcpy(textures->floor, raw_textures[i] + 1, ft_strlen(raw_textures[i]));
 		else if (raw_textures[i][0] == 'C')
-			(*textures)->ceiling = raw_textures[i];
+			ft_strlcpy(textures->ceiling, raw_textures[i] + 1, ft_strlen(raw_textures[i]));
 		else
 		{
 			free_raw_textures(raw_textures);
-			free(*textures);
-			*textures = NULL;
-			return ;
+			free_textures(textures);
+			return (NULL);
 		}
 	}
+	return (free_raw_textures(raw_textures), textures);
+}
+
+t_textures	*allocate_textures(void)
+{
+	t_textures	*textures;
+
+	textures = malloc(sizeof(t_textures));
+	if (textures == NULL)
+		return (NULL);
+	textures->north = malloc(sizeof(char) * 256);
+	textures->east = malloc(sizeof(char) * 256);
+	textures->south = malloc(sizeof(char) * 256);
+	textures->west = malloc(sizeof(char) * 256);
+	textures->floor = malloc(sizeof(char) * 256);
+	textures->ceiling = malloc(sizeof(char) * 256);
+	if (textures->north == NULL ||
+		textures->east == NULL  ||
+		textures->south == NULL ||
+		textures->west == NULL  ||
+		textures->floor == NULL ||
+		textures->ceiling == NULL)
+	{
+		free_textures(textures);
+		return (NULL);
+	}
+	return (textures);
 }
 
 t_textures	*parse_textures(int fd)
@@ -147,7 +192,7 @@ t_textures	*parse_textures(int fd)
 	t_textures	*textures;
 	char		**raw_textures;
 
-	textures = malloc(sizeof(t_textures));
+	textures = allocate_textures();
 	if (textures == NULL)
 		return (NULL);
 	raw_textures = get_raw_texture_data(fd);
@@ -156,6 +201,6 @@ t_textures	*parse_textures(int fd)
 		free(textures);
 		return (NULL);
 	}
-	sort_texture_data(raw_textures, &textures);
+	textures = sort_texture_data(raw_textures, textures);
 	return (textures);
 }
