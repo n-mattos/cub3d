@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/23 15:55:34 by mschippe         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mschippe <mschippe@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/23 12:53:01 by nmattos-      #+#    #+#                 */
+/*   Updated: 2025/06/24 09:31:41 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ typedef enum e_tile {
 	WEST = 'W'
 }	t_tile;
 
-typedef struct s_level {
-	int		**map;
-}	t_level;
-
 typedef struct s_textures {
 	/*	mlx textures (?)
 	north;
@@ -41,9 +37,14 @@ typedef struct s_textures {
 	south;
 	west;
 	*/
-	int	floor;
-	int	ceiling;
+	int	floor[3];
+	int	ceiling[3];
 }	t_textures;
+
+typedef struct s_level {
+	int			**map;
+	t_textures	*textures;
+}	t_level;
 
 t_level	*parse_map(int fd);
 #endif
