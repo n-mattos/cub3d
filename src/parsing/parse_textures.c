@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/06/24 12:15:22 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/24 13:03:40 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ void	sort_texture_data(char **raw_textures, t_textures **textures)
 {
 	size_t	i;
 
-	i = 0;
-	while (i < 6)
+	i = -1;
+	while (++i < 6)
 	{
 		if (raw_textures[i][0] == 'N')
 			(*textures)->north = raw_textures[i];

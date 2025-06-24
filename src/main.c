@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/23 16:38:01 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/06/24 13:01:38 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,16 @@ int	main(void)
 	mlx_t		*mlx;
 	mlx_image_t	*minimap;
 	
-	int fd = open("maps/subject_example1.cub", O_RDONLY);
-	t_level *level = parse_map(fd);
+	// int fd = open("maps/subject_example1.cub", O_RDONLY);
+	// t_level *level = parse_map(fd);
+	t_level *level = parse("maps/subject_example1.cub");
+	printf("Texture struct:\n");
+	printf("NO: %s\n", level->textures->north);
+	printf("SO: %s\n", level->textures->south);
+	printf("WE: %s\n", level->textures->west);
+	printf("EA: %s\n", level->textures->east);
+	printf("F: %s\n", level->textures->floor);
+	printf("C: %s\n", level->textures->ceiling);
 	mlx = mlx_init(1920, 1080, "CUB3D", false);
 	minimap = mlx_new_image(mlx, 1920, 1080);
 	if (level && level->map)
