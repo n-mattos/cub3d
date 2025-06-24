@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse_map.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/23 13:14:46 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/06/24 09:17:27 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/23 13:14:46 by nmattos-          #+#    #+#             */
+/*   Updated: 2025/06/24 12:09:35 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ size_t	count_newlines(char *str)
 	return (n);
 }
 
-size_t	chars_till_eol(char *str)
+static size_t	chars_till_eol(char *str)
 {
 	size_t	i;
 

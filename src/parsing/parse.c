@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos <nmattos@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/24 09:10:52 by nmattos       #+#    #+#                 */
-/*   Updated: 2025/06/24 09:21:17 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
+/*   Updated: 2025/06/24 11:40:41 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_level	*parse(char *fn_map)
 	t_textures	*textures;
 	int			fd;
 
-	fd = open_file(fn_map);
+	fd = open(fn_map, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
 	textures = parse_textures(fd);

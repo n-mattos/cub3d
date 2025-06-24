@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: mschippe <mschippe@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/23 12:53:01 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/06/24 09:31:41 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
+/*   Updated: 2025/06/24 11:55:03 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,12 @@ typedef struct s_textures {
 	south;
 	west;
 	*/
-	int	floor[3];
-	int	ceiling[3];
+	char	*north;
+	char	*east;
+	char	*south;
+	char	*west;
+	char	*floor;
+	char	*ceiling;
 }	t_textures;
 
 typedef struct s_level {
@@ -46,5 +50,13 @@ typedef struct s_level {
 	t_textures	*textures;
 }	t_level;
 
-t_level	*parse_map(int fd);
+/*****************************************************************************\
+*	Function Prototypes														  *
+\*****************************************************************************/
+
+/* /parsing */
+t_level		*parse(char *fn_map);
+t_textures	*parse_textures(int fd);
+t_level		*parse_map(int fd);
+
 #endif
