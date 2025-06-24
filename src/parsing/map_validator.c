@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 13:57:43 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/24 15:11:08 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:02:51 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,33 @@ bool	invalid_tile(int **map, size_t y, size_t x)
 	return (false);
 }
 
+bool	is_player(int l)
+{
+	return (l == 'N' || l == 'E' || l == 'S' || l == 'W');
+}
+
 bool	map_is_valid(int **map)
 {
+	size_t	player;
 	size_t	x;
 	size_t	y;
 
 	y = 0;
+	player = 0;
 	while (map[y] != NULL)
 	{
 		x = 0;
 		while (map[y][x] != '\0')
 		{
+			if (is_player(map[y][x]))
+				player++;
 			if (invalid_tile(map, y, x))
 				return (false);
 			x++;
 		}
 		y++;
 	}
+	if (player != 1)
+		return (false);
 	return (true);
 }
