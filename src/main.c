@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/24 15:13:15 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:54:47 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ int	main(void)
 			int x = 0;
 			while (level->map[y][x])
 			{
+				if (level->map[y][x] == 'N')
+					printf("%d.%d\n", x, y);
 				if (level->map[y][x] == WALL || level->map[y][x] == FLOOR)
 					drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, getcolor(level->map[y][x]));
 				else if (level->map[y][x] != EMPTY)
@@ -120,20 +122,21 @@ int	main(void)
 			y++;
 		}
 	}
-	if (level)
-	{
-		int y = 0;
-		if (level->map)
-		{
-			while (level->map[y])
-			{
-				free(level->map[y]);
-				y++;
-			}
-			free(level->map);
-		}
-		free(level);
-	}
+	// if (level)
+	// {
+	// 	int y = 0;
+	// 	if (level->map)
+	// 	{
+	// 		while (level->map[y])
+	// 		{
+	// 			free(level->map[y]);
+	// 			y++;
+	// 		}
+	// 		free(level->map);
+	// 	}
+	// 	free(level);
+	// }
+	single_ray(level, minimap);
 	mlx_image_to_window(mlx, minimap, 0, 0);
 	mlx_key_hook(mlx, &keypress, (void *)mlx);
 	mlx_loop(mlx);

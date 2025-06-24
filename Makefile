@@ -1,6 +1,6 @@
 NAME = cub3d
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 # Library paths
 MLX42_PATH = ./include/MLX42
@@ -18,6 +18,7 @@ SRCS =	src/main.c \
 		src/parsing/parse.c \
 		src/parsing/parse_map.c \
 		src/parsing/parse_textures.c \
+		src/minimap/rttest.c \
 		src/parsing/map_validator.c
 OBJS = $(SRCS:.c=.o)
 

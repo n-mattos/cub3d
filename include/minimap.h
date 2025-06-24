@@ -6,7 +6,7 @@
 /*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:31:00 by mschippe          #+#    #+#             */
-/*   Updated: 2025/06/23 16:32:03 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:19:40 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,20 @@
 #include "MLX42/MLX42.h"
 #include "libft/libft.h"
 #include <stdlib.h>
+#include <math.h>
 
 typedef struct s_point
 {
 	uint32_t	x;
 	uint32_t	y;
 }	t_point;
+
+typedef struct s_vect
+{
+	double	x;
+	double	y;
+}	t_vect;
+
+void	single_ray(t_level *lvl, mlx_image_t *img);
+void	drawrectangle(mlx_image_t *img, t_point wh, t_point coord, uint32_t color);
 #endif
