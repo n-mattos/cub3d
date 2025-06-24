@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/24 11:55:03 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:10:06 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ typedef struct s_level {
 t_level		*parse(char *fn_map);
 t_textures	*parse_textures(int fd);
 t_level		*parse_map(int fd);
+bool		map_is_valid(int **map);
 
 #endif

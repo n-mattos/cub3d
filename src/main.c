@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/24 13:01:38 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:13:15 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,12 @@ int	main(void)
 {
 	mlx_t		*mlx;
 	mlx_image_t	*minimap;
-	
+
 	// int fd = open("maps/subject_example1.cub", O_RDONLY);
 	// t_level *level = parse_map(fd);
 	t_level *level = parse("maps/subject_example1.cub");
+	if (level == NULL)
+		return (1);
 	printf("Texture struct:\n");
 	printf("NO: %s\n", level->textures->north);
 	printf("SO: %s\n", level->textures->south);
