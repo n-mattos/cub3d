@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/25 12:01:46 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:40:17 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ int	main(void)
 	mlx_t		*mlx;
 	mlx_image_t	*minimap;
 
-	// int fd = open("maps/subject_example1.cub", O_RDONLY);
-	// t_level *level = parse_map(fd);
 	t_level *level = parse("maps/subject_example1.cub");
 	if (level == NULL)
 		return (1);
@@ -108,8 +106,6 @@ int	main(void)
 			int x = 0;
 			while (level->map[y][x])
 			{
-				if (level->map[y][x] == 'N')
-					printf("%d.%d\n", x, y);
 				if (level->map[y][x] == WALL || level->map[y][x] == FLOOR)
 					drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, getcolor(level->map[y][x]));
 				else if (level->map[y][x] != EMPTY)
