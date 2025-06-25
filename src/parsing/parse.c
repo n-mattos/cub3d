@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/06/24 15:12:55 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/25 10:14:41 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_level	*parse(char *fn_map)
 	if (!map_is_valid(level->map))
 	{
 		printf("Map is invalid\n");
-		return (NULL);	// free level (map + textures)
+		return (free_level(level), NULL);
 	}
 	return (level);
 }
