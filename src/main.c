@@ -6,12 +6,33 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/25 12:40:17 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:28:09 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 #include "../include/minimap.h"
+
+void	move(mlx_key_data_t keydata, void *level)
+{
+	(void)level;
+	if (keydata.key == MLX_KEY_W)
+	{
+		printf("W key pressed\n");
+	}
+	else if (keydata.key == MLX_KEY_S)
+	{
+		printf("S key pressed\n");
+	}
+	else if (keydata.key == MLX_KEY_A)
+	{
+		printf("A key pressed\n");
+	}
+	else if (keydata.key == MLX_KEY_D)
+	{
+		printf("D key pressed\n");
+	}
+}
 
 void	keypress(mlx_key_data_t keydata, void *param)
 {
@@ -125,6 +146,7 @@ int	main(void)
 	single_ray(level, minimap, 195);
 	mlx_image_to_window(mlx, minimap, 0, 0);
 	mlx_key_hook(mlx, &keypress, (void *)mlx);
+	// mlx_key_hook(mlx, &move, (void *)level);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	if (level)
