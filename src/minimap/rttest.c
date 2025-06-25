@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rttest.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/06/24 16:52:05 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/06/25 10:02:02 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 
 #define PI 3.14159265358979323846
 #define ZERO 1.e-10
-
-bool	isplayerletter(int l)
-{
-	return (l == 'N' || l == 'E' || l == 'S' || l == 'W');
-}
 
 t_point	findplayer(t_level *level)
 {
@@ -32,7 +27,7 @@ t_point	findplayer(t_level *level)
 	{
 		while (level->map[y][x])
 		{
-			if (isplayerletter(level->map[y][x]))
+			if (is_player(level->map[y][x]))
 				return ((t_point){x * 1000000, y * 1000000});
 			x++;
 		}

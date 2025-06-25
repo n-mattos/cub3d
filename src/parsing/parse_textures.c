@@ -6,69 +6,35 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/06/24 13:29:16 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/25 10:07:32 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int	skip_whitespaces(char *str, int i)
+static char	**get_raw_texture_data(int fd);
+static char	*get_texture(char *str);
+static t_textures	*sort_texture_data(char **raw, t_textures *textures);
+
+t_textures	*parse_textures(int fd)
 {
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	return (i);
-}
+	t_textures	*textures;
+	char		**raw_textures;
 
-size_t	count_char(char *str, char c)
-{
-	int		i;
-	size_t	n;
-
-	i = 0;
-	n = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			n++;
-		i++;
-	}
-	return (n);
-}
-
-static size_t	chars_till_eol(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0' && str[i] != '\n')
-		i++;
-	if (i == 0)
-		return (0);
-	return (i + 1);
-}
-
-char	*get_texture(char *str)
-{
-	char	*texture;
-	size_t	i;
-	size_t	j;
-
-	texture = malloc(sizeof(char) *
-					(chars_till_eol(str) - count_char(str, ' ') + 1));
-	if (texture == NULL)
+	textures = allocate_textures();
+	if (textures == NULL)
 		return (NULL);
-	j = 0;
-	i = 0;
-	while (str[i] != '\0' && str[i] != '\n')
+	raw_textures = get_raw_texture_data(fd);
+	if (raw_textures == NULL)
 	{
-		i = skip_whitespaces(str, i);
-		texture[j++] = str[i++];
+		free(textures);
+		return (NULL);
 	}
-	texture[j] = '\0';
-	return (texture);
+	textures = sort_texture_data(raw_textures, textures);
+	return (textures);
 }
 
-char	**get_raw_texture_data(int fd)
+static char	**get_raw_texture_data(int fd)
 {
 	char	**raw_textures;
 	size_t	n_data;
@@ -97,110 +63,52 @@ char	**get_raw_texture_data(int fd)
 	return (raw_textures);
 }
 
-void	free_raw_textures(char **raw_textures)
+static char	*get_texture(char *str)
 {
+	char	*texture;
 	size_t	i;
+	size_t	j;
 
-	if (raw_textures == NULL)
-		return ;
+	texture = malloc(sizeof(char) *
+					(chars_till_eol(str) - count_char(str, ' ') + 1));
+	if (texture == NULL)
+		return (NULL);
+	j = 0;
 	i = 0;
-	while (i < 6)
+	while (str[i] != '\0' && str[i] != '\n')
 	{
-		if (raw_textures[i] != NULL)
-			free(raw_textures[i]);
-		i++;
+		i = skip_whitespaces(str, i);
+		texture[j++] = str[i++];
 	}
-	free(raw_textures);
+	texture[j] = '\0';
+	return (texture);
 }
 
-void	free_textures(t_textures *textures)
-{
-	if (textures == NULL)
-		return ;
-	if (textures->north != NULL)
-		free(textures->north);
-	if (textures->east != NULL)
-		free(textures->east);
-	if (textures->south != NULL)
-		free(textures->south);
-	if (textures->west != NULL)
-		free(textures->west);
-	if (textures->floor != NULL)
-		free(textures->floor);
-	if (textures->ceiling != NULL)
-		free(textures->ceiling);
-	free(textures);
-}
-
-t_textures	*sort_texture_data(char **raw_textures, t_textures *textures)
+static t_textures	*sort_texture_data(char **raw, t_textures *textures)
 {
 	size_t	i;
 
 	i = -1;
 	while (++i < 6)
 	{
-		if (ft_strncmp(raw_textures[i], "NO", 2) == 0)
-			ft_strlcpy(textures->north, raw_textures[i] + 2, ft_strlen(raw_textures[i]));
-		else if (ft_strncmp(raw_textures[i], "EA", 2) == 0)
-			ft_strlcpy(textures->east, raw_textures[i] + 2, ft_strlen(raw_textures[i]));
-		else if (ft_strncmp(raw_textures[i], "SO", 2) == 0)
-			ft_strlcpy(textures->south, raw_textures[i] + 2, ft_strlen(raw_textures[i]));
-		else if (ft_strncmp(raw_textures[i], "WE", 2) == 0)
-			ft_strlcpy(textures->west, raw_textures[i] + 2, ft_strlen(raw_textures[i]));
-		else if (raw_textures[i][0] == 'F')
-			ft_strlcpy(textures->floor, raw_textures[i] + 1, ft_strlen(raw_textures[i]));
-		else if (raw_textures[i][0] == 'C')
-			ft_strlcpy(textures->ceiling, raw_textures[i] + 1, ft_strlen(raw_textures[i]));
+		if (ft_strncmp(raw[i], "NO", 2) == 0)
+			ft_strlcpy(textures->north, raw[i] + 2, ft_strlen(raw[i]));
+		else if (ft_strncmp(raw[i], "EA", 2) == 0)
+			ft_strlcpy(textures->east, raw[i] + 2, ft_strlen(raw[i]));
+		else if (ft_strncmp(raw[i], "SO", 2) == 0)
+			ft_strlcpy(textures->south, raw[i] + 2, ft_strlen(raw[i]));
+		else if (ft_strncmp(raw[i], "WE", 2) == 0)
+			ft_strlcpy(textures->west, raw[i] + 2, ft_strlen(raw[i]));
+		else if (raw[i][0] == 'F')
+			ft_strlcpy(textures->floor, raw[i] + 1, ft_strlen(raw[i]));
+		else if (raw[i][0] == 'C')
+			ft_strlcpy(textures->ceiling, raw[i] + 1, ft_strlen(raw[i]));
 		else
 		{
-			free_raw_textures(raw_textures);
+			free_raw_textures(raw);
 			free_textures(textures);
 			return (NULL);
 		}
 	}
-	return (free_raw_textures(raw_textures), textures);
-}
-
-t_textures	*allocate_textures(void)
-{
-	t_textures	*textures;
-
-	textures = malloc(sizeof(t_textures));
-	if (textures == NULL)
-		return (NULL);
-	textures->north = malloc(sizeof(char) * 256);
-	textures->east = malloc(sizeof(char) * 256);
-	textures->south = malloc(sizeof(char) * 256);
-	textures->west = malloc(sizeof(char) * 256);
-	textures->floor = malloc(sizeof(char) * 256);
-	textures->ceiling = malloc(sizeof(char) * 256);
-	if (textures->north == NULL ||
-		textures->east == NULL  ||
-		textures->south == NULL ||
-		textures->west == NULL  ||
-		textures->floor == NULL ||
-		textures->ceiling == NULL)
-	{
-		free_textures(textures);
-		return (NULL);
-	}
-	return (textures);
-}
-
-t_textures	*parse_textures(int fd)
-{
-	t_textures	*textures;
-	char		**raw_textures;
-
-	textures = allocate_textures();
-	if (textures == NULL)
-		return (NULL);
-	raw_textures = get_raw_texture_data(fd);
-	if (raw_textures == NULL)
-	{
-		free(textures);
-		return (NULL);
-	}
-	textures = sort_texture_data(raw_textures, textures);
-	return (textures);
+	return (free_raw_textures(raw), textures);
 }

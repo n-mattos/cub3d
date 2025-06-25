@@ -18,8 +18,15 @@ SRCS =	src/main.c \
 		src/parsing/parse.c \
 		src/parsing/parse_map.c \
 		src/parsing/parse_textures.c \
-		src/minimap/rttest.c \
-		src/parsing/map_validator.c
+		src/parsing/map_validator.c \
+		src/parsing/parse_memory.c \
+		src/utils/chars_till_eol.c \
+		src/utils/count_char.c \
+		src/utils/is_player.c \
+		src/utils/is_whitespace.c \
+		src/utils/skip_whitespaces.c \
+		src/minimap/rttest.c
+
 OBJS = $(SRCS:.c=.o)
 
 all: mlx42 libft $(NAME)

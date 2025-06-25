@@ -6,31 +6,13 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 13:57:43 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/24 17:02:51 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/25 10:01:19 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-bool	invalid_tile(int **map, size_t y, size_t x)
-{
-	if (map[y][x] == EMPTY || map[y][x] == WALL)
-		return (false);
-	if (x == 0 || map[y][x] == '\0' || map[y][x + 1] == '\0' ||
-		y == 0 || map[y + 1] == NULL)
-		return (true);
-	if (map[y + 1][x] == EMPTY ||
-		map[y - 1][x] == EMPTY ||
-		map[y][x + 1] == EMPTY ||
-		map[y][x - 1] == EMPTY)
-		return (true);
-	return (false);
-}
-
-bool	is_player(int l)
-{
-	return (l == 'N' || l == 'E' || l == 'S' || l == 'W');
-}
+static bool	invalid_tile(int **map, size_t y, size_t x);
 
 bool	map_is_valid(int **map)
 {
@@ -56,4 +38,19 @@ bool	map_is_valid(int **map)
 	if (player != 1)
 		return (false);
 	return (true);
+}
+
+static bool	invalid_tile(int **map, size_t y, size_t x)
+{
+	if (map[y][x] == EMPTY || map[y][x] == WALL)
+		return (false);
+	if (x == 0 || map[y][x] == '\0' || map[y][x + 1] == '\0' ||
+		y == 0 || map[y + 1] == NULL)
+		return (true);
+	if (map[y + 1][x] == EMPTY ||
+		map[y - 1][x] == EMPTY ||
+		map[y][x + 1] == EMPTY ||
+		map[y][x - 1] == EMPTY)
+		return (true);
+	return (false);
 }

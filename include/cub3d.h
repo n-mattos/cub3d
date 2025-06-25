@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/24 15:10:06 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/25 10:12:38 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,24 @@ typedef struct s_level {
 *	Function Prototypes														  *
 \*****************************************************************************/
 
-/* /parsing */
+/* parse */
 t_level		*parse(char *fn_map);
 t_textures	*parse_textures(int fd);
 t_level		*parse_map(int fd);
 bool		map_is_valid(int **map);
+
+/* parse_memory */
+void		free_raw_textures(char **raw_textures);
+void		free_textures(t_textures *textures);
+void		free_map(int **map, size_t i);
+void		free_level(t_level *level);
+t_textures	*allocate_textures(void);
+
+/* utils */
+size_t	chars_till_eol(char *str);
+bool	is_whitespace(char c);
+int		skip_whitespaces(char *str, int i);
+size_t	count_char(char *str, char c);
+bool	is_player(int c);
 
 #endif
