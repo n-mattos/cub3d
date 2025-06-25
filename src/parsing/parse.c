@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/06/25 10:19:50 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/25 10:22:24 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ t_level	*parse(char *fn_map)
 		return (perror("textures == NULL\n"), NULL);
 	level = parse_map(fd);
 	if (level == NULL)
-		return (free_textures(textures), NULL);
+		return (perror("map == NULL\n"), free_textures(textures), NULL);
 	level->textures = textures;
 	if (!map_is_valid(level->map))
-		return (perror("map == NULL\n"), free_level(level), NULL);
+		return (perror("Map is invalid\n"), free_level(level), NULL);
 	return (level);
 }
