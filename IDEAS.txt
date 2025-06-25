@@ -6,7 +6,7 @@
 #    By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/25 14:20:42 by nmattos-          #+#    #+#              #
-#    Updated: 2025/06/25 14:34:26 by nmattos-         ###   ########.fr        #
+#    Updated: 2025/06/25 14:59:02 by nmattos-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,13 @@ t_playerdata player;
 	}	t_level;
 
 ->	Holds exact player location (not index, but instead a fractional number)
+->	Means player does not have to be stored in the map, and N/E/S/W should be replaced by a FLOOR tile
 ->	For indexing, round it by casting to an int;	level->map[(int)player.y][(int)player.x]
 
 Allows for dynamic movement of the player.
+
+(W,A,S,D)
+->	Changes the x and/or y coordinate (player.x/player.y)
 
 
 
@@ -48,3 +52,6 @@ Store the current direction the player is facing (angle) in degrees (0-360).
 (Assume 0 degrees is always one direction, OR, the starting direction)
 ->	0 degrees locked to NORTH.
 ->	0 degrees locked to STARTING DIRECTION.
+
+(Left,Right) [Arrow Keys]
+->	Changes the angle variable (player.angle)
