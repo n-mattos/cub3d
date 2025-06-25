@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/24 16:54:47 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:01:46 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,23 +122,28 @@ int	main(void)
 			y++;
 		}
 	}
-	// if (level)
-	// {
-	// 	int y = 0;
-	// 	if (level->map)
-	// 	{
-	// 		while (level->map[y])
-	// 		{
-	// 			free(level->map[y]);
-	// 			y++;
-	// 		}
-	// 		free(level->map);
-	// 	}
-	// 	free(level);
-	// }
-	single_ray(level, minimap);
+	single_ray(level, minimap, 177);
+	single_ray(level, minimap, 180);
+	single_ray(level, minimap, 185);
+	single_ray(level, minimap, 190);
+	single_ray(level, minimap, 195);
 	mlx_image_to_window(mlx, minimap, 0, 0);
 	mlx_key_hook(mlx, &keypress, (void *)mlx);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
+	if (level)
+	{
+		int y = 0;
+		if (level->map)
+		{
+			while (level->map[y])
+			{
+				free(level->map[y]);
+				y++;
+			}
+			free(level->map);
+		}
+		free(level);
+	}
+	return (0);
 }

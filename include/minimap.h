@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:31:00 by mschippe          #+#    #+#             */
-/*   Updated: 2025/06/24 15:19:40 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/06/25 11:52:42 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ typedef struct s_vect
 	double	y;
 }	t_vect;
 
-void	single_ray(t_level *lvl, mlx_image_t *img);
+void	single_ray(t_level *lvl, mlx_image_t *img, double angle_deg);
 void	drawrectangle(mlx_image_t *img, t_point wh, t_point coord, uint32_t color);
 #endif
