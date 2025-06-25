@@ -6,7 +6,7 @@
 #    By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/25 14:20:42 by nmattos-          #+#    #+#              #
-#    Updated: 2025/06/25 14:30:26 by nmattos-         ###   ########.fr        #
+#    Updated: 2025/06/25 14:34:26 by nmattos-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,13 @@ typedef struct s_playerdata {
 
 t_playerdata player;
 ->	Part of level struct.
+
+	typedef struct s_level {
+		int				**map;
+		t_textures		*textures;
+		t_playerdata	*player;
+	}	t_level;
+
 ->	Holds exact player location (not index, but instead a fractional number)
 ->	For indexing, round it by casting to an int;	level->map[(int)player.y][(int)player.x]
 
