@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/26 13:21:11 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:45:11 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ typedef enum e_tile {
 }	t_tile;
 
 typedef struct s_playerdata {
-	int		x;
-	int		y;
+	size_t	x;
+	size_t	y;
 	double	degrees;
 }	t_playerdata;
 
@@ -72,6 +72,9 @@ void		free_textures(t_textures *textures);
 void		free_map(int **map, size_t i);
 void		free_level(t_level *level);
 t_textures	*allocate_textures(void);
+
+/* player */
+t_playerdata	*retrieve_player(int **map);
 
 /* utils */
 size_t	chars_till_eol(char *str);

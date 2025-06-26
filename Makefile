@@ -25,7 +25,8 @@ SRCS =	src/main.c \
 		src/utils/is_player.c \
 		src/utils/is_whitespace.c \
 		src/utils/skip_whitespaces.c \
-		src/minimap/rttest.c
+		src/minimap/rttest.c \
+		src/player/player.c
 
 OBJS = $(SRCS:.c=.o)
 

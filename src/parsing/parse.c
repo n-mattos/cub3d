@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/06/25 10:22:24 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:31:46 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@ t_level	*parse(char *fn_map)
 		return (perror("map == NULL\n"), free_textures(textures), NULL);
 	level->textures = textures;
 	if (!map_is_valid(level->map))
-		return (perror("Map is invalid\n"), free_level(level), NULL);
+	{
+		free_textures(textures);
+		free_map(level->map, -1);
+		perror("Map is invalid\n");
+		return (NULL);
+	}
+	level->player = retrieve_player(level->map);
+	if (level->player == NULL)
+		return (perror("Player not found in map\n"), free_level(level), NULL);
 	return (level);
 }

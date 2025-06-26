@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/25 13:28:09 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:59:38 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	keypress(mlx_key_data_t keydata, void *param)
 void	drawrectangle(mlx_image_t *img, t_point wh, t_point coord, uint32_t color)
 {
 	uint32_t	*pixels;
-	uint32_t	x;
-	uint32_t	y;
+	int	x;
+	int	y;
 	
 	x = 0;
 	y = 0;

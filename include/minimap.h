@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:31:00 by mschippe          #+#    #+#             */
-/*   Updated: 2025/06/25 11:52:42 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:58:49 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 
 typedef struct s_point
 {
-	uint32_t	x;
-	uint32_t	y;
+	int	x;
+	int	y;
 }	t_point;
 
 typedef struct s_vect

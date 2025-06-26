@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_cleaner.c                                    :+:      :+:    :+:   */
+/*   parse_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/25 09:44:40 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:27:43 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	free_level(t_level *level)
 {
 	free_textures(level->textures);
 	free_map(level->map, -1);
+	if (level->player != NULL)
+		free(level->player);
 	free(level);
 }
 

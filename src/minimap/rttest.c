@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/06/25 12:39:41 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:05:30 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,6 @@
 #define EPSILON 1.e-10
 #define TILE_SIZE 40
 #define PIXEL_SIZE 1000000
-
-t_point	findplayer(t_level *level)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	y = 0;
-	while (level && level->map[y])
-	{
-		while (level->map[y][x])
-		{
-			if (is_player(level->map[y][x]))
-				return ((t_point){x * PIXEL_SIZE, y * PIXEL_SIZE});
-			x++;
-		}
-		x = 0;
-		y++;
-	}
-	return ((t_point){-1, -1});
-}
 
 void	drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color)
 {
@@ -79,18 +58,12 @@ void	single_ray(t_level *lvl, mlx_image_t *img, double angle_deg)
 {
 	double delta_x;
 	double delta_y;
-	t_point player = findplayer(lvl);
-	if (lvl->map[player.y / PIXEL_SIZE][player.x / PIXEL_SIZE] == NORTH)
-		angle_deg -= 90.0;
-	else if (lvl->map[player.y / PIXEL_SIZE][player.x / PIXEL_SIZE] == EAST)
-		angle_deg -= 0.0;
-	else if (lvl->map[player.y / PIXEL_SIZE][player.x / PIXEL_SIZE] == SOUTH)
-		angle_deg -= 270.0;
-	else if (lvl->map[player.y / PIXEL_SIZE][player.x / 100000] == WEST)
-		angle_deg -= 180.0;
-	if (angle_deg < 0)
-			angle_deg += 360;
-	double angle_rad = angle_deg * PI / 180.0;
+
+	t_playerdata player = *lvl->player;
+	player.x *= PIXEL_SIZE;
+	player.y *= PIXEL_SIZE;
+	printf("Player pos: %lu,%lu\n", player.x / PIXEL_SIZE, player.y / PIXEL_SIZE);
+	double angle_rad = (angle_deg + player.degrees) * PI / 180.0;
 	double raydir_x = cos(angle_rad);
 	double raydir_y = -sin(angle_rad);
 	t_point step;
@@ -107,11 +80,16 @@ void	single_ray(t_level *lvl, mlx_image_t *img, double angle_deg)
 	player.x = player.x + PIXEL_SIZE / 2;
 	player.y = player.y + PIXEL_SIZE / 2;
 	t_point vector = (t_point){player.x, player.y};
+	printf("Ray angle: %f degrees, %f radians\n", angle_deg, angle_rad);
+	printf("Ray direction: %f, %f\n", raydir_x, raydir_y);
+	printf("Delta X: %f, Delta Y: %f\n", delta_x, delta_y);
+	printf("Step: %u, %u\n", step.x, step.y);
+	printf("Vector: %u, %u\n", vector.x / PIXEL_SIZE, vector.y / PIXEL_SIZE);
 	while (!hit)
 	{
 		player.x += step.x;
 		player.y += step.y;
-		// printf("coord check: %d,%d\n", player.x / PIXEL_SIZE, player.y / PIXEL_SIZE);
+		printf("coord check: %lu,%lu\n", player.x / PIXEL_SIZE, player.y / PIXEL_SIZE);
 		hit = lvl->map[player.y / PIXEL_SIZE][player.x / PIXEL_SIZE] == '1';
 	}
 	drawrectangle(img, (t_point){TILE_SIZE, TILE_SIZE}, (t_point){player.x / PIXEL_SIZE * TILE_SIZE, player.y / PIXEL_SIZE * TILE_SIZE}, 0xFFFFFFFF);
