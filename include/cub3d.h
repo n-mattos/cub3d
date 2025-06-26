@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/25 10:12:38 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:21:11 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "../libft/libft.h"
-// include mlx library
 
 typedef enum e_tile {
 	EMPTY = ' ',
@@ -29,6 +28,12 @@ typedef enum e_tile {
 	SOUTH = 'S',
 	WEST = 'W'
 }	t_tile;
+
+typedef struct s_playerdata {
+	int		x;
+	int		y;
+	double	degrees;
+}	t_playerdata;
 
 typedef struct s_textures {
 	/*	mlx textures (?)
@@ -46,8 +51,9 @@ typedef struct s_textures {
 }	t_textures;
 
 typedef struct s_level {
-	int			**map;
-	t_textures	*textures;
+	int				**map;
+	t_textures		*textures;
+	t_playerdata	*player;
 }	t_level;
 
 /*****************************************************************************\
