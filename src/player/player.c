@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 13:19:54 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/26 14:04:59 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:28:54 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ static t_playerdata	*create_player(int **map, size_t y, size_t x)
 	player = (t_playerdata *)malloc(sizeof(t_playerdata));
 	if (player == NULL)
 		return (NULL);
-	player->x = x;
-	player->y = y;
+	player->x = x * 1000000;
+	player->y = y * 1000000;
 	player->degrees = player_starting_direction(map[y][x]);
 	if (player->degrees == -1)
 	{

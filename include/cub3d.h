@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/26 13:45:11 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:14:07 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "MLX42/MLX42.h"
 #include "../libft/libft.h"
 
 typedef enum e_tile {
@@ -55,6 +56,12 @@ typedef struct s_level {
 	t_textures		*textures;
 	t_playerdata	*player;
 }	t_level;
+
+typedef struct s_data {
+	mlx_t		*mlx;
+	mlx_image_t	*minimap;
+	t_level		*level;
+}	t_data;
 
 /*****************************************************************************\
 *	Function Prototypes														  *
