@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/26 15:06:01 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/06/27 08:52:54 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,22 @@ void	draw_stuff(void *data)
 void	move_direction(t_level **level, double angle_deg, int speed)
 {
 	double delta_x;
-		double delta_y;
-		double angle_rad = ((*level)->player->degrees + angle_deg) * 3.14159265358979323846 / 180.0;
-		double raydir_x = cos(angle_rad);
-		double raydir_y = -sin(angle_rad);
-		t_point step;
-		if (fabs(raydir_x) < 1.e-10)
-			delta_x = 0;
-		else
-			delta_x = fabs(1 / raydir_x);
-		if (fabs(raydir_y) < 1.e-10)
-			delta_y = 0;
-		else
-			delta_y = fabs(1 / raydir_y);
-		step = (t_point){raydir_x * 1000000 / speed, raydir_y * 1000000 / speed};	// bigger step size => faster raycasting, but less accurate
-
-		(*level)->player->x += step.x;
-		(*level)->player->y += step.y;
+	double delta_y;
+	double angle_rad = ((*level)->player->degrees + angle_deg) * 3.14159265358979323846 / 180.0;
+	double raydir_x = cos(angle_rad);
+	double raydir_y = -sin(angle_rad);
+	t_point step;
+	if (fabs(raydir_x) < 1.e-10)
+		delta_x = 0;
+	else
+		delta_x = fabs(1 / raydir_x);
+	if (fabs(raydir_y) < 1.e-10)
+		delta_y = 0;
+	else
+		delta_y = fabs(1 / raydir_y);
+	step = (t_point){raydir_x * 1000000 / speed, raydir_y * 1000000 / speed};
+	(*level)->player->x += step.x;
+	(*level)->player->y += step.y;
 }
 
 void	move(mlx_key_data_t keydata, void *data)
@@ -143,25 +142,6 @@ t_point	get_player_draw_loc(int x, int y)
 			(y * RECT_SIZE) + (RECT_SIZE / 2 - (PLAYER_SIZE / 2 - 1))});
 }
 
-#define MAP_HEIGHT 14
-
-const char *hardcoded_map[MAP_HEIGHT] = {
-    "1111111111111111111111111",
-    "1000000000110000000000001",
-    "1011000001110000000000001",
-    "100100000000000000000000111111111",
-    "111111111011000001110000000000001",
-    "100000000011000001110111110111111",
-    "11110111111111011100000010001",
-    "11110111111111011101010010001",
-    "11000000110101011100000010001",
-    "10000000000000001100000010001",
-    "10000000000000001101010010001",
-    "11000001110101011111011110N0111",
-    "11110111 1110101 101111010001",
-	"11111111 1111111 111111111111"
-};
-
 uint32_t getcolor(t_tile tile)
 {
 	if (tile == FLOOR)
@@ -173,7 +153,7 @@ uint32_t getcolor(t_tile tile)
 	if (tile == NORTH || tile == EAST || tile == SOUTH || tile == WEST)
 		return (PLAYER_COLOR);
 	else
-		return (0x12345678); //lol
+		return (0x12345678);
 }
 
 int	main(void)
@@ -223,19 +203,10 @@ int	main(void)
 	mlx_loop_hook(mlx, &draw_stuff, (void *)data);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
-	if (level)
-	{
-		int y = 0;
-		if (level->map)
-		{
-			while (level->map[y])
-			{
-				free(level->map[y]);
-				y++;
-			}
-			free(level->map);
-		}
-		free(level);
-	}
+
+	free_level(level);
+	mlx_delete_image(mlx, minimap);
+	free(level->textures);
+	free(data);
 	return (0);
 }
