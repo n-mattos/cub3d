@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/27 08:52:54 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/23 13:13:46 by nmattos-      #+#    #+#                 */
+/*   Updated: 2025/07/07 12:51:48 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,30 +46,30 @@ void	draw_stuff(void *data)
 			y++;
 		}
 	}
-	single_ray(level, minimap, 177);
+	// single_ray(level, minimap, 177);
 	single_ray(level, minimap, 180);
-	single_ray(level, minimap, 185);
-	single_ray(level, minimap, 190);
-	single_ray(level, minimap, 195);
+	// single_ray(level, minimap, 185);
+	// single_ray(level, minimap, 190);
+	// single_ray(level, minimap, 195);
 	mlx_image_to_window(mlx, minimap, 0, 0);
 }
 
 void	move_direction(t_level **level, double angle_deg, int speed)
 {
-	double delta_x;
-	double delta_y;
+	// double delta_x;
+	// double delta_y;
 	double angle_rad = ((*level)->player->degrees + angle_deg) * 3.14159265358979323846 / 180.0;
 	double raydir_x = cos(angle_rad);
 	double raydir_y = -sin(angle_rad);
 	t_point step;
-	if (fabs(raydir_x) < 1.e-10)
-		delta_x = 0;
-	else
-		delta_x = fabs(1 / raydir_x);
-	if (fabs(raydir_y) < 1.e-10)
-		delta_y = 0;
-	else
-		delta_y = fabs(1 / raydir_y);
+	// if (fabs(raydir_x) < 1.e-10)
+	// 	delta_x = 0;
+	// else
+	// 	delta_x = fabs(1 / raydir_x);
+	// if (fabs(raydir_y) < 1.e-10)
+	// 	delta_y = 0;
+	// else
+	// 	delta_y = fabs(1 / raydir_y);
 	step = (t_point){raydir_x * 1000000 / speed, raydir_y * 1000000 / speed};
 	(*level)->player->x += step.x;
 	(*level)->player->y += step.y;
@@ -98,14 +98,14 @@ void	move(mlx_key_data_t keydata, void *data)
 	}
 	else if (keydata.key == MLX_KEY_LEFT)
 	{
-		d->level->player->degrees += 1;
-		if (d->level->player->degrees < 0)
+		d->level->player->degrees += 5;
+		if (d->level->player->degrees >= 360)
 			d->level->player->degrees -= 360;
 	}
 	else if (keydata.key == MLX_KEY_RIGHT)
 	{
-		d->level->player->degrees -= 1;
-		if (d->level->player->degrees >= 360)
+		d->level->player->degrees -= 5;
+		if (d->level->player->degrees < 0)
 			d->level->player->degrees += 360;
 	}
 	else if (keydata.key == MLX_KEY_ESCAPE)

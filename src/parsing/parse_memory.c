@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_memory.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/26 13:27:43 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse_memory.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/25 09:39:41 by nmattos-      #+#    #+#                 */
+/*   Updated: 2025/07/07 11:34:36 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	free_textures(t_textures *textures)
 	free(textures);
 }
 
-void	free_map(int **map, size_t i)
+void	free_map(int **map, int i)
 {
 	if (i < 0)
 	{

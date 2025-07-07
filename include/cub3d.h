@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/26 14:14:07 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/23 12:53:01 by nmattos-      #+#    #+#                 */
+/*   Updated: 2025/07/07 11:34:42 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ bool		map_is_valid(int **map);
 /* parse_memory */
 void		free_raw_textures(char **raw_textures);
 void		free_textures(t_textures *textures);
-void		free_map(int **map, size_t i);
+void		free_map(int **map, int i);
 void		free_level(t_level *level);
 t_textures	*allocate_textures(void);
 
