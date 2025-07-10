@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/07/10 16:04:28 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/07/10 16:29:53 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,6 @@ void	raycast_dda(t_level *lvl, mlx_image_t *img)
 		// drawline_angle(img, (t_point){p.x * PIXEL_SIZE, p.y * PIXEL_SIZE}, atan2(raydir_y, raydir_x), euclidean_dist, 0xFFd6ffcf);
 		drawline(img, (t_point){p.x * PIXEL_SIZE, p.y * PIXEL_SIZE}, (t_point){hit_x * PIXEL_SIZE, hit_y * PIXEL_SIZE}, 0xFFd6ffcf);
 
-		x += 20;
+		x += (int)img->width / TOTAL_RAYS;
 	}
 }

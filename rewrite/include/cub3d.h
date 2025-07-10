@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/07/10 14:45:45 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/07/10 16:31:14 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 # define TURNSPEED 0.05		// radians
 # define MOVESPEED 0.1
+# define TOTAL_RAYS 250	// total rays to cast
 # define PI 3.14159265358979323846
 
 typedef enum e_tile {
