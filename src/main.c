@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/23 13:13:46 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/07/07 12:51:48 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
+/*   Updated: 2025/07/10 13:38:46 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,66 +47,92 @@ void	draw_stuff(void *data)
 		}
 	}
 	// single_ray(level, minimap, 177);
-	single_ray(level, minimap, 180);
+	single_ray(level, minimap, 0);
+	// single_ray(level, minimap, 135);
+	// single_ray(level, minimap, 180);
+	// single_ray(level, minimap, 225);
+	// single_ray(level, minimap, 270);
 	// single_ray(level, minimap, 185);
 	// single_ray(level, minimap, 190);
 	// single_ray(level, minimap, 195);
 	mlx_image_to_window(mlx, minimap, 0, 0);
 }
 
-void	move_direction(t_level **level, double angle_deg, int speed)
-{
-	// double delta_x;
-	// double delta_y;
-	double angle_rad = ((*level)->player->degrees + angle_deg) * 3.14159265358979323846 / 180.0;
-	double raydir_x = cos(angle_rad);
-	double raydir_y = -sin(angle_rad);
-	t_point step;
-	// if (fabs(raydir_x) < 1.e-10)
-	// 	delta_x = 0;
-	// else
-	// 	delta_x = fabs(1 / raydir_x);
-	// if (fabs(raydir_y) < 1.e-10)
-	// 	delta_y = 0;
-	// else
-	// 	delta_y = fabs(1 / raydir_y);
-	step = (t_point){raydir_x * 1000000 / speed, raydir_y * 1000000 / speed};
-	(*level)->player->x += step.x;
-	(*level)->player->y += step.y;
-}
+// void	move_direction(t_level **level, double angle_deg, int speed)
+// {
+// 	// double delta_x;
+// 	// double delta_y;
+// 	double angle_rad = ((*level)->player->degrees + angle_deg) * PI / 180.0;
+// 	double raydir_x = cos(angle_rad);
+// 	double raydir_y = -sin(angle_rad);
+// 	t_point step;
+// 	// if (fabs(raydir_x) < 1.e-10)
+// 	// 	delta_x = 0;
+// 	// else
+// 	// 	delta_x = fabs(1 / raydir_x);
+// 	// if (fabs(raydir_y) < 1.e-10)
+// 	// 	delta_y = 0;
+// 	// else
+// 	// 	delta_y = fabs(1 / raydir_y);
+// 	step = (t_point){raydir_x * 1000000 / speed, raydir_y * 1000000 / speed};
+// 	(*level)->player->x += step.x;
+// 	(*level)->player->y += step.y;
+// }
 
 void	move(mlx_key_data_t keydata, void *data)
 {
-	t_data	*d;
+	t_data			*d;
+	t_playerdata	*p;
 
 	d = (t_data *)data;
+	p = d->level->player;
 	if (keydata.key == MLX_KEY_W)
 	{
-		move_direction(&d->level, 180, 10);
+		// move_direction(&d->level, 180, MOVESPEED);
+		p->x += p->dir_x * MOVESPEED;
+		p->y += p->dir_y * MOVESPEED;
 	}
 	else if (keydata.key == MLX_KEY_A)
 	{
-		move_direction(&d->level, 270, 10);
+		// move_direction(&d->level, 270, MOVESPEED);
+		p->x -= p->dir_y * MOVESPEED;
+		p->y += p->dir_x * MOVESPEED;
 	}
 	else if (keydata.key == MLX_KEY_S)
 	{
-		move_direction(&d->level, 0, 10);
+		// move_direction(&d->level, 0, MOVESPEED);
+		p->x -= p->dir_x * MOVESPEED;
+		p->y -= p->dir_y * MOVESPEED;
 	}
 	else if (keydata.key == MLX_KEY_D)
 	{
-		move_direction(&d->level, 90, 10);
-	}
-	else if (keydata.key == MLX_KEY_LEFT)
-	{
-		d->level->player->degrees += 5;
-		if (d->level->player->degrees >= 360)
-			d->level->player->degrees -= 360;
+		// move_direction(&d->level, 90, MOVESPEED);
+		p->x += p->dir_y * MOVESPEED;
+		p->y -= p->dir_x * MOVESPEED;
 	}
 	else if (keydata.key == MLX_KEY_RIGHT)
 	{
-		d->level->player->degrees -= 5;
-		if (d->level->player->degrees < 0)
-			d->level->player->degrees += 360;
+		// d->level->player->degrees += 5;
+		// if (d->level->player->degrees > 360)
+		// 	d->level->player->degrees -= 360;
+		double olddir_x = p->dir_x;
+		p->dir_x = p->dir_x * cos(TURNSPEED) - p->dir_y * sin(TURNSPEED);
+		p->dir_y = olddir_x * sin(TURNSPEED) + p->dir_y * cos(TURNSPEED);
+		double oldplane_x = p->plane_x;
+		p->plane_x = p->plane_x * cos(TURNSPEED) - p->plane_y * sin(TURNSPEED);
+		p->plane_y = oldplane_x * sin(TURNSPEED) + p->plane_y * cos(TURNSPEED);
+	}
+	else if (keydata.key == MLX_KEY_LEFT)
+	{
+		// d->level->player->degrees -= 5;
+		// if (d->level->player->degrees < 0)
+		// 	d->level->player->degrees += 360;
+		double olddir_x = p->dir_x;
+		p->dir_x = p->dir_x * cos(-TURNSPEED) - p->dir_y * sin(-TURNSPEED);
+		p->dir_y = olddir_x * sin(-TURNSPEED) + p->dir_y * cos(-TURNSPEED);
+		double oldplane_x = p->plane_x;
+		p->plane_x = p->plane_x * cos(-TURNSPEED) - p->plane_y * sin(-TURNSPEED);
+		p->plane_y = oldplane_x * sin(-TURNSPEED) + p->plane_y * cos(-TURNSPEED);
 	}
 	else if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(d->mlx);

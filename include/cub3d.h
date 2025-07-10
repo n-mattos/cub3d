@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/23 12:53:01 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/07/07 11:34:42 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
+/*   Updated: 2025/07/10 13:37:25 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef	CUB3D_H
 # define CUB3D_H
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include "MLX42/MLX42.h"
-#include "../libft/libft.h"
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdbool.h>
+# include "MLX42/MLX42.h"
+# include "../libft/libft.h"
+
+# define TURNSPEED 0.1
+# define MOVESPEED 100000
+# define PI 3.14159265358979323846
 
 typedef enum e_tile {
 	EMPTY = ' ',
@@ -33,7 +37,10 @@ typedef enum e_tile {
 typedef struct s_playerdata {
 	size_t	x;
 	size_t	y;
-	double	degrees;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
 }	t_playerdata;
 
 typedef struct s_textures {
