@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 13:19:54 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/07/10 14:38:04 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/07/10 16:04:15 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ static t_playerdata	*create_player(int **map, size_t y, size_t x)
 		free(player);
 		return (NULL);
 	}
-	player->plane_x = 0;
-	player->plane_y = 0.66;
 	return (player);
 }
 
@@ -65,23 +63,31 @@ static int	player_starting_direction(t_playerdata *player, int direction)
 {
 	if (direction == NORTH)
 	{
-		player->dir_x = -1;
-		player->dir_y = 0;
+		player->dir_x = 0;
+		player->dir_y = -1;
+		player->plane_x = 0.66;
+		player->plane_y = 0;
 	}
 	else if (direction == EAST)
 	{
-		player->dir_x = 0;
-		player->dir_y = -1;
+		player->dir_x = 1;
+		player->dir_y = 0;
+		player->plane_x = 0;
+		player->plane_y = 0.66;
 	}
 	else if (direction == SOUTH)
 	{
-		player->dir_x = 1;
-		player->dir_y = 0;
+		player->dir_x = 0;
+		player->dir_y = 1;
+		player->plane_x = -0.66;
+		player->plane_y = 0;
 	}
 	else if (direction == WEST)
 	{
-		player->dir_x = 0;
-		player->dir_y = 1;
+		player->dir_x = -1;
+		player->dir_y = 0;
+		player->plane_x = 0;
+		player->plane_y = -0.66;
 	}
 	else
 		return (-1);
