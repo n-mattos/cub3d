@@ -6,7 +6,7 @@
 /*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/07/14 16:43:49 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/14 17:37:38 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,31 @@ uint32_t getcolor(t_tile tile)
 		return (0x12345678);
 }
 
+void	mouse_move(double x, double y, void *d)
+{
+	t_data			*data;
+	t_playerdata	*p;
+	double			x_delta;
+
+	(void)y;
+	data = (t_data *)d;
+	p = data->level->player;
+	if (data->prev_mouse_x == -1)
+	{
+		data->prev_mouse_x = x;
+		return ;
+	}
+	x_delta = x - data->prev_mouse_x;
+	data->prev_mouse_x = x;
+	double rotspeed = x_delta * 0.002;
+	double olddir_x = p->dir_x;
+	p->dir_x = p->dir_x * cos(rotspeed) - p->dir_y * sin(rotspeed);
+	p->dir_y = olddir_x * sin(rotspeed) + p->dir_y * cos(rotspeed);
+	double oldplane_x = p->plane_x;
+	p->plane_x = p->plane_x * cos(rotspeed) - p->plane_y * sin(rotspeed);
+	p->plane_y = oldplane_x * sin(rotspeed) + p->plane_y * cos(rotspeed);
+}
+
 int	main(void)
 {
 	mlx_t		*mlx;
@@ -174,10 +199,12 @@ int	main(void)
 	t_data *data = ft_calloc(1, sizeof(t_data));
 	data->level = level;
 	data->mlx = mlx;
+	data->prev_mouse_x = -1;
 	draw_stuff(data);
 
 	mlx_key_hook(mlx, &move, (void *)data);
 	mlx_loop_hook(mlx, &draw_stuff, (void *)data);
+	mlx_cursor_hook(mlx, &mouse_move, (void *)data);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 
