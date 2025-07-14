@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/24 12:58:15 by mschippe      #+#    #+#                 */
-/*   Updated: 2025/07/14 14:32:02 by nmattos       ########   odam.nl         */
+/*   Updated: 2025/07/14 14:32:48 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,6 @@ void	drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color)
 		return;
 	}
 	drawline_draw(img, a, b, color, pixels);
-}
-
-void	drawline_angle(mlx_image_t *img, t_point a, double angle, double euclidean, uint32_t color)
-{
-	t_point	b;
-
-	b.x = a.x + cos(angle) * PIXEL_SIZE * euclidean;
-	b.y = a.y + sin(angle) * PIXEL_SIZE * euclidean;
-	drawline(img, a, b, color);
 }
 
 void	raycast_dda(t_level *lvl, mlx_image_t *img)
