@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   rttest.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/07/10 16:29:53 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   rttest.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/24 12:58:15 by mschippe      #+#    #+#                 */
+/*   Updated: 2025/07/14 14:32:02 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,35 @@
 #define TILE_SIZE 40
 #define PIXEL_SIZE 1000000
 
+void	drawline_draw(mlx_image_t *img, t_point a, t_point b, uint32_t color, uint32_t *pixels)
+{
+	uint32_t	x;
+	uint32_t	y;
+	t_vect		inc;
+	t_vect		pos;
+
+	inc.x = ((double)b.x - (double)a.x) / PIXEL_SIZE / LINESMOOTHNESS;
+	inc.y = ((double)b.y - (double)a.y) / PIXEL_SIZE / LINESMOOTHNESS;
+	pos.x = ((double)a.x / PIXEL_SIZE) * TILE_SIZE;
+	pos.y = ((double)a.y / PIXEL_SIZE) * TILE_SIZE;
+	while (fabs((double)b.x / PIXEL_SIZE * TILE_SIZE - pos.x) > 0.001
+		|| fabs((double)b.y / PIXEL_SIZE * TILE_SIZE - pos.y) > 0.001
+		|| pos.x < 0 || pos.y < 0
+		|| pos.x >= img->width || pos.y >= img->height)
+	{
+		x = (uint32_t)(pos.x + 0.5);
+		y = (uint32_t)(pos.y + 0.5);
+		if (x < img->width && y < img->height)
+			pixels[y * img->width + x] = color;
+		pos.x += inc.x;
+		pos.y += inc.y;
+	}
+}
+
 void	drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color)
 {
 	uint32_t	*pixels;
-	uint32_t	x;
-	uint32_t	y;
 
-	x = 0;
-	y = 0;
 	pixels = (uint32_t *)(img->pixels);
 	if (!pixels)
 		return;
@@ -33,24 +54,7 @@ void	drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color)
 		pixels[a.y * img->width + a.x] = color;
 		return;
 	}
-	double	dx = (double)((double)b.x - (double)a.x) / PIXEL_SIZE;
-	double	dy = (double)((double)b.y - (double)a.y) / PIXEL_SIZE;
-	double	x_inc = dx / 1000; // bigger division => smoother line; more iterations
-	double	y_inc = dy / 1000;
-	double	x_pos = ((double)a.x / PIXEL_SIZE) * TILE_SIZE;
-	double	y_pos = ((double)a.y / PIXEL_SIZE) * TILE_SIZE;
-	while (fabs((double)b.x / PIXEL_SIZE * TILE_SIZE - x_pos) > 0.001 || fabs((double)b.y / PIXEL_SIZE * TILE_SIZE - y_pos) > 0.001)
-	{
-		if (x_pos < 0 || y_pos < 0 || x_pos >= img->width || y_pos >= img->height)
-			break;
-		// if wall is hit, stop drawing
-		x = (uint32_t)(x_pos + 0.5);	// + 0.5 to round to the nearest integer
-		y = (uint32_t)(y_pos + 0.5);
-		if (x < img->width && y < img->height)
-			pixels[y * img->width + x] = color;
-		x_pos += x_inc;
-		y_pos += y_inc;
-	}
+	drawline_draw(img, a, b, color, pixels);
 }
 
 void	drawline_angle(mlx_image_t *img, t_point a, double angle, double euclidean, uint32_t color)
@@ -131,7 +135,7 @@ void	raycast_dda(t_level *lvl, mlx_image_t *img)
 		}
 		(void)side;
 
-		drawrectangle(img, (t_point){TILE_SIZE, TILE_SIZE}, (t_point){map_x * TILE_SIZE, map_y * TILE_SIZE}, 0xFFFFFFFF);
+		// drawrectangle(img, (t_point){TILE_SIZE, TILE_SIZE}, (t_point){map_x * TILE_SIZE, map_y * TILE_SIZE}, 0xFFFFFFFF);
 
 		// calculate the perpendicular distance to the wall
 		double perp_wall_dist;
@@ -144,9 +148,6 @@ void	raycast_dda(t_level *lvl, mlx_image_t *img)
 		double hit_x = p.x + raydir_x * perp_wall_dist;
 		double hit_y = p.y + raydir_y * perp_wall_dist;
 
-		// Euclidean distance from player to intersection point
-		// double euclidean_dist = sqrt((hit_x - p.x) * (hit_x - p.x) + (hit_y - p.y) * (hit_y - p.y));
-		// drawline_angle(img, (t_point){p.x * PIXEL_SIZE, p.y * PIXEL_SIZE}, atan2(raydir_y, raydir_x), euclidean_dist, 0xFFd6ffcf);
 		drawline(img, (t_point){p.x * PIXEL_SIZE, p.y * PIXEL_SIZE}, (t_point){hit_x * PIXEL_SIZE, hit_y * PIXEL_SIZE}, 0xFFd6ffcf);
 
 		x += (int)img->width / TOTAL_RAYS;
