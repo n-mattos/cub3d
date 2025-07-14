@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/07/10 16:31:14 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/07/14 16:20:32 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 
 # define TURNSPEED 0.05		// radians
 # define MOVESPEED 0.1
-# define TOTAL_RAYS 250	// total rays to cast
+# define TOTAL_RAYS 1920	// total rays to cast
+# define IMG_HEIGHT 1080.0
+# define IMG_WIDTH 1920.0
 # define PI 3.14159265358979323846
 
 typedef enum e_tile {
@@ -68,6 +70,7 @@ typedef struct s_level {
 typedef struct s_data {
 	mlx_t		*mlx;
 	mlx_image_t	*minimap;
+	mlx_image_t	*last_frame;
 	t_level		*level;
 }	t_data;
 
@@ -92,7 +95,7 @@ t_textures	*allocate_textures(void);
 t_playerdata	*retrieve_player(int **map);
 
 /* raycast */
-void	raycast_dda(t_level *lvl, mlx_image_t *img);
+void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame);
 
 /* utils */
 size_t	chars_till_eol(char *str);

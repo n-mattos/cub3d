@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/07/10 15:41:16 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/07/14 16:43:49 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,29 @@
 uint32_t getcolor(t_tile tile);
 t_point	get_player_draw_loc(int x, int y);
 
+void	draw_minimap(t_data *d)
+{
+	int	y;
+
+	y = 0;
+	while (d->level->map[y])
+	{
+		int x = 0;
+		while (d->level->map[y][x])
+		{
+			if (d->level->map[y][x] == WALL || d->level->map[y][x] == FLOOR)
+				drawrectangle(d->minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, getcolor(d->level->map[y][x]));
+			else if (d->level->map[y][x] != EMPTY)
+			{
+				drawrectangle(d->minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, FLOOR_COLOR);
+				drawrectangle(d->minimap, (t_point){PLAYER_SIZE, PLAYER_SIZE}, get_player_draw_loc(x, y), getcolor(d->level->map[y][x]));
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
 void	draw_stuff(void *data)
 {
 	t_data	*d;
@@ -23,31 +46,20 @@ void	draw_stuff(void *data)
 	d = (t_data *)data;
 	mlx_t	*mlx = d->mlx;
 	t_level	*level = d->level;
-	mlx_image_t	*minimap = d->minimap;
-	mlx_delete_image(mlx, minimap);
-	minimap = mlx_new_image(mlx, 1920, 1080);
-	if (level && level->map)
+	if (!d->last_frame)
 	{
-		int y = 0;
-		while (level->map[y])
-		{
-			int x = 0;
-			while (level->map[y][x])
-			{
-				if (level->map[y][x] == WALL || level->map[y][x] == FLOOR)
-					drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, getcolor(level->map[y][x]));
-				else if (level->map[y][x] != EMPTY)
-				{
-					drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, FLOOR_COLOR);
-					drawrectangle(minimap, (t_point){PLAYER_SIZE, PLAYER_SIZE}, get_player_draw_loc(x, y), getcolor(level->map[y][x]));
-				}
-				x++;
-			}
-			y++;
-		}
+		d->last_frame = mlx_new_image(mlx, 1920, 1080);
+		mlx_image_to_window(mlx, d->last_frame, 0, 0);
 	}
-	raycast_dda(level, minimap);
-	mlx_image_to_window(mlx, minimap, 0, 0);
+	if (!d->minimap)
+	{
+		d->minimap = mlx_new_image(mlx, 1920, 1080);
+		mlx_image_to_window(mlx, d->minimap, 0, 0);
+	}
+	ft_memset(d->last_frame->pixels, 0, d->last_frame->width * d->last_frame->height * 4);
+	ft_memset(d->minimap->pixels, 0, d->minimap->width * d->minimap->height * 4);
+	draw_minimap(d);
+	raycast_dda(level, d->minimap, d->last_frame);
 }
 
 void	move(mlx_key_data_t keydata, void *data)
@@ -146,7 +158,6 @@ uint32_t getcolor(t_tile tile)
 int	main(void)
 {
 	mlx_t		*mlx;
-	mlx_image_t	*minimap;
 
 	t_level *level = parse("maps/subject_example1.cub");
 	if (level == NULL)
@@ -159,32 +170,10 @@ int	main(void)
 	printf("F: %s\n", level->textures->floor);
 	printf("C: %s\n", level->textures->ceiling);
 	mlx = mlx_init(1920, 1080, "CUB3D", false);
-	minimap = mlx_new_image(mlx, 1920, 1080);
-	if (level && level->map)
-	{
-		int y = 0;
-		while (level->map[y])
-		{
-			int x = 0;
-			while (level->map[y][x])
-			{
-				if (level->map[y][x] == WALL || level->map[y][x] == FLOOR)
-					drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, getcolor(level->map[y][x]));
-				else if (level->map[y][x] != EMPTY)
-				{
-					drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, FLOOR_COLOR);
-					drawrectangle(minimap, (t_point){PLAYER_SIZE, PLAYER_SIZE}, get_player_draw_loc(x, y), getcolor(level->map[y][x]));
-				}
-				x++;
-			}
-			y++;
-		}
-	}
 
-	t_data *data = malloc(sizeof(t_data));
+	t_data *data = ft_calloc(1, sizeof(t_data));
 	data->level = level;
 	data->mlx = mlx;
-	data->minimap = minimap;
 	draw_stuff(data);
 
 	mlx_key_hook(mlx, &move, (void *)data);
@@ -193,7 +182,7 @@ int	main(void)
 	mlx_terminate(mlx);
 
 	free_level(level);
-	mlx_delete_image(mlx, minimap);
+	mlx_delete_image(mlx, data->minimap);
 	free(level->textures);
 	free(data);
 	return (0);

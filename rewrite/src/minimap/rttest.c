@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   rttest.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/24 12:58:15 by mschippe      #+#    #+#                 */
-/*   Updated: 2025/07/14 15:11:40 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   rttest.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
+/*   Updated: 2025/07/14 17:13:49 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ void	drawline_draw(mlx_image_t *img, t_point a, t_point b, uint32_t color, uint3
 	pos.x = ((double)a.x / PIXEL_SIZE) * TILE_SIZE;
 	pos.y = ((double)a.y / PIXEL_SIZE) * TILE_SIZE;
 	while (fabs((double)b.x / PIXEL_SIZE * TILE_SIZE - pos.x) > 0.001
-		|| fabs((double)b.y / PIXEL_SIZE * TILE_SIZE - pos.y) > 0.001
-		|| pos.x < 0 || pos.y < 0
-		|| pos.x >= img->width || pos.y >= img->height)
+		|| fabs((double)b.y / PIXEL_SIZE * TILE_SIZE - pos.y) > 0.001)
 	{
 		x = (uint32_t)(pos.x + 0.5);
 		y = (uint32_t)(pos.y + 0.5);
@@ -62,11 +60,11 @@ t_vect	calculate_delta(t_vect raydir)
 	t_vect	delta;
 
 	if (fabs(raydir.x) < EPSILON)
-		delta.x = 0;
+		delta.x = 1e30;
 	else
 		delta.x = fabs(1 / raydir.x);
 	if (fabs(raydir.y) < EPSILON)
-		delta.y = 0;
+		delta.y = 1e30;
 	else
 		delta.y = fabs(1 / raydir.y);
 	return (delta);
@@ -164,7 +162,68 @@ t_vect calculate_intersection(t_playerdata p, t_vect raydir, double perp_wall_di
 	return (intersect);
 }
 
-void	raycast_dda(t_level *lvl, mlx_image_t *img)
+void	set_start_end(int *y_start, int *y_end, t_point a, t_point b, mlx_image_t *img)
+{
+		if (a.y < b.y)
+		*y_start = a.y;
+		else
+			*y_start = b.y;
+		if (a.y > b.y)
+			*y_end = a.y;
+		else
+			*y_end = b.y;
+		if (*y_start < 0)
+			*y_start = 0;
+		if (*y_end >= (int)img->height)
+			*y_end = img->height - 1;
+}
+
+void	drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color)
+{
+	uint32_t	*pixels;
+	int			y_start;
+	int			y_end;
+	int			y;
+
+	pixels = (uint32_t *)img->pixels;
+	if (a.x == b.x)
+	{
+		int x = a.x;
+		if (x < 0 || x >= (int)img->width)
+			return;
+		set_start_end(&y_start, &y_end, a, b, img);
+		y = y_start;
+		while (y <= y_end)
+		{
+			pixels[y * img->width + x] = color;
+			y++;
+		}
+	}
+}
+
+
+void	draw_wall(mlx_image_t *img, double perp_dist, int side, int x)
+{
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
+	uint32_t	color;
+	
+	line_height = (int)(IMG_HEIGHT / perp_dist);
+	draw_start = -line_height / 2 + IMG_HEIGHT / 2;
+	if (draw_start < 0)
+		draw_start = 0;
+	draw_end = line_height / 2 + IMG_HEIGHT / 2;
+	if (draw_end >= IMG_HEIGHT)
+		draw_end = IMG_HEIGHT - 1;
+	if (side == 0) // Colors temporary, we will replace these with textures
+		color = 0xFF00FFFF;
+	else
+		color = 0xFFFF00FF;
+	drawvert(img, (t_point){x, draw_start}, (t_point){x, draw_end}, color);
+}
+
+void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame)
 {
 	t_playerdata	p;
 	t_vect			side;
@@ -179,24 +238,21 @@ void	raycast_dda(t_level *lvl, mlx_image_t *img)
 
 	p = *lvl->player;
 	x = 0;
-	while (x < (int)img->width)
+	while (x < (int)mmap->width)
 	{
-		raydir = calculate_raydir(img, p, x);
+		raydir = calculate_raydir(mmap, p, x);
 		delta = calculate_delta(raydir);
 		map = calculate_map(p);
 		side = calculate_side(p, raydir, map, delta, &step);
 
 		hit_side = -1; // -1 = no hit, 0 = hit vertical wall, 1 = hit horizontal wall
 		calculate_ray(&map, &side, delta, step, &hit_side, lvl);
-		(void)hit_side;	// unused variable
 
 		perp_wall_dist = calculate_perpendicular_distance(p, raydir, map, hit_side, step);
-		(void)perp_wall_dist; // unused variable
-
 		intersect = calculate_intersection(p, raydir, perp_wall_dist);
-
-		drawline(img, (t_point){p.x * PIXEL_SIZE, p.y * PIXEL_SIZE}, (t_point){intersect.x * PIXEL_SIZE, intersect.y * PIXEL_SIZE}, 0xFFd6ffcf);
-
-		x += (int)img->width / TOTAL_RAYS;
+		if (x == 0 || x == (int)mmap->width - 1)
+			drawline(mmap, (t_point){p.x * PIXEL_SIZE, p.y * PIXEL_SIZE}, (t_point){intersect.x * PIXEL_SIZE, intersect.y * PIXEL_SIZE}, 0xFFd6ffcf);
+		draw_wall(frame, perp_wall_dist, hit_side, x);
+		x += (int)mmap->width / TOTAL_RAYS;
 	}
 }

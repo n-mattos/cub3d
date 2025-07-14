@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minimap.h                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/23 13:31:00 by mschippe      #+#    #+#                 */
-/*   Updated: 2025/07/14 14:23:40 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minimap.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/23 13:31:00 by mschippe          #+#    #+#             */
+/*   Updated: 2025/07/14 16:55:08 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIMAP_H
 # define MINIMAP_H
-# define RECT_SIZE 40
-# define PLAYER_SIZE 8
+# define RECT_SIZE 8
+# define PLAYER_SIZE 2
 # define WALL_COLOR 0xFF0000FF
 # define EMPTY_COLOR 0x00000000
 # define FLOOR_COLOR 0xFF00FF00
