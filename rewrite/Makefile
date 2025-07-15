@@ -1,6 +1,6 @@
 NAME = cub3d
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-O3
+CFLAGS = -Wall -Wextra -Werror -g # -O2 -march=native -ffast-math
 
 # Library paths
 MLX42_PATH = ./include/MLX42
