@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/07/14 17:37:38 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/15 16:41:00 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	draw_stuff(void *data)
 	ft_memset(d->minimap->pixels, 0, d->minimap->width * d->minimap->height * 4);
 	draw_minimap(d);
 	raycast_dda(level, d->minimap, d->last_frame);
+	mlx_set_mouse_pos(d->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 }
 
 void	move(mlx_key_data_t keydata, void *data)
@@ -169,15 +170,16 @@ void	mouse_move(double x, double y, void *d)
 		data->prev_mouse_x = x;
 		return ;
 	}
-	x_delta = x - data->prev_mouse_x;
+	x_delta = IMG_WIDTH / 2 - x;
 	data->prev_mouse_x = x;
-	double rotspeed = x_delta * 0.002;
+	double rotspeed = -(x_delta * 0.0006);
 	double olddir_x = p->dir_x;
 	p->dir_x = p->dir_x * cos(rotspeed) - p->dir_y * sin(rotspeed);
 	p->dir_y = olddir_x * sin(rotspeed) + p->dir_y * cos(rotspeed);
 	double oldplane_x = p->plane_x;
 	p->plane_x = p->plane_x * cos(rotspeed) - p->plane_y * sin(rotspeed);
 	p->plane_y = oldplane_x * sin(rotspeed) + p->plane_y * cos(rotspeed);
+	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 }
 
 int	main(void)
@@ -203,6 +205,8 @@ int	main(void)
 	draw_stuff(data);
 
 	mlx_key_hook(mlx, &move, (void *)data);
+	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
+	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(mlx, &draw_stuff, (void *)data);
 	mlx_cursor_hook(mlx, &mouse_move, (void *)data);
 	mlx_loop(mlx);

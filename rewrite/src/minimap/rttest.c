@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rttest.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/07/14 17:13:49 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/15 17:45:19 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,6 +252,28 @@ void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame)
 		intersect = calculate_intersection(p, raydir, perp_wall_dist);
 		if (x == 0 || x == (int)mmap->width - 1)
 			drawline(mmap, (t_point){p.x * PIXEL_SIZE, p.y * PIXEL_SIZE}, (t_point){intersect.x * PIXEL_SIZE, intersect.y * PIXEL_SIZE}, 0xFFd6ffcf);
+		// // all this texturing stuff below should probably be its own function but currently unsure what makes snese
+		// int		txt_id;
+		// double	wall_x;
+		// int		txt_x;
+		// double	step;
+		// int		line_height;
+		
+		// txt_id = lvl->map[map.x][map.y] - 1;
+		// if (hit_side == 0)
+		// 	wall_x = lvl->player->y + perp_wall_dist * raydir.y;
+		// else
+		// 	wall_x = lvl->player->x + perp_wall_dist * raydir.x;
+		// wall_x -= floor(wall_x);
+		// txt_x = (int)(wall_x * 64.0); // txt width currently hardcoded to 64, not sure if/how/why we would support variable sizes
+		// if ((hit_side == 0 && raydir.x > 0) || (hit_side == 1 && raydir.y < 1))
+		// 	txt_x = 64 - txt_x - 1; // NOTE: also hardcoded width
+		// line_height = (int)(IMG_HEIGHT / perp_wall_dist);
+		// step = 1.0 * 64 / line_height; // NOTE: also hardcoded width
+		// man all of this needs stuff from the draw wall function or drawvert function and really i should just combine them all somehow rip
+
+
+		//laskjfdjldsf yep
 		draw_wall(frame, perp_wall_dist, hit_side, x);
 		x += (int)mmap->width / TOTAL_RAYS;
 	}
