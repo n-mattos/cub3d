@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rttest.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/07/15 17:45:19 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/07/29 11:47:34 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "../../include/minimap.h"
 
 #define EPSILON 1.e-10
-#define TILE_SIZE 40
-#define PIXEL_SIZE 1000000
 
 void	drawline_draw(mlx_image_t *img, t_point a, t_point b, uint32_t color, uint32_t *pixels)
 {
@@ -24,12 +22,12 @@ void	drawline_draw(mlx_image_t *img, t_point a, t_point b, uint32_t color, uint3
 	t_vect		inc;
 	t_vect		pos;
 
-	inc.x = ((double)b.x - (double)a.x) / PIXEL_SIZE / LINESMOOTHNESS;
-	inc.y = ((double)b.y - (double)a.y) / PIXEL_SIZE / LINESMOOTHNESS;
-	pos.x = ((double)a.x / PIXEL_SIZE) * TILE_SIZE;
-	pos.y = ((double)a.y / PIXEL_SIZE) * TILE_SIZE;
-	while (fabs((double)b.x / PIXEL_SIZE * TILE_SIZE - pos.x) > 0.001
-		|| fabs((double)b.y / PIXEL_SIZE * TILE_SIZE - pos.y) > 0.001)
+	inc.x = ((double)b.x - (double)a.x) / LINESMOOTHNESS;
+	inc.y = ((double)b.y - (double)a.y) / LINESMOOTHNESS;
+	pos.x = ((double)a.x);
+	pos.y = ((double)a.y);
+	while (fabs((double)b.x - pos.x) > 0.001
+		|| fabs((double)b.y - pos.y) > 0.001)
 	{
 		x = (uint32_t)(pos.x + 0.5);
 		y = (uint32_t)(pos.y + 0.5);
@@ -250,8 +248,8 @@ void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame)
 
 		perp_wall_dist = calculate_perpendicular_distance(p, raydir, map, hit_side, step);
 		intersect = calculate_intersection(p, raydir, perp_wall_dist);
-		if (x == 0 || x == (int)mmap->width - 1)
-			drawline(mmap, (t_point){p.x * PIXEL_SIZE, p.y * PIXEL_SIZE}, (t_point){intersect.x * PIXEL_SIZE, intersect.y * PIXEL_SIZE}, 0xFFd6ffcf);
+		if (x >= 0 && x <= (int)mmap->width - 1 && x % 10 == 0)
+			drawline(mmap, (t_point){p.x * RECT_SIZE, p.y * RECT_SIZE}, (t_point){intersect.x * RECT_SIZE, intersect.y * RECT_SIZE}, 0xFFd6ffcf);
 		// // all this texturing stuff below should probably be its own function but currently unsure what makes snese
 		// int		txt_id;
 		// double	wall_x;

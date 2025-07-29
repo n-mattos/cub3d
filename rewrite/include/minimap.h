@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:31:00 by mschippe          #+#    #+#             */
-/*   Updated: 2025/07/14 16:55:08 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/29 11:37:27 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIMAP_H
 # define MINIMAP_H
-# define RECT_SIZE 8
+# define RECT_SIZE 12
 # define PLAYER_SIZE 2
 # define WALL_COLOR 0xFF0000FF
 # define EMPTY_COLOR 0x00000000

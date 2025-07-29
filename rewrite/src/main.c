@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/07/15 16:41:00 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/07/29 11:47:11 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,7 @@ void	draw_minimap(t_data *d)
 		int x = 0;
 		while (d->level->map[y][x])
 		{
-			if (d->level->map[y][x] == WALL || d->level->map[y][x] == FLOOR)
-				drawrectangle(d->minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, getcolor(d->level->map[y][x]));
-			else if (d->level->map[y][x] != EMPTY)
-			{
-				drawrectangle(d->minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, FLOOR_COLOR);
-				drawrectangle(d->minimap, (t_point){PLAYER_SIZE, PLAYER_SIZE}, get_player_draw_loc(x, y), getcolor(d->level->map[y][x]));
-			}
+			drawrectangle(d->minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, getcolor(d->level->map[y][x]));
 			x++;
 		}
 		y++;
@@ -151,7 +145,7 @@ uint32_t getcolor(t_tile tile)
 	if (tile == WALL)
 		return (WALL_COLOR);
 	if (tile == NORTH || tile == EAST || tile == SOUTH || tile == WEST)
-		return (PLAYER_COLOR);
+		return (FLOOR_COLOR);
 	else
 		return (0x12345678);
 }
@@ -210,11 +204,11 @@ int	main(void)
 	mlx_loop_hook(mlx, &draw_stuff, (void *)data);
 	mlx_cursor_hook(mlx, &mouse_move, (void *)data);
 	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	mlx_delete_image(mlx, data->minimap);
 
 	free_level(level);
-	mlx_delete_image(mlx, data->minimap);
-	free(level->textures);
+	mlx_terminate(mlx);
+	// free(level->textures);
 	free(data);
 	return (0);
 }
