@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/07/29 11:47:34 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/07/29 12:06:30 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame)
 
 		perp_wall_dist = calculate_perpendicular_distance(p, raydir, map, hit_side, step);
 		intersect = calculate_intersection(p, raydir, perp_wall_dist);
-		if (x >= 0 && x <= (int)mmap->width - 1 && x % 10 == 0)
+		if (x >= 0 && x <= (int)mmap->width - 1 && x % (100 / PERCENTAGE_RAYS) == 0)
 			drawline(mmap, (t_point){p.x * RECT_SIZE, p.y * RECT_SIZE}, (t_point){intersect.x * RECT_SIZE, intersect.y * RECT_SIZE}, 0xFFd6ffcf);
 		// // all this texturing stuff below should probably be its own function but currently unsure what makes snese
 		// int		txt_id;

@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/07/29 11:44:12 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/07/29 12:07:33 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 
 # define TURNSPEED 0.05		// radians
 # define MOVESPEED 0.1
-# define TOTAL_RAYS 1920	// total rays to cast
+# define TOTAL_RAYS 1920	// total rays to cast (width of the screen)
+# define PERCENTAGE_RAYS 10	// percentage of rays to display (minimap)
 # define IMG_HEIGHT 1080.0
 # define IMG_WIDTH 1920.0
 # define PI 3.14159265358979323846
