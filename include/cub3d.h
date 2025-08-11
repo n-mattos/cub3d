@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/07/10 13:37:25 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/07/29 12:07:33 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@
 # include "MLX42/MLX42.h"
 # include "../libft/libft.h"
 
-# define TURNSPEED 0.1
-# define MOVESPEED 100000
+# define TURNSPEED 0.05		// radians
+# define MOVESPEED 0.1
+# define TOTAL_RAYS 1920	// total rays to cast (width of the screen)
+# define PERCENTAGE_RAYS 10	// percentage of rays to display (minimap)
+# define IMG_HEIGHT 1080.0
+# define IMG_WIDTH 1920.0
 # define PI 3.14159265358979323846
 
 typedef enum e_tile {
@@ -35,8 +39,8 @@ typedef enum e_tile {
 }	t_tile;
 
 typedef struct s_playerdata {
-	size_t	x;
-	size_t	y;
+	double	x;
+	double	y;
 	double	dir_x;
 	double	dir_y;
 	double	plane_x;
@@ -67,7 +71,9 @@ typedef struct s_level {
 typedef struct s_data {
 	mlx_t		*mlx;
 	mlx_image_t	*minimap;
+	mlx_image_t	*last_frame;
 	t_level		*level;
+	double		prev_mouse_x;
 }	t_data;
 
 /*****************************************************************************\
@@ -89,6 +95,9 @@ t_textures	*allocate_textures(void);
 
 /* player */
 t_playerdata	*retrieve_player(int **map);
+
+/* raycast */
+void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame);
 
 /* utils */
 size_t	chars_till_eol(char *str);

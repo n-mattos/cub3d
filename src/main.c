@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/07/10 13:38:46 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/07/29 12:16:08 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,23 @@
 uint32_t getcolor(t_tile tile);
 t_point	get_player_draw_loc(int x, int y);
 
+void	draw_minimap(t_data *d)
+{
+	int	y;
+
+	y = 0;
+	while (d->level->map[y])
+	{
+		int x = 0;
+		while (d->level->map[y][x])
+		{
+			drawrectangle(d->minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, getcolor(d->level->map[y][x]));
+			x++;
+		}
+		y++;
+	}
+}
+
 void	draw_stuff(void *data)
 {
 	t_data	*d;
@@ -23,61 +40,22 @@ void	draw_stuff(void *data)
 	d = (t_data *)data;
 	mlx_t	*mlx = d->mlx;
 	t_level	*level = d->level;
-	mlx_image_t	*minimap = d->minimap;
-	mlx_delete_image(mlx, minimap);
-	minimap = mlx_new_image(mlx, 1920, 1080);
-	if (level && level->map)
+	if (!d->last_frame)
 	{
-		int y = 0;
-		while (level->map[y])
-		{
-			int x = 0;
-			while (level->map[y][x])
-			{
-				if (level->map[y][x] == WALL || level->map[y][x] == FLOOR)
-					drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, getcolor(level->map[y][x]));
-				else if (level->map[y][x] != EMPTY)
-				{
-					drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, FLOOR_COLOR);
-					drawrectangle(minimap, (t_point){PLAYER_SIZE, PLAYER_SIZE}, get_player_draw_loc(x, y), getcolor(level->map[y][x]));
-				}
-				x++;
-			}
-			y++;
-		}
+		d->last_frame = mlx_new_image(mlx, 1920, 1080);
+		mlx_image_to_window(mlx, d->last_frame, 0, 0);
 	}
-	// single_ray(level, minimap, 177);
-	single_ray(level, minimap, 0);
-	// single_ray(level, minimap, 135);
-	// single_ray(level, minimap, 180);
-	// single_ray(level, minimap, 225);
-	// single_ray(level, minimap, 270);
-	// single_ray(level, minimap, 185);
-	// single_ray(level, minimap, 190);
-	// single_ray(level, minimap, 195);
-	mlx_image_to_window(mlx, minimap, 0, 0);
+	if (!d->minimap)
+	{
+		d->minimap = mlx_new_image(mlx, 1920, 1080);
+		mlx_image_to_window(mlx, d->minimap, 0, 0);
+	}
+	ft_memset(d->last_frame->pixels, 0, d->last_frame->width * d->last_frame->height * 4);
+	ft_memset(d->minimap->pixels, 0, d->minimap->width * d->minimap->height * 4);
+	draw_minimap(d);
+	raycast_dda(level, d->minimap, d->last_frame);
+	mlx_set_mouse_pos(d->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 }
-
-// void	move_direction(t_level **level, double angle_deg, int speed)
-// {
-// 	// double delta_x;
-// 	// double delta_y;
-// 	double angle_rad = ((*level)->player->degrees + angle_deg) * PI / 180.0;
-// 	double raydir_x = cos(angle_rad);
-// 	double raydir_y = -sin(angle_rad);
-// 	t_point step;
-// 	// if (fabs(raydir_x) < 1.e-10)
-// 	// 	delta_x = 0;
-// 	// else
-// 	// 	delta_x = fabs(1 / raydir_x);
-// 	// if (fabs(raydir_y) < 1.e-10)
-// 	// 	delta_y = 0;
-// 	// else
-// 	// 	delta_y = fabs(1 / raydir_y);
-// 	step = (t_point){raydir_x * 1000000 / speed, raydir_y * 1000000 / speed};
-// 	(*level)->player->x += step.x;
-// 	(*level)->player->y += step.y;
-// }
 
 void	move(mlx_key_data_t keydata, void *data)
 {
@@ -88,33 +66,26 @@ void	move(mlx_key_data_t keydata, void *data)
 	p = d->level->player;
 	if (keydata.key == MLX_KEY_W)
 	{
-		// move_direction(&d->level, 180, MOVESPEED);
 		p->x += p->dir_x * MOVESPEED;
 		p->y += p->dir_y * MOVESPEED;
 	}
 	else if (keydata.key == MLX_KEY_A)
 	{
-		// move_direction(&d->level, 270, MOVESPEED);
-		p->x -= p->dir_y * MOVESPEED;
-		p->y += p->dir_x * MOVESPEED;
+		p->x += p->dir_y * MOVESPEED;
+		p->y -= p->dir_x * MOVESPEED;
 	}
 	else if (keydata.key == MLX_KEY_S)
 	{
-		// move_direction(&d->level, 0, MOVESPEED);
 		p->x -= p->dir_x * MOVESPEED;
 		p->y -= p->dir_y * MOVESPEED;
 	}
 	else if (keydata.key == MLX_KEY_D)
 	{
-		// move_direction(&d->level, 90, MOVESPEED);
-		p->x += p->dir_y * MOVESPEED;
-		p->y -= p->dir_x * MOVESPEED;
+		p->x -= p->dir_y * MOVESPEED;
+		p->y += p->dir_x * MOVESPEED;
 	}
 	else if (keydata.key == MLX_KEY_RIGHT)
 	{
-		// d->level->player->degrees += 5;
-		// if (d->level->player->degrees > 360)
-		// 	d->level->player->degrees -= 360;
 		double olddir_x = p->dir_x;
 		p->dir_x = p->dir_x * cos(TURNSPEED) - p->dir_y * sin(TURNSPEED);
 		p->dir_y = olddir_x * sin(TURNSPEED) + p->dir_y * cos(TURNSPEED);
@@ -124,9 +95,6 @@ void	move(mlx_key_data_t keydata, void *data)
 	}
 	else if (keydata.key == MLX_KEY_LEFT)
 	{
-		// d->level->player->degrees -= 5;
-		// if (d->level->player->degrees < 0)
-		// 	d->level->player->degrees += 360;
 		double olddir_x = p->dir_x;
 		p->dir_x = p->dir_x * cos(-TURNSPEED) - p->dir_y * sin(-TURNSPEED);
 		p->dir_y = olddir_x * sin(-TURNSPEED) + p->dir_y * cos(-TURNSPEED);
@@ -177,15 +145,40 @@ uint32_t getcolor(t_tile tile)
 	if (tile == WALL)
 		return (WALL_COLOR);
 	if (tile == NORTH || tile == EAST || tile == SOUTH || tile == WEST)
-		return (PLAYER_COLOR);
+		return (FLOOR_COLOR);
 	else
 		return (0x12345678);
+}
+
+void	mouse_move(double x, double y, void *d)
+{
+	t_data			*data;
+	t_playerdata	*p;
+	double			x_delta;
+
+	(void)y;
+	data = (t_data *)d;
+	p = data->level->player;
+	if (data->prev_mouse_x == -1)
+	{
+		data->prev_mouse_x = x;
+		return ;
+	}
+	x_delta = IMG_WIDTH / 2 - x;
+	data->prev_mouse_x = x;
+	double rotspeed = -(x_delta * 0.0006);
+	double olddir_x = p->dir_x;
+	p->dir_x = p->dir_x * cos(rotspeed) - p->dir_y * sin(rotspeed);
+	p->dir_y = olddir_x * sin(rotspeed) + p->dir_y * cos(rotspeed);
+	double oldplane_x = p->plane_x;
+	p->plane_x = p->plane_x * cos(rotspeed) - p->plane_y * sin(rotspeed);
+	p->plane_y = oldplane_x * sin(rotspeed) + p->plane_y * cos(rotspeed);
+	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 }
 
 int	main(void)
 {
 	mlx_t		*mlx;
-	mlx_image_t	*minimap;
 
 	t_level *level = parse("maps/subject_example1.cub");
 	if (level == NULL)
@@ -198,41 +191,24 @@ int	main(void)
 	printf("F: %s\n", level->textures->floor);
 	printf("C: %s\n", level->textures->ceiling);
 	mlx = mlx_init(1920, 1080, "CUB3D", false);
-	minimap = mlx_new_image(mlx, 1920, 1080);
-	if (level && level->map)
-	{
-		int y = 0;
-		while (level->map[y])
-		{
-			int x = 0;
-			while (level->map[y][x])
-			{
-				if (level->map[y][x] == WALL || level->map[y][x] == FLOOR)
-					drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, getcolor(level->map[y][x]));
-				else if (level->map[y][x] != EMPTY)
-				{
-					drawrectangle(minimap, (t_point){RECT_SIZE, RECT_SIZE}, (t_point){x * RECT_SIZE, y * RECT_SIZE}, FLOOR_COLOR);
-					drawrectangle(minimap, (t_point){PLAYER_SIZE, PLAYER_SIZE}, get_player_draw_loc(x, y), getcolor(level->map[y][x]));
-				}
-				x++;
-			}
-			y++;
-		}
-	}
 
-	t_data *data = malloc(sizeof(t_data));
+	t_data *data = ft_calloc(1, sizeof(t_data));
 	data->level = level;
 	data->mlx = mlx;
-	data->minimap = minimap;
+	data->prev_mouse_x = -1;
 	draw_stuff(data);
+
 	mlx_key_hook(mlx, &move, (void *)data);
+	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
+	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(mlx, &draw_stuff, (void *)data);
+	mlx_cursor_hook(mlx, &mouse_move, (void *)data);
 	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	mlx_delete_image(mlx, data->minimap);
 
 	free_level(level);
-	mlx_delete_image(mlx, minimap);
-	free(level->textures);
+	mlx_terminate(mlx);
+	// free(level->textures);
 	free(data);
 	return (0);
 }
