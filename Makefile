@@ -25,10 +25,16 @@ SRCS =	src/main.c \
 		src/utils/is_player.c \
 		src/utils/is_whitespace.c \
 		src/utils/skip_whitespaces.c \
-		src/minimap/rttest.c \
+		src/raycasting/raycast.c \
+		src/raycasting/calc_1.c \
+		src/raycasting/calc_2.c \
+		src/draw/minimap.c \
+		src/draw/draw_utils.c \
+		src/draw/draw.c \
 		src/player/player.c
 
-OBJS = $(SRCS:.c=.o)
+OBJDIR = obj
+OBJS = $(SRCS:src/%.c=$(OBJDIR)/%.o)
 
 all: mlx42 libft $(NAME)
 
@@ -54,12 +60,13 @@ $(LIBFT_PATH)/libft.a:
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) $(LIBS) -o $(NAME)
 
-%.o: %.c
+$(OBJDIR)/%.o: src/%.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 clean:
 	@make -C $(LIBFT_PATH) clean
-	@rm -f $(OBJS)
+	@rm -rf $(OBJDIR)
 	@rm -rf $(MLX42_PATH)/build
 
 fclean: clean

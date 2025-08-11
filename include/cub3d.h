@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/07/29 12:07:33 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:01:12 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,30 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdbool.h>
+# include <math.h>
 # include "MLX42/MLX42.h"
 # include "../libft/libft.h"
 
+# define RECT_SIZE 12
+# define PLAYER_SIZE 2
+# define LINESMOOTHNESS 1000
+
+# define WALL_COLOR 0xFF0000FF
+# define EMPTY_COLOR 0x00000000
+# define FLOOR_COLOR 0xFF00FF00
+# define PLAYER_COLOR 0xFFFF0000
+
 # define TURNSPEED 0.05		// radians
 # define MOVESPEED 0.1
+
 # define TOTAL_RAYS 1920	// total rays to cast (width of the screen)
 # define PERCENTAGE_RAYS 10	// percentage of rays to display (minimap)
+
 # define IMG_HEIGHT 1080.0
 # define IMG_WIDTH 1920.0
+
 # define PI 3.14159265358979323846
+# define EPSILON 1.e-10
 
 typedef enum e_tile {
 	EMPTY = ' ',
@@ -76,6 +90,18 @@ typedef struct s_data {
 	double		prev_mouse_x;
 }	t_data;
 
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}	t_point;
+
+typedef struct s_vect
+{
+	double	x;
+	double	y;
+}	t_vect;
+
 /*****************************************************************************\
 *	Function Prototypes														  *
 \*****************************************************************************/
@@ -98,6 +124,24 @@ t_playerdata	*retrieve_player(int **map);
 
 /* raycast */
 void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame);
+
+/* calculations */
+t_vect	calculate_raydir(mlx_image_t *img, t_playerdata p, int x);
+t_vect	calculate_side(t_playerdata p, t_vect raydir, t_point map, t_vect delta, t_point *step);
+t_vect	calculate_delta(t_vect raydir);
+t_point	calculate_map(t_playerdata p);
+void	calculate_ray(t_point *map, t_vect *side, t_vect delta, t_point step, int *hit_side, t_level *lvl);
+double	calculate_perpendicular_distance(t_playerdata p, t_vect raydir, t_point map, int hit_side, t_point step);
+t_vect	calculate_intersection(t_playerdata p, t_vect raydir, double perp_wall_dist);
+
+/* draw */
+void	draw_all(void *data);
+void	drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color);
+void	drawrectangle(mlx_image_t *img, t_point wh, t_point coord, uint32_t color);
+
+/* draw/minimap */
+void	draw_minimap(t_data *d);
+void	draw_minimap_rays(mlx_image_t *mmap, t_playerdata p, t_vect intersect, int x);
 
 /* utils */
 size_t	chars_till_eol(char *str);
