@@ -6,13 +6,11 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/11 14:02:21 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:03:31 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-// t_point	get_player_draw_loc(int x, int y);
 
 void	move(mlx_key_data_t keydata, void *data)
 {
@@ -66,12 +64,6 @@ void	move(mlx_key_data_t keydata, void *data)
 		printf("Key %d pressed\n", keydata.key);
 	}
 }
-
-// t_point	get_player_draw_loc(int x, int y)
-// {
-// 	return ((t_point){(x * RECT_SIZE) + (RECT_SIZE / 2 - (PLAYER_SIZE / 2 - 1)),
-// 			(y * RECT_SIZE) + (RECT_SIZE / 2 - (PLAYER_SIZE / 2 - 1))});
-// }
 
 void	mouse_move(double x, double y, void *d)
 {
