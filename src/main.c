@@ -6,11 +6,19 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/11 14:03:31 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/11 16:27:50 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+void	collision(t_data *d, t_playerdata *p, double new_x, double new_y)
+{
+	if (d->level->map[(int)new_y][(int)p->x] != WALL)
+		p->y = new_y;
+	if (d->level->map[(int)p->y][(int)new_x] != WALL)
+		p->x = new_x;
+}
 
 void	move(mlx_key_data_t keydata, void *data)
 {
@@ -20,25 +28,13 @@ void	move(mlx_key_data_t keydata, void *data)
 	d = (t_data *)data;
 	p = d->level->player;
 	if (keydata.key == MLX_KEY_W)
-	{
-		p->x += p->dir_x * MOVESPEED;
-		p->y += p->dir_y * MOVESPEED;
-	}
+		collision(d, p, p->x + p->dir_x * MOVESPEED, p->y + p->dir_y * MOVESPEED);
 	else if (keydata.key == MLX_KEY_A)
-	{
-		p->x += p->dir_y * MOVESPEED;
-		p->y -= p->dir_x * MOVESPEED;
-	}
+		collision(d, p, p->x + p->dir_y * MOVESPEED, p->y - p->dir_x * MOVESPEED);
 	else if (keydata.key == MLX_KEY_S)
-	{
-		p->x -= p->dir_x * MOVESPEED;
-		p->y -= p->dir_y * MOVESPEED;
-	}
+		collision(d, p, p->x - p->dir_x * MOVESPEED, p->y - p->dir_y * MOVESPEED);
 	else if (keydata.key == MLX_KEY_D)
-	{
-		p->x -= p->dir_y * MOVESPEED;
-		p->y += p->dir_x * MOVESPEED;
-	}
+		collision(d, p, p->x - p->dir_y * MOVESPEED, p->y + p->dir_x * MOVESPEED);
 	else if (keydata.key == MLX_KEY_RIGHT)
 	{
 		double olddir_x = p->dir_x;
@@ -91,7 +87,7 @@ void	mouse_move(double x, double y, void *d)
 	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 }
 
-void	mlx_setup(mlx_t *mlx, t_data *data)
+static void	run_game(mlx_t *mlx, t_data *data)
 {
 	mlx_key_hook(mlx, &move, (void *)data);
 	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
@@ -130,9 +126,7 @@ int	main(void)
 	data->mlx = mlx;
 	data->prev_mouse_x = -1;
 
-	draw_all(data);
-
-	mlx_setup(mlx, data);
+	run_game(mlx, data);
 
 	free_level(level);
 	mlx_terminate(mlx);
