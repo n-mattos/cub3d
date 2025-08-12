@@ -6,24 +6,11 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/08/12 16:13:04 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 17:26:33 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-static uint32_t	get_pixel_color(mlx_texture_t *texture, size_t x, size_t y)
-{
-	if (x >= texture->width || y >= texture->height)
-		return 0;
-	size_t index = (y * texture->width + x) * 4;
-	uint8_t *pixels = texture->pixels;
-	unsigned char r = pixels[index + 0];
-	unsigned char g = pixels[index + 1];
-	unsigned char b = pixels[index + 2];
-	unsigned char a = pixels[index + 3];
-	return ((r << 24) | (g << 16) | (b << 8) | a);
-}
 
 /**
  * Performs the DDA (Digital Differential Analyzer) algorithm for raycasting.
@@ -63,16 +50,14 @@ void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame)
 
 
 
-
 		double wall_x;
 		if (hit_side == 0)
 			wall_x = p.y + perp_wall_dist * raydir.y;
 		else
 			wall_x = p.x + perp_wall_dist * raydir.x;
 		wall_x -= (int)wall_x;
-		// printf("wall_x: %f\n", wall_x);
 
-		int txt_x = (int)(wall_x * TEXTURE_WIDTH); // Assuming texture width is 64
+		int txt_x = (int)(wall_x * TEXTURE_WIDTH);
 		if ((hit_side == 0 && raydir.x > 0) || (hit_side == 1 && raydir.y < 0))
 			txt_x = TEXTURE_WIDTH - txt_x - 1;
 
@@ -97,15 +82,10 @@ void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame)
 		{
 			int txt_y = (int)txt_pos & (TEXTURE_HEIGHT - 1);
 			color = get_pixel_color(lvl->textures->wall, txt_x, txt_y);
-			// if (hit_side == 1)
-			// 	color = (color >> 1) & 8355711;
-			pixels[y * frame->width + x] = color;
+			mlx_put_pixel(frame, x, y, color);
 			txt_pos += step;
 		}
 
-
-
-		// draw_wall(frame, perp_wall_dist, hit_side, x);
 		x += (int)frame->width / TOTAL_RAYS;
 	}
 }

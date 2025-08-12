@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/12 14:07:24 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 17:09:02 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(void)
 	printf("F: %s\n", level->textures->floor);
 	printf("C: %s\n", level->textures->ceiling);
 	level->textures->wall = malloc(sizeof(mlx_texture_t*));
-	level->textures->wall = mlx_load_png("textures/WoodbrickL.png");
+	level->textures->wall = mlx_load_png("textures/mossy.png");
 	if (level->textures->wall == NULL)
 		printf("OH NO\n");
 	printf("OH YAY\n");
