@@ -6,15 +6,24 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/08/12 12:46:58 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:13:04 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static void	set_start_end(int *y_start, int *y_end, t_point a, t_point b, mlx_image_t *img);
-static void	drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color);
-static void	draw_wall(mlx_image_t *img, double perp_dist, int side, int x);
+static uint32_t	get_pixel_color(mlx_texture_t *texture, size_t x, size_t y)
+{
+	if (x >= texture->width || y >= texture->height)
+		return 0;
+	size_t index = (y * texture->width + x) * 4;
+	uint8_t *pixels = texture->pixels;
+	unsigned char r = pixels[index + 0];
+	unsigned char g = pixels[index + 1];
+	unsigned char b = pixels[index + 2];
+	unsigned char a = pixels[index + 3];
+	return ((r << 24) | (g << 16) | (b << 8) | a);
+}
 
 /**
  * Performs the DDA (Digital Differential Analyzer) algorithm for raycasting.
@@ -37,9 +46,10 @@ void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame)
 
 	p = *lvl->player;
 	x = 0;
-	while (x < (int)mmap->width)
+
+	while (x < (int)frame->width)
 	{
-		raydir = calculate_raydir(mmap, p, x);
+		raydir = calculate_raydir(frame, p, x);
 		delta = calculate_delta(raydir);
 		map = calculate_map(p);
 		side = calculate_side(p, raydir, map, delta, &step);
@@ -50,111 +60,52 @@ void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame)
 		perp_wall_dist = calculate_perpendicular_distance(p, raydir, map, hit_side, step);
 		intersect = calculate_intersection(p, raydir, perp_wall_dist);
 		draw_minimap_rays(mmap, p, intersect, x);
-		// // all this texturing stuff below should probably be its own function but currently unsure what makes snese
-		// int		txt_id;
-		// double	wall_x;
-		// int		txt_x;
-		// double	step;
-		// int		line_height;
-
-		// txt_id = lvl->map[map.x][map.y] - 1;
-		// if (hit_side == 0)
-		// 	wall_x = lvl->player->y + perp_wall_dist * raydir.y;
-		// else
-		// 	wall_x = lvl->player->x + perp_wall_dist * raydir.x;
-		// wall_x -= floor(wall_x);
-		// txt_x = (int)(wall_x * 64.0); // txt width currently hardcoded to 64, not sure if/how/why we would support variable sizes
-		// if ((hit_side == 0 && raydir.x > 0) || (hit_side == 1 && raydir.y < 1))
-		// 	txt_x = 64 - txt_x - 1; // NOTE: also hardcoded width
-		// line_height = (int)(IMG_HEIGHT / perp_wall_dist);
-		// step = 1.0 * 64 / line_height; // NOTE: also hardcoded width
-		// man all of this needs stuff from the draw wall function or drawvert function and really i should just combine them all somehow rip
 
 
-		//laskjfdjldsf yep
-		draw_wall(frame, perp_wall_dist, hit_side, x);
-		x += (int)mmap->width / TOTAL_RAYS;
-	}
-}
 
-/**
- * Sets the start and end points for drawing a vertical line in the image.
- * @param y_start Pointer to the start y-coordinate.
- * @param y_end Pointer to the end y-coordinate.
- * @param a First point defining the vertical line.
- * @param b Second point defining the vertical line.
- * @param img Pointer to the image where the line will be drawn.
- */
-static void	set_start_end(int *y_start, int *y_end, t_point a, t_point b, mlx_image_t *img)
-{
-		if (a.y < b.y)
-		*y_start = a.y;
+
+		double wall_x;
+		if (hit_side == 0)
+			wall_x = p.y + perp_wall_dist * raydir.y;
 		else
-			*y_start = b.y;
-		if (a.y > b.y)
-			*y_end = a.y;
-		else
-			*y_end = b.y;
-		if (*y_start < 0)
-			*y_start = 0;
-		if (*y_end >= (int)img->height)
-			*y_end = img->height - 1;
-}
+			wall_x = p.x + perp_wall_dist * raydir.x;
+		wall_x -= (int)wall_x;
+		// printf("wall_x: %f\n", wall_x);
 
-/**
- * Draws a vertical line in the image from point a to point b with the specified color.
- * @param img Pointer to the image where the line will be drawn.
- * @param a First point defining the vertical line.
- * @param b Second point defining the vertical line.
- * @param color Color of the line to be drawn.
- */
-static void	drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color)
-{
-	uint32_t	*pixels;
-	int			y_start;
-	int			y_end;
-	int			y;
+		int txt_x = (int)(wall_x * TEXTURE_WIDTH); // Assuming texture width is 64
+		if ((hit_side == 0 && raydir.x > 0) || (hit_side == 1 && raydir.y < 0))
+			txt_x = TEXTURE_WIDTH - txt_x - 1;
 
-	pixels = (uint32_t *)img->pixels;
-	if (a.x == b.x)
-	{
-		int x = a.x;
-		if (x < 0 || x >= (int)img->width)
-			return;
-		set_start_end(&y_start, &y_end, a, b, img);
-		y = y_start;
-		while (y <= y_end)
+		uint32_t *pixels = (uint32_t *)frame->pixels;
+
+		int			line_height;
+		int			draw_start;
+		int			draw_end;
+		uint32_t	color;
+
+		line_height = (int)(IMG_HEIGHT / perp_wall_dist);
+		double step = 1.0 * TEXTURE_HEIGHT / line_height;
+		draw_start = -line_height / 2 + IMG_HEIGHT / 2;
+		if (draw_start < 0)
+			draw_start = 0;
+		draw_end = line_height / 2 + IMG_HEIGHT / 2;
+		if (draw_end >= IMG_HEIGHT)
+			draw_end = IMG_HEIGHT - 1;
+
+		double txt_pos = (draw_start - IMG_HEIGHT / 2 + line_height / 2) * step;
+		for (int y = draw_start; y < draw_end; y++)
 		{
-			pixels[y * img->width + x] = color;
-			y++;
+			int txt_y = (int)txt_pos & (TEXTURE_HEIGHT - 1);
+			color = get_pixel_color(lvl->textures->wall, txt_x, txt_y);
+			// if (hit_side == 1)
+			// 	color = (color >> 1) & 8355711;
+			pixels[y * frame->width + x] = color;
+			txt_pos += step;
 		}
+
+
+
+		// draw_wall(frame, perp_wall_dist, hit_side, x);
+		x += (int)frame->width / TOTAL_RAYS;
 	}
-}
-
-/**
- * Draws a wall segment in the frame image based on the perpendicular distance and side hit.
- * @param img Pointer to the frame image where the wall will be drawn.
- * @param perp_dist Perpendicular distance to the wall.
- * @param side Side of the wall hit (0 for vertical, 1 for horizontal).
- * @param x X-coordinate of the column where the wall is drawn.
- */
-static void	draw_wall(mlx_image_t *img, double perp_dist, int side, int x)
-{
-	int			line_height;
-	int			draw_start;
-	int			draw_end;
-	uint32_t	color;
-
-	line_height = (int)(IMG_HEIGHT / perp_dist);
-	draw_start = -line_height / 2 + IMG_HEIGHT / 2;
-	if (draw_start < 0)
-		draw_start = 0;
-	draw_end = line_height / 2 + IMG_HEIGHT / 2;
-	if (draw_end >= IMG_HEIGHT)
-		draw_end = IMG_HEIGHT - 1;
-	if (side == 0) // Colors temporary, we will replace these with textures
-		color = 0xFF00FFFF;
-	else
-		color = 0xFFFF00FF;
-	drawvert(img, (t_point){x, draw_start}, (t_point){x, draw_end}, color);
 }

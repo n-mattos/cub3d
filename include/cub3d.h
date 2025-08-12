@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/12 11:59:14 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 14:22:56 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@
 # define TOTAL_RAYS (1 * IMG_WIDTH)	// total rays to cast (width of the screen)
 # define PERCENTAGE_RAYS 10			// percentage of rays to display (minimap)
 
+# define TEXTURE_WIDTH 64			// width of the texture (currently hardcoded to 64)
+# define TEXTURE_HEIGHT 64			// height of the texture (currently hardcoded to 64)
+
 # define PI 3.14159265358979323846
 # define EPSILON 1.e-10
 
@@ -68,6 +71,7 @@ typedef struct s_textures {
 	south;
 	west;
 	*/
+	mlx_texture_t	*wall;
 	char	*north;
 	char	*east;
 	char	*south;
@@ -140,6 +144,8 @@ t_vect	calculate_intersection(t_playerdata p, t_vect raydir, double perp_wall_di
 
 /* draw */
 void	draw_all(void *data);
+void	drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color);
+void	draw_wall(mlx_image_t *img, double perp_dist, int side, int x);
 void	drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color);
 void	drawrectangle(mlx_image_t *img, t_point wh, t_point coord, uint32_t color);
 
