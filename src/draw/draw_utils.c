@@ -6,13 +6,76 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:37:23 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/11 13:59:07 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:24:18 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static void	drawline_draw(mlx_image_t *img, t_point a, t_point b, uint32_t color, uint32_t *pixels)
+static void	drawline_draw(mlx_image_t *img, t_point a, t_point b,
+				uint32_t color, uint32_t *pixels);
+
+/**
+ * * Draws a line between two points on the image.
+ * @param img The image to draw on.
+ * @param a The starting point of the line.
+ * @param b The ending point of the line.
+ * @param color The color of the line.
+ */
+void	drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color)
+{
+	uint32_t	*pixels;
+
+	pixels = (uint32_t *)(img->pixels);
+	if (!pixels)
+		return ;
+	if (a.x == b.x && a.y == b.y)
+	{
+		pixels[a.y * img->width + a.x] = color;
+		return ;
+	}
+	drawline_draw(img, a, b, color, pixels);
+}
+
+/**
+ * * Draws a rectangle on the image.
+ * @param img The image to draw on.
+ * @param wh The width and height of the rectangle.
+ * @param coord The top-left corner coordinates of the rectangle.
+ * @param color The color of the rectangle.
+ */
+void	drawrectangle(mlx_image_t *img, t_point wh,
+			t_point coord, uint32_t color)
+{
+	uint32_t	*pixels;
+	int			x;
+	int			y;
+
+	x = 0;
+	y = 0;
+	pixels = (uint32_t *)(img->pixels);
+	while (y < wh.y)
+	{
+		while (x < wh.x)
+		{
+			pixels[(y + coord.y) * img->width + (x + coord.x)] = color;
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+}
+
+/**
+ * Utility function for draw_line that performs the actual drawing of the line
+ * @param img The image to draw on.
+ * @param a The starting point of the line.
+ * @param b The ending point of the line.
+ * @param color The color of the line.
+ * @param pixels Pointer to the pixel data of the image.
+ */
+static void	drawline_draw(mlx_image_t *img, t_point a, t_point b,
+			uint32_t color, uint32_t *pixels)
 {
 	uint32_t	x;
 	uint32_t	y;
@@ -32,41 +95,5 @@ static void	drawline_draw(mlx_image_t *img, t_point a, t_point b, uint32_t color
 			pixels[y * img->width + x] = color;
 		pos.x += inc.x;
 		pos.y += inc.y;
-	}
-}
-
-void	drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color)
-{
-	uint32_t	*pixels;
-
-	pixels = (uint32_t *)(img->pixels);
-	if (!pixels)
-		return;
-	if (a.x == b.x && a.y == b.y)
-	{
-		pixels[a.y * img->width + a.x] = color;
-		return;
-	}
-	drawline_draw(img, a, b, color, pixels);
-}
-
-void	drawrectangle(mlx_image_t *img, t_point wh, t_point coord, uint32_t color)
-{
-	uint32_t	*pixels;
-	int	x;
-	int	y;
-
-	x = 0;
-	y = 0;
-	pixels = (uint32_t *)(img->pixels);
-	while (y < wh.y)
-	{
-		while (x < wh.x)
-		{
-			pixels[(y + coord.y) * img->width + (x + coord.x)] = color;
-			x++;
-		}
-		x = 0;
-		y++;
 	}
 }

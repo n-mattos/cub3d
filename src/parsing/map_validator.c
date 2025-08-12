@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 13:57:43 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/25 10:01:19 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:29:48 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 static bool	invalid_tile(int **map, size_t y, size_t x);
 
+/**
+ * Checks if the map is valid.
+ * A valid map must have exactly one player, and be surrounded by walls.
+ * @param map The map to validate.
+ * @return true if the map is valid, false otherwise.
+ */
 bool	map_is_valid(int **map)
 {
 	size_t	player;
@@ -40,6 +46,13 @@ bool	map_is_valid(int **map)
 	return (true);
 }
 
+/**
+ * Checks if a tile is invalid.
+ * @param map The map to check.
+ * @param y The y coordinate of the tile.
+ * @param x The x coordinate of the tile.
+ * @return true if the tile is invalid, false otherwise.
+ */
 static bool	invalid_tile(int **map, size_t y, size_t x)
 {
 	if (map[y][x] == EMPTY || map[y][x] == WALL)

@@ -6,12 +6,16 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/07/29 11:40:07 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:36:30 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
+/**
+ * Frees a 2D array of strings (raw textures).
+ * @param raw_textures Pointer to the 2D array to be freed.
+ */
 void	free_raw_textures(char **raw_textures)
 {
 	size_t	i;
@@ -28,6 +32,10 @@ void	free_raw_textures(char **raw_textures)
 	free(raw_textures);
 }
 
+/**
+ * Frees the memory allocated for a t_textures structure and its string members.
+ * @param textures Pointer to the t_textures structure to be freed.
+ */
 void	free_textures(t_textures *textures)
 {
 	if (textures == NULL)
@@ -47,6 +55,11 @@ void	free_textures(t_textures *textures)
 	free(textures);
 }
 
+/**
+ * Frees a 2D array of integers (map) and its rows.
+ * @param map Pointer to the 2D array to be freed.
+ * @param i Index to start freeing from; if negative, frees until NULL is found.
+ */
 void	free_map(int **map, int i)
 {
 	if (i < 0)
@@ -62,6 +75,10 @@ void	free_map(int **map, int i)
 	free(map);
 }
 
+/**
+ * Frees the memory allocated for a t_level structure and its components.
+ * @param level Pointer to the t_level structure to be freed.
+ */
 void	free_level(t_level *level)
 {
 	free_textures(level->textures);
@@ -71,6 +88,10 @@ void	free_level(t_level *level)
 	free(level);
 }
 
+/**
+ * Allocates memory for a t_textures structure and its string members.
+ * @return Pointer to the allocated t_textures structure, or NULL on failure.
+ */
 t_textures	*allocate_textures(void)
 {
 	t_textures	*textures;

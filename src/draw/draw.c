@@ -6,12 +6,16 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/11 14:00:16 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:25:02 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
+/**
+ * Draws the entire game frame, including the minimap and the main view.
+ * @param data Pointer to the game data structure.
+ */
 void	draw_all(void *data)
 {
 	t_data	*d;

@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:14:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/25 09:59:28 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:32:01 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ static char	*get_raw_map_data(int fd);
 static int	**create_map(t_level *level, char *raw_map);
 static int	get_tile(char c);
 
+/**
+ * Parses the map from a file descriptor and returns a t_level structure.
+ * @param fd The file descriptor to read the map from.
+ * @return A pointer to a t_level structure containing the parsed map,
+ *         or NULL if an error occurs.
+ */
 t_level	*parse_map(int fd)
 {
 	t_level	*level;
@@ -34,6 +40,11 @@ t_level	*parse_map(int fd)
 	return (level);
 }
 
+/**
+ * Reads the entire map from the file descriptor and returns it as a single string.
+ * @param fd The file descriptor to read from.
+ * @return A string containing the raw map data, or NULL if an error occurs.
+ */
 static char	*get_raw_map_data(int fd)
 {
 	char	*line;
@@ -55,6 +66,13 @@ static char	*get_raw_map_data(int fd)
 	return(raw_map);
 }
 
+/**
+ * Creates a 2D int array from the raw map data.
+ * @param level The t_level structure to populate with the map.
+ * @param raw_map The raw map data as a string.
+ * @return A pointer to the 2D int array representing the map,
+ *         or NULL if an error occurs.
+ */
 static int	**create_map(t_level *level, char *raw_map)
 {
 	size_t	i;
@@ -80,6 +98,11 @@ static int	**create_map(t_level *level, char *raw_map)
 	return (level->map);
 }
 
+/**
+ * Converts a character to a tile value.
+ * @param c The character to convert.
+ * @return The corresponding tile value.
+ */
 static int	get_tile(char c)
 {
 	if (is_whitespace(c))

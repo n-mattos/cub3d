@@ -6,12 +6,21 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:42:58 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/11 13:43:03 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:44:41 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
+/**
+ * Calculates the perpendicular distance from the player to the wall.
+ * @param p Player data containing position and direction.
+ * @param raydir Ray direction vector.
+ * @param map Map coordinates of the wall hit.
+ * @param hit_side Side of the wall hit (0 for vertical, 1 for horizontal wall).
+ * @param step Step vector indicating the direction of movement.
+ * @return Perpendicular distance to the wall.
+ */
 double calculate_perpendicular_distance(t_playerdata p, t_vect raydir, t_point map, int hit_side, t_point step)
 {
 	double	perp_wall_dist;
@@ -23,6 +32,13 @@ double calculate_perpendicular_distance(t_playerdata p, t_vect raydir, t_point m
 	return (perp_wall_dist);
 }
 
+/**
+ * Calculates the intersection point of the ray with the wall.
+ * @param p Player data containing position and direction.
+ * @param raydir Ray direction vector.
+ * @param perp_wall_dist Perpendicular distance to the wall.
+ * @return Intersection point as a vector.
+ */
 t_vect calculate_intersection(t_playerdata p, t_vect raydir, double perp_wall_dist)
 {
 	t_vect	intersect;

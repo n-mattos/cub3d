@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/06/25 10:07:32 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:37:59 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ static char	**get_raw_texture_data(int fd);
 static char	*get_texture(char *str);
 static t_textures	*sort_texture_data(char **raw, t_textures *textures);
 
+/**
+ * Parses textures from a file descriptor.
+ * @param fd The file descriptor to read from.
+ * @return A pointer to a t_textures structure containing the parsed textures,
+ *         or NULL if an error occurs.
+ */
 t_textures	*parse_textures(int fd)
 {
 	t_textures	*textures;
@@ -34,6 +40,12 @@ t_textures	*parse_textures(int fd)
 	return (textures);
 }
 
+/**
+ * Reads texture data from a file descriptor and returns it as an array of strings.
+ * @param fd The file descriptor to read from.
+ * @return An array of strings containing the raw texture data,
+ * 		   or NULL on error.
+ */
 static char	**get_raw_texture_data(int fd)
 {
 	char	**raw_textures;
@@ -63,6 +75,12 @@ static char	**get_raw_texture_data(int fd)
 	return (raw_textures);
 }
 
+/**
+ * Extracts a texture string from a line, skipping leading whitespace.
+ * @param str The string to extract the texture from.
+ * @return A dynamically allocated string containing the texture,
+ * 		   or NULL on error.
+ */
 static char	*get_texture(char *str)
 {
 	char	*texture;
@@ -84,6 +102,13 @@ static char	*get_texture(char *str)
 	return (texture);
 }
 
+/**
+ * Sorts the raw texture data into the t_textures structure.
+ * @param raw The array of raw texture strings.
+ * @param textures The t_textures structure to fill.
+ * @return A pointer to the filled t_textures structure,
+ *         or NULL if an error occurs.
+ */
 static t_textures	*sort_texture_data(char **raw, t_textures *textures)
 {
 	size_t	i;

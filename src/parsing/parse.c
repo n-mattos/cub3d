@@ -6,12 +6,17 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/06/26 13:31:46 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:38:15 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
+/**
+ * Parses a .cub file to create a t_level structure.
+ * @param fn_map The path to the .cub file.
+ * @return A pointer to the t_level structure if successful, or NULL on failure.
+ */
 t_level	*parse(char *fn_map)
 {
 	t_level		*level;
