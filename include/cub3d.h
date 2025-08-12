@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/11 14:01:12 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 11:59:14 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@
 # define TURNSPEED 0.05		// radians
 # define MOVESPEED 0.1
 
-# define TOTAL_RAYS 1920	// total rays to cast (width of the screen)
-# define PERCENTAGE_RAYS 10	// percentage of rays to display (minimap)
-
 # define IMG_HEIGHT 1080.0
 # define IMG_WIDTH 1920.0
+
+# define TOTAL_RAYS (1 * IMG_WIDTH)	// total rays to cast (width of the screen)
+# define PERCENTAGE_RAYS 10			// percentage of rays to display (minimap)
 
 # define PI 3.14159265358979323846
 # define EPSILON 1.e-10
@@ -121,6 +121,10 @@ t_textures	*allocate_textures(void);
 
 /* player */
 t_playerdata	*retrieve_player(int **map);
+
+/* movement */
+void	move(mlx_key_data_t keydata, void *data);
+void	mouse_move(double x, double y, void *data);
 
 /* raycast */
 void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame);

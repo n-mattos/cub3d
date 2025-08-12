@@ -6,87 +6,18 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/11 16:27:50 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:18:38 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void	collision(t_data *d, t_playerdata *p, double new_x, double new_y)
-{
-	if (d->level->map[(int)new_y][(int)p->x] != WALL)
-		p->y = new_y;
-	if (d->level->map[(int)p->y][(int)new_x] != WALL)
-		p->x = new_x;
-}
-
-void	move(mlx_key_data_t keydata, void *data)
-{
-	t_data			*d;
-	t_playerdata	*p;
-
-	d = (t_data *)data;
-	p = d->level->player;
-	if (keydata.key == MLX_KEY_W)
-		collision(d, p, p->x + p->dir_x * MOVESPEED, p->y + p->dir_y * MOVESPEED);
-	else if (keydata.key == MLX_KEY_A)
-		collision(d, p, p->x + p->dir_y * MOVESPEED, p->y - p->dir_x * MOVESPEED);
-	else if (keydata.key == MLX_KEY_S)
-		collision(d, p, p->x - p->dir_x * MOVESPEED, p->y - p->dir_y * MOVESPEED);
-	else if (keydata.key == MLX_KEY_D)
-		collision(d, p, p->x - p->dir_y * MOVESPEED, p->y + p->dir_x * MOVESPEED);
-	else if (keydata.key == MLX_KEY_RIGHT)
-	{
-		double olddir_x = p->dir_x;
-		p->dir_x = p->dir_x * cos(TURNSPEED) - p->dir_y * sin(TURNSPEED);
-		p->dir_y = olddir_x * sin(TURNSPEED) + p->dir_y * cos(TURNSPEED);
-		double oldplane_x = p->plane_x;
-		p->plane_x = p->plane_x * cos(TURNSPEED) - p->plane_y * sin(TURNSPEED);
-		p->plane_y = oldplane_x * sin(TURNSPEED) + p->plane_y * cos(TURNSPEED);
-	}
-	else if (keydata.key == MLX_KEY_LEFT)
-	{
-		double olddir_x = p->dir_x;
-		p->dir_x = p->dir_x * cos(-TURNSPEED) - p->dir_y * sin(-TURNSPEED);
-		p->dir_y = olddir_x * sin(-TURNSPEED) + p->dir_y * cos(-TURNSPEED);
-		double oldplane_x = p->plane_x;
-		p->plane_x = p->plane_x * cos(-TURNSPEED) - p->plane_y * sin(-TURNSPEED);
-		p->plane_y = oldplane_x * sin(-TURNSPEED) + p->plane_y * cos(-TURNSPEED);
-	}
-	else if (keydata.key == MLX_KEY_ESCAPE)
-		mlx_close_window(d->mlx);
-	else
-	{
-		printf("Key %d pressed\n", keydata.key);
-	}
-}
-
-void	mouse_move(double x, double y, void *d)
-{
-	t_data			*data;
-	t_playerdata	*p;
-	double			x_delta;
-
-	(void)y;
-	data = (t_data *)d;
-	p = data->level->player;
-	if (data->prev_mouse_x == -1)
-	{
-		data->prev_mouse_x = x;
-		return ;
-	}
-	x_delta = IMG_WIDTH / 2 - x;
-	data->prev_mouse_x = x;
-	double rotspeed = -(x_delta * 0.0006);
-	double olddir_x = p->dir_x;
-	p->dir_x = p->dir_x * cos(rotspeed) - p->dir_y * sin(rotspeed);
-	p->dir_y = olddir_x * sin(rotspeed) + p->dir_y * cos(rotspeed);
-	double oldplane_x = p->plane_x;
-	p->plane_x = p->plane_x * cos(rotspeed) - p->plane_y * sin(rotspeed);
-	p->plane_y = oldplane_x * sin(rotspeed) + p->plane_y * cos(rotspeed);
-	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
-}
-
+/**
+ * Initializes the game loop and sets up hooks for key and mouse events.
+ * @param mlx Pointer to the MLX instance.
+ * @param data Pointer to the game data structure.
+ * @returns void; Starts the game loop and handles rendering and input.
+ */
 static void	run_game(mlx_t *mlx, t_data *data)
 {
 	mlx_key_hook(mlx, &move, (void *)data);

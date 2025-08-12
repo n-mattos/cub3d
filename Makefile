@@ -31,6 +31,7 @@ SRCS =	src/main.c \
 		src/draw/minimap.c \
 		src/draw/draw_utils.c \
 		src/draw/draw.c \
+		src/movement/movement.c \
 		src/player/player.c
 
 OBJDIR = obj
