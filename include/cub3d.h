@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/12 14:22:56 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/23 12:53:01 by nmattos-      #+#    #+#                 */
+/*   Updated: 2025/08/14 11:01:16 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void	drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color);
 void	draw_wall(mlx_image_t *img, double perp_dist, int side, int x);
 void	drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color);
 void	drawrectangle(mlx_image_t *img, t_point wh, t_point coord, uint32_t color);
+uint32_t	get_pixel_color(mlx_texture_t *texture, int x, int y);
 
 /* draw/minimap */
 void	draw_minimap(t_data *d);

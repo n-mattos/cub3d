@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycast.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/08/12 17:26:33 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   raycast.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/24 12:58:15 by mschippe      #+#    #+#                 */
+/*   Updated: 2025/08/14 11:45:42 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame)
 	t_vect			intersect;
 	double			perp_wall_dist;
 	int				hit_side;
+	int				line_height;
+	int				draw_start;
+	int				draw_end;
+	uint32_t		color;
 
 	p = *lvl->player;
 	x = 0;
@@ -63,10 +67,7 @@ void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame)
 
 		uint32_t *pixels = (uint32_t *)frame->pixels;
 
-		int			line_height;
-		int			draw_start;
-		int			draw_end;
-		uint32_t	color;
+
 
 		line_height = (int)(IMG_HEIGHT / perp_wall_dist);
 		double step = 1.0 * TEXTURE_HEIGHT / line_height;
