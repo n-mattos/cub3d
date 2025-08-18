@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:42:20 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/12 12:43:49 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/18 13:39:56 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,14 +125,14 @@ void	calculate_ray(t_point *map, t_vect *side, t_vect delta, t_point step, int *
 			side->x += delta.x;
 			map->x += step.x;
 			hit = lvl->map[map->y][map->x] == '1';
-			*hit_side = 0;
+			*hit_side = VERTICAL;
 		}
 		else
 		{
 			side->y += delta.y;
 			map->y += step.y;
 			hit = lvl->map[map->y][map->x] == '1';
-			*hit_side = 1;
+			*hit_side = HORIZONTAL;
 		}
 	}
 }

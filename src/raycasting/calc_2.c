@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:42:58 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/12 12:44:41 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/18 13:40:36 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ double calculate_perpendicular_distance(t_playerdata p, t_vect raydir, t_point m
 {
 	double	perp_wall_dist;
 
-	if (hit_side == 0)
+	if (hit_side == VERTICAL)
 		perp_wall_dist = (map.x - p.x + (1 - step.x) / 2) / raydir.x;
 	else
 		perp_wall_dist = (map.y - p.y + (1 - step.y) / 2) / raydir.y;
@@ -46,4 +46,15 @@ t_vect calculate_intersection(t_playerdata p, t_vect raydir, double perp_wall_di
 	intersect.x = p.x + raydir.x * perp_wall_dist;
 	intersect.y = p.y + raydir.y * perp_wall_dist;
 	return (intersect);
+}
+
+double	calculate_wallx(t_playerdata p, int hit_side, double perp_wall_dist, t_vect raydir)
+{
+	double	wall_x;
+
+	if (hit_side == VERTICAL)
+		wall_x = p.y + perp_wall_dist * raydir.y;
+	else
+		wall_x = p.x + perp_wall_dist * raydir.x;
+	return (wall_x -= (int)wall_x);
 }

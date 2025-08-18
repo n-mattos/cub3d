@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/23 12:53:01 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/08/14 11:01:16 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
+/*   Updated: 2025/08/18 13:44:09 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ typedef enum e_tile {
 	WEST = 'W'
 }	t_tile;
 
+typedef enum e_hit_side {
+	NO_HIT = -1,
+	VERTICAL = 0,
+	HORIZONTAL = 1
+}
+
 typedef struct s_playerdata {
 	double	x;
 	double	y;
@@ -85,6 +91,22 @@ typedef struct s_level {
 	t_textures		*textures;
 	t_playerdata	*player;
 }	t_level;
+
+typedef struct s_raycast {
+	t_vect	raydir;
+	t_vect	delta;
+	t_vect	side;
+	t_point	map;
+	t_point	step;
+	int		hit_side;
+	double	perp_wall_dist;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+	int		txt_x;
+	double	txt_pos;
+	int		txt_y;
+}	t_raycast;
 
 typedef struct s_data {
 	mlx_t		*mlx;
@@ -131,7 +153,7 @@ void	move(mlx_key_data_t keydata, void *data);
 void	mouse_move(double x, double y, void *data);
 
 /* raycast */
-void	raycast_dda(t_level *lvl, mlx_image_t *mmap, mlx_image_t *frame);
+void	raycast_dda(t_data *d);
 
 /* calculations */
 t_vect	calculate_raydir(mlx_image_t *img, t_playerdata p, int x);
@@ -141,10 +163,12 @@ t_point	calculate_map(t_playerdata p);
 void	calculate_ray(t_point *map, t_vect *side, t_vect delta, t_point step, int *hit_side, t_level *lvl);
 double	calculate_perpendicular_distance(t_playerdata p, t_vect raydir, t_point map, int hit_side, t_point step);
 t_vect	calculate_intersection(t_playerdata p, t_vect raydir, double perp_wall_dist);
+double	calculate_wallx(t_playerdata p, int hit_side, double perp_wall_dist, t_vect raydir);
 
 /* draw */
 void	draw_all(void *data);
 void	drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color);
+void	draw_textured_wall(t_raycast *ray, t_data *d, int x);
 void	draw_wall(mlx_image_t *img, double perp_dist, int side, int x);
 void	drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color);
 void	drawrectangle(mlx_image_t *img, t_point wh, t_point coord, uint32_t color);
