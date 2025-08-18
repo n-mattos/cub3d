@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:42:58 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/18 13:40:36 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:16:16 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,16 @@
  * @param step Step vector indicating the direction of movement.
  * @return Perpendicular distance to the wall.
  */
-double calculate_perpendicular_distance(t_playerdata p, t_vect raydir, t_point map, int hit_side, t_point step)
+double	calculate_perpendicular_distance(
+			t_playerdata p, t_raycast *ray, t_point map)
 {
-	double	perp_wall_dist;
-
-	if (hit_side == VERTICAL)
-		perp_wall_dist = (map.x - p.x + (1 - step.x) / 2) / raydir.x;
+	if (ray->hit_side == VERTICAL)
+		ray->perp_wall_dist
+			= (map.x - p.x + (1 - ray->step.x) / 2) / ray->raydir.x;
 	else
-		perp_wall_dist = (map.y - p.y + (1 - step.y) / 2) / raydir.y;
-	return (perp_wall_dist);
+		ray->perp_wall_dist
+			= (map.y - p.y + (1 - ray->step.y) / 2) / ray->raydir.y;
+	return (ray->perp_wall_dist);
 }
 
 /**
@@ -39,7 +40,8 @@ double calculate_perpendicular_distance(t_playerdata p, t_vect raydir, t_point m
  * @param perp_wall_dist Perpendicular distance to the wall.
  * @return Intersection point as a vector.
  */
-t_vect calculate_intersection(t_playerdata p, t_vect raydir, double perp_wall_dist)
+t_vect	calculate_intersection(
+			t_playerdata p, t_vect raydir, double perp_wall_dist)
 {
 	t_vect	intersect;
 
@@ -48,13 +50,14 @@ t_vect calculate_intersection(t_playerdata p, t_vect raydir, double perp_wall_di
 	return (intersect);
 }
 
-double	calculate_wallx(t_playerdata p, int hit_side, double perp_wall_dist, t_vect raydir)
+double	calculate_wallx(
+			t_playerdata *p, int hit_side, double perp_wall_dist, t_vect raydir)
 {
 	double	wall_x;
 
 	if (hit_side == VERTICAL)
-		wall_x = p.y + perp_wall_dist * raydir.y;
+		wall_x = p->y + perp_wall_dist * raydir.y;
 	else
-		wall_x = p.x + perp_wall_dist * raydir.x;
+		wall_x = p->x + perp_wall_dist * raydir.x;
 	return (wall_x -= (int)wall_x);
 }

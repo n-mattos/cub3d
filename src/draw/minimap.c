@@ -6,13 +6,13 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:34:49 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/12 12:28:04 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:12:38 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static uint32_t getcolor(t_tile tile);
+static uint32_t	getcolor(t_tile tile);
 
 /**
  * Draws the minimap based on the level map.
@@ -21,11 +21,12 @@ static uint32_t getcolor(t_tile tile);
 void	draw_minimap(t_data *d)
 {
 	int	y;
+	int	x;
 
 	y = 0;
 	while (d->level->map[y])
 	{
-		int x = 0;
+		x = 0;
 		while (d->level->map[y][x])
 		{
 			drawrectangle(
@@ -45,7 +46,8 @@ void	draw_minimap(t_data *d)
  * @param intersect The intersection point of the ray.
  * @param x The x-coordinate of the ray.
  */
-void	draw_minimap_rays(mlx_image_t *mmap, t_playerdata p, t_vect intersect, int x)
+void	draw_minimap_rays(mlx_image_t *mmap, t_playerdata p,
+				t_vect intersect, int x)
 {
 	if (x >= 0 && x <= (int)mmap->width - 1 && x % (100 / PERCENTAGE_RAYS) == 0)
 	{
@@ -62,7 +64,7 @@ void	draw_minimap_rays(mlx_image_t *mmap, t_playerdata p, t_vect intersect, int 
  * @param tile The tile type to get the color for.
  * @return The color associated with the tile type.
  */
-static uint32_t getcolor(t_tile tile)
+static uint32_t	getcolor(t_tile tile)
 {
 	if (tile == FLOOR)
 		return (FLOOR_COLOR);

@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 10:01:22 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/06/25 10:12:00 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:19:40 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 bool	is_player(int c)
 {
-	return (c == NORTH ||
-			c == EAST  ||
-			c == SOUTH ||
-			c == WEST);
+	return (c == NORTH
+		|| c == EAST
+		|| c == SOUTH
+		|| c == WEST);
 }

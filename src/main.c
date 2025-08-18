@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/12 17:09:02 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:26:00 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ static void	run_game(mlx_t *mlx, t_data *data)
 int	main(void)
 {
 	mlx_t		*mlx;
+	t_level		*level;
+	t_data		*data;
 
-	t_level *level = parse("maps/subject_example1.cub");
+	level = parse("maps/subject_example1.cub");
 	if (level == NULL)
 		return (1);
 	printf("Texture struct:\n");
@@ -43,12 +45,8 @@ int	main(void)
 	printf("EA: %s\n", level->textures->east);
 	printf("F: %s\n", level->textures->floor);
 	printf("C: %s\n", level->textures->ceiling);
-	level->textures->wall = malloc(sizeof(mlx_texture_t*));
+	level->textures->wall = malloc(sizeof(mlx_texture_t *));
 	level->textures->wall = mlx_load_png("textures/mossy.png");
-	if (level->textures->wall == NULL)
-		printf("OH NO\n");
-	printf("OH YAY\n");
-
 	mlx = mlx_init(1920, 1080, "CUB3D", false);
 	if (!mlx)
 	{
@@ -56,14 +54,11 @@ int	main(void)
 		free_level(level);
 		return (1);
 	}
-
-	t_data *data = ft_calloc(1, sizeof(t_data));
+	data = ft_calloc(1, sizeof(t_data));
 	data->level = level;
 	data->mlx = mlx;
 	data->prev_mouse_x = -1;
-
 	run_game(mlx, data);
-
 	free_level(level);
 	mlx_terminate(mlx);
 	// free(level->textures);

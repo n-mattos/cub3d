@@ -6,14 +6,17 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 13:19:54 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/12 12:39:41 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:33:58 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
 static t_playerdata	*create_player(int **map, size_t y, size_t x);
-static int	player_starting_direction(t_playerdata *player, int direction);
+static int			player_starting_direction(
+						t_playerdata *player, int direction);
+static void			set_player_direction(
+						t_playerdata *player, t_point direction, t_vect plane);
 
 /**
  * Retrieves the player data from the map.
@@ -34,10 +37,10 @@ t_playerdata	*retrieve_player(int **map)
 		x = 0;
 		while (map[y][x] != '\0')
 		{
-			if (map[y][x] == NORTH ||
-				map[y][x] == EAST  ||
-				map[y][x] == SOUTH ||
-				map[y][x] == WEST)
+			if (map[y][x] == NORTH
+				|| map[y][x] == EAST
+				|| map[y][x] == SOUTH
+				|| map[y][x] == WEST)
 			{
 				return (create_player(map, y, x));
 			}
@@ -76,40 +79,30 @@ static t_playerdata	*create_player(int **map, size_t y, size_t x)
 /**
  * Sets the player's starting direction based on the map value.
  * @param player Pointer to the player data structure to be updated.
- * @param direction The direction represented by an integer (NORTH, EAST, SOUTH, WEST).
+ * @param direction The direction represented by an integer
+ * 					(NORTH, EAST, SOUTH, WEST).
  * @return 1 if successful, -1 if the direction is invalid.
  */
 static int	player_starting_direction(t_playerdata *player, int direction)
 {
 	if (direction == NORTH)
-	{
-		player->dir_x = 0;
-		player->dir_y = -1;
-		player->plane_x = 0.66;
-		player->plane_y = 0;
-	}
+		set_player_direction(player, (t_point){0, -1}, (t_vect){0.66, 0});
 	else if (direction == EAST)
-	{
-		player->dir_x = 1;
-		player->dir_y = 0;
-		player->plane_x = 0;
-		player->plane_y = 0.66;
-	}
+		set_player_direction(player, (t_point){1, 0}, (t_vect){0, 0.66});
 	else if (direction == SOUTH)
-	{
-		player->dir_x = 0;
-		player->dir_y = 1;
-		player->plane_x = -0.66;
-		player->plane_y = 0;
-	}
+		set_player_direction(player, (t_point){0, 1}, (t_vect){-0.66, 0});
 	else if (direction == WEST)
-	{
-		player->dir_x = -1;
-		player->dir_y = 0;
-		player->plane_x = 0;
-		player->plane_y = -0.66;
-	}
+		set_player_direction(player, (t_point){-1, 0}, (t_vect){0, -0.66});
 	else
 		return (-1);
 	return (1);
+}
+
+static void	set_player_direction(
+				t_playerdata *player, t_point direction, t_vect plane)
+{
+	player->dir_x = direction.x;
+	player->dir_y = direction.y;
+	player->plane_x = plane.x;
+	player->plane_y = plane.y;
 }

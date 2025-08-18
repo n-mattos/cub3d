@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/12 12:02:43 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/18 13:50:48 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	turn(t_playerdata *p, double turnspeed);
 
 /**
  * Handles player movement based on key inputs.
- * @param keydata The key data structure containing the pressed key and its action.
+ * @param keydata The key data containing the pressed key and its action.
  * @param data Pointer to the game data structure.
  * @returns void; Updates the player's position based on the key pressed.
  */
@@ -29,13 +29,17 @@ void	move(mlx_key_data_t keydata, void *data)
 	d = (t_data *)data;
 	p = d->level->player;
 	if (keydata.key == MLX_KEY_W)
-		collision(d->level->map, p, p->x + p->dir_x * MOVESPEED, p->y + p->dir_y * MOVESPEED);
+		collision(d->level->map, p, p->x + p->dir_x * MOVESPEED,
+			p->y + p->dir_y * MOVESPEED);
 	else if (keydata.key == MLX_KEY_A)
-		collision(d->level->map, p, p->x + p->dir_y * MOVESPEED, p->y - p->dir_x * MOVESPEED);
+		collision(d->level->map, p, p->x + p->dir_y * MOVESPEED,
+			p->y - p->dir_x * MOVESPEED);
 	else if (keydata.key == MLX_KEY_S)
-		collision(d->level->map, p, p->x - p->dir_x * MOVESPEED, p->y - p->dir_y * MOVESPEED);
+		collision(d->level->map, p, p->x - p->dir_x * MOVESPEED,
+			p->y - p->dir_y * MOVESPEED);
 	else if (keydata.key == MLX_KEY_D)
-		collision(d->level->map, p, p->x - p->dir_y * MOVESPEED, p->y + p->dir_x * MOVESPEED);
+		collision(d->level->map, p, p->x - p->dir_y * MOVESPEED,
+			p->y + p->dir_x * MOVESPEED);
 	else if (keydata.key == MLX_KEY_RIGHT)
 		turn(p, TURNSPEED);
 	else if (keydata.key == MLX_KEY_LEFT)
@@ -75,7 +79,8 @@ void	mouse_move(double x, double y, void *d)
  * @param p Pointer to the player data structure.
  * @param new_x The new x-coordinate of the player.
  * @param new_y The new y-coordinate of the player.
- * @returns void; Updates the player's position if the new coordinates do not collide with walls.
+ * @returns void; Updates the player's position if the new coordinates
+ * 				  do not collide with walls.
  */
 static void	collision(int **map, t_playerdata *p, double new_x, double new_y)
 {

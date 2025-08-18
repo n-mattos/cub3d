@@ -6,14 +6,14 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:37:23 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/12 15:18:27 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:33:14 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
 static void	drawline_draw(mlx_image_t *img, t_point a, t_point b,
-				uint32_t color, uint32_t *pixels);
+				uint32_t color);
 
 /**
  * * Draws a line between two points on the image.
@@ -34,7 +34,7 @@ void	drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color)
 		pixels[a.y * img->width + a.x] = color;
 		return ;
 	}
-	drawline_draw(img, a, b, color, pixels);
+	drawline_draw(img, a, b, color);
 }
 
 /**
@@ -72,10 +72,9 @@ void	drawrectangle(mlx_image_t *img, t_point wh,
  * @param a The starting point of the line.
  * @param b The ending point of the line.
  * @param color The color of the line.
- * @param pixels Pointer to the pixel data of the image.
  */
 static void	drawline_draw(mlx_image_t *img, t_point a, t_point b,
-			uint32_t color, uint32_t *pixels)
+	uint32_t color)
 {
 	uint32_t	x;
 	uint32_t	y;
@@ -92,38 +91,15 @@ static void	drawline_draw(mlx_image_t *img, t_point a, t_point b,
 		x = (uint32_t)(pos.x + 0.5);
 		y = (uint32_t)(pos.y + 0.5);
 		if (x < img->width && y < img->height)
-			pixels[y * img->width + x] = color;
+			mlx_put_pixel(img, x, y, color);
 		pos.x += inc.x;
 		pos.y += inc.y;
 	}
 }
 
 /**
- * Sets the start and end points for drawing a vertical line in the image.
- * @param y_start Pointer to the start y-coordinate.
- * @param y_end Pointer to the end y-coordinate.
- * @param a First point defining the vertical line.
- * @param b Second point defining the vertical line.
- * @param img Pointer to the image where the line will be drawn.
- */
-static void	set_start_end(int *y_start, int *y_end, t_point a, t_point b, mlx_image_t *img)
-{
-		if (a.y < b.y)
-			*y_start = a.y;
-		else
-			*y_start = b.y;
-		if (a.y > b.y)
-			*y_end = a.y;
-		else
-			*y_end = b.y;
-		if (*y_start < 0)
-			*y_start = 0;
-		if (*y_end >= (int)img->height)
-			*y_end = img->height - 1;
-}
-
-/**
- * Draws a vertical line in the image from point a to point b with the specified color.
+ * Draws a vertical line in the image
+ * from point a to point b with the specified color.
  * @param img Pointer to the image where the line will be drawn.
  * @param a First point defining the vertical line.
  * @param b Second point defining the vertical line.
@@ -135,14 +111,20 @@ void	drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color)
 	int			y_start;
 	int			y_end;
 	int			y;
+	int			x;
 
 	pixels = (uint32_t *)img->pixels;
 	if (a.x == b.x)
 	{
-		int x = a.x;
+		x = a.x;
 		if (x < 0 || x >= (int)img->width)
-			return;
-		set_start_end(&y_start, &y_end, a, b, img);
+			return ;
+		y_start = fmin(a.y, b.y);
+		y_end = fmax(a.y, b.y);
+		if (y_start < 0)
+			y_start = 0;
+		if (y_end >= (int)img->height)
+			y_end = img->height - 1;
 		y = y_start;
 		while (y <= y_end)
 		{

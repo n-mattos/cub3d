@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/18 13:44:09 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:36:52 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,19 @@ typedef enum e_hit_side {
 	NO_HIT = -1,
 	VERTICAL = 0,
 	HORIZONTAL = 1
-}
+}	t_hit_side;
+
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}	t_point;
+
+typedef struct s_vect
+{
+	double	x;
+	double	y;
+}	t_vect;
 
 typedef struct s_playerdata {
 	double	x;
@@ -93,19 +105,19 @@ typedef struct s_level {
 }	t_level;
 
 typedef struct s_raycast {
-	t_vect	raydir;
-	t_vect	delta;
-	t_vect	side;
-	t_point	map;
-	t_point	step;
-	int		hit_side;
-	double	perp_wall_dist;
-	int		line_height;
-	int		draw_start;
-	int		draw_end;
-	int		txt_x;
-	double	txt_pos;
-	int		txt_y;
+	t_vect		raydir;
+	t_vect		delta;
+	t_vect		side;
+	t_point		map;
+	t_point		step;
+	t_hit_side	hit_side;
+	double		perp_wall_dist;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
+	int			txt_x;
+	double		txt_pos;
+	int			txt_y;
 }	t_raycast;
 
 typedef struct s_data {
@@ -115,18 +127,6 @@ typedef struct s_data {
 	t_level		*level;
 	double		prev_mouse_x;
 }	t_data;
-
-typedef struct s_point
-{
-	int	x;
-	int	y;
-}	t_point;
-
-typedef struct s_vect
-{
-	double	x;
-	double	y;
-}	t_vect;
 
 /*****************************************************************************\
 *	Function Prototypes														  *
@@ -157,13 +157,13 @@ void	raycast_dda(t_data *d);
 
 /* calculations */
 t_vect	calculate_raydir(mlx_image_t *img, t_playerdata p, int x);
-t_vect	calculate_side(t_playerdata p, t_vect raydir, t_point map, t_vect delta, t_point *step);
+t_vect	calculate_side(t_playerdata p, t_raycast *ray, t_point map);
 t_vect	calculate_delta(t_vect raydir);
 t_point	calculate_map(t_playerdata p);
-void	calculate_ray(t_point *map, t_vect *side, t_vect delta, t_point step, int *hit_side, t_level *lvl);
-double	calculate_perpendicular_distance(t_playerdata p, t_vect raydir, t_point map, int hit_side, t_point step);
+void	calculate_ray(t_point *map, t_raycast *ray, t_level *lvl);
+double	calculate_perpendicular_distance(t_playerdata p, t_raycast *ray, t_point map);
 t_vect	calculate_intersection(t_playerdata p, t_vect raydir, double perp_wall_dist);
-double	calculate_wallx(t_playerdata p, int hit_side, double perp_wall_dist, t_vect raydir);
+double	calculate_wallx(t_playerdata *p, int hit_side, double perp_wall_dist, t_vect raydir);
 
 /* draw */
 void	draw_all(void *data);
