@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/18 14:40:11 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:49:15 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	free_map(int **map, int i)
 {
 	if (i < 0)
 	{
+		i = 0;
 		while (map[i] != NULL)
 			free(map[i++]);
 	}
