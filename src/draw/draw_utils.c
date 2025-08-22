@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:37:23 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/18 14:33:14 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:10:24 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,14 @@ void	drawrectangle(mlx_image_t *img, t_point wh,
 	{
 		while (x < wh.x)
 		{
-			pixels[(y + coord.y) * img->width + (x + coord.x)] = color;
+			if (y + coord.y < IMG_WIDTH && x + coord.x < IMG_HEIGHT)
+				pixels[(y + coord.y) * img->width + (x + coord.x)] = color;
+			else
+				break;
 			x++;
 		}
+		if (!(y + coord.y < IMG_WIDTH && x + coord.x < IMG_HEIGHT))
+			break;
 		x = 0;
 		y++;
 	}

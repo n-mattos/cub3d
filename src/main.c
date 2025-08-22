@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/18 14:26:00 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:40:50 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ static void	run_game(mlx_t *mlx, t_data *data)
 	mlx_delete_image(mlx, data->minimap);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	mlx_t		*mlx;
 	t_level		*level;
 	t_data		*data;
 
-	level = parse("maps/subject_example1.cub");
+	if (argc < 2)
+		return (printf("Needs a map filename as arg1 pls\n"), 1);
+	level = parse(argv[1]);
 	if (level == NULL)
 		return (1);
 	printf("Texture struct:\n");
@@ -47,7 +49,7 @@ int	main(void)
 	printf("C: %s\n", level->textures->ceiling);
 	level->textures->wall = malloc(sizeof(mlx_texture_t *));
 	level->textures->wall = mlx_load_png("textures/mossy.png");
-	mlx = mlx_init(1920, 1080, "CUB3D", false);
+	mlx = mlx_init(1920, 1080, "cub3D", false);
 	if (!mlx)
 	{
 		fprintf(stderr, "Failed to initialize mlx\n");

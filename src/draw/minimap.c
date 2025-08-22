@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:34:49 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/18 14:12:38 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:38:11 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,13 @@ void	draw_minimap(t_data *d)
 		x = 0;
 		while (d->level->map[y][x])
 		{
-			drawrectangle(
-				d->minimap, (t_point){RECT_SIZE, RECT_SIZE},
-				(t_point){x * RECT_SIZE, y * RECT_SIZE},
-				getcolor(d->level->map[y][x]));
+			//temp kinda fix, this check just cuts off map drawing when it knows a rect is gonna go out of bounds
+			//ideally we do scaling instead,just a bit lazy rn
+			if (x * RECT_SIZE + RECT_SIZE < IMG_WIDTH && y * RECT_SIZE + RECT_SIZE < IMG_HEIGHT)
+				drawrectangle(
+					d->minimap, (t_point){RECT_SIZE, RECT_SIZE},
+					(t_point){x * RECT_SIZE, y * RECT_SIZE},
+					getcolor(d->level->map[y][x]));
 			x++;
 		}
 		y++;
