@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/21 18:06:18 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/08/25 12:41:44 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,19 +83,12 @@ typedef struct s_playerdata {
 }	t_playerdata;
 
 typedef struct s_textures {
-	/*	mlx textures (?)
-	north;
-	east;
-	south;
-	west;
-	*/
-	mlx_texture_t	*wall;
-	char	*north;
-	char	*east;
-	char	*south;
-	char	*west;
-	char	*floor;
-	char	*ceiling;
+	mlx_texture_t	*north;
+	mlx_texture_t	*east;
+	mlx_texture_t	*south;
+	mlx_texture_t	*west;
+	char			*floor;
+	char			*ceiling;
 }	t_textures;
 
 typedef struct s_level {

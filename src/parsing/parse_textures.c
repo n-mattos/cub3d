@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/08/25 12:17:15 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 13:36:22 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,13 @@ static t_textures	*sort_texture_data(char **raw, t_textures *textures)
 	while (++i < 6)
 	{
 		if (ft_strncmp(raw[i], "NO", 2) == 0)
-			ft_strlcpy(textures->north, raw[i] + 2, ft_strlen(raw[i]));
+			textures->north = mlx_load_png(raw[i] + 2);
 		else if (ft_strncmp(raw[i], "EA", 2) == 0)
-			ft_strlcpy(textures->east, raw[i] + 2, ft_strlen(raw[i]));
+			textures->east = mlx_load_png(raw[i] + 2);
 		else if (ft_strncmp(raw[i], "SO", 2) == 0)
-			ft_strlcpy(textures->south, raw[i] + 2, ft_strlen(raw[i]));
+			textures->south = mlx_load_png(raw[i] + 2);
 		else if (ft_strncmp(raw[i], "WE", 2) == 0)
-			ft_strlcpy(textures->west, raw[i] + 2, ft_strlen(raw[i]));
+			textures->west = mlx_load_png(raw[i] + 2);
 		else if (raw[i][0] == 'F')
 			ft_strlcpy(textures->floor, raw[i] + 1, ft_strlen(raw[i]));
 		else if (raw[i][0] == 'C')

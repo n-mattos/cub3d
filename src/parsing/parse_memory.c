@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/22 15:49:15 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/08/25 12:46:07 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ void	free_textures(t_textures *textures)
 	if (textures == NULL)
 		return ;
 	if (textures->north != NULL)
-		free(textures->north);
+		mlx_delete_texture(textures->north);
 	if (textures->east != NULL)
-		free(textures->east);
+		mlx_delete_texture(textures->east);
 	if (textures->south != NULL)
-		free(textures->south);
+		mlx_delete_texture(textures->south);
 	if (textures->west != NULL)
-		free(textures->west);
+		mlx_delete_texture(textures->west);
 	if (textures->floor != NULL)
 		free(textures->floor);
 	if (textures->ceiling != NULL)
@@ -100,18 +100,13 @@ t_textures	*allocate_textures(void)
 	textures = malloc(sizeof(t_textures));
 	if (textures == NULL)
 		return (NULL);
-	textures->north = malloc(sizeof(char) * 256);
-	textures->east = malloc(sizeof(char) * 256);
-	textures->south = malloc(sizeof(char) * 256);
-	textures->west = malloc(sizeof(char) * 256);
+	textures->north = NULL;
+	textures->east = NULL;
+	textures->south = NULL;
+	textures->west = NULL;
 	textures->floor = malloc(sizeof(char) * 256);
 	textures->ceiling = malloc(sizeof(char) * 256);
-	if (textures->north == NULL ||
-		textures->east == NULL  ||
-		textures->south == NULL ||
-		textures->west == NULL  ||
-		textures->floor == NULL ||
-		textures->ceiling == NULL)
+	if (textures->floor == NULL || textures->ceiling == NULL)
 	{
 		free_textures(textures);
 		return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/22 15:40:50 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/08/25 12:32:17 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,6 @@ int	main(int argc, char **argv)
 	level = parse(argv[1]);
 	if (level == NULL)
 		return (1);
-	printf("Texture struct:\n");
-	printf("NO: %s\n", level->textures->north);
-	printf("SO: %s\n", level->textures->south);
-	printf("WE: %s\n", level->textures->west);
-	printf("EA: %s\n", level->textures->east);
-	printf("F: %s\n", level->textures->floor);
-	printf("C: %s\n", level->textures->ceiling);
-	level->textures->wall = malloc(sizeof(mlx_texture_t *));
-	level->textures->wall = mlx_load_png("textures/mossy.png");
 	mlx = mlx_init(1920, 1080, "cub3D", false);
 	if (!mlx)
 	{
@@ -63,7 +54,6 @@ int	main(int argc, char **argv)
 	run_game(mlx, data);
 	free_level(level);
 	mlx_terminate(mlx);
-	// free(level->textures);
 	free(data);
 	return (0);
 }
