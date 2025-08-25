@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 12:46:07 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:11:37 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,6 @@ void	free_textures(t_textures *textures)
 		mlx_delete_texture(textures->south);
 	if (textures->west != NULL)
 		mlx_delete_texture(textures->west);
-	if (textures->floor != NULL)
-		free(textures->floor);
-	if (textures->ceiling != NULL)
-		free(textures->ceiling);
 	free(textures);
 }
 
@@ -104,12 +100,5 @@ t_textures	*allocate_textures(void)
 	textures->east = NULL;
 	textures->south = NULL;
 	textures->west = NULL;
-	textures->floor = malloc(sizeof(char) * 256);
-	textures->ceiling = malloc(sizeof(char) * 256);
-	if (textures->floor == NULL || textures->ceiling == NULL)
-	{
-		free_textures(textures);
-		return (NULL);
-	}
 	return (textures);
 }

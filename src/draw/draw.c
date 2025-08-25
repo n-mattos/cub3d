@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 15:26:39 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:09:02 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,14 @@ void	draw_all(void *data)
 	mlx_set_mouse_pos(d->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 }
 
-static int	rgb_to_hex(char *rgb)
-{
-	int		r;
-	int		g;
-	int		b;
-
-	if (sscanf(rgb, "%d,%d,%d", &r, &g, &b) != 3)
-		return (0x000000FF); // Default to black if parsing fails
-	return ((r << 24) | (g << 16) | (b << 8) | 0xFF);
-}
-
 static void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures)
 {
 	for (int y = 0; y < img->height / 2; y++)
 	{
 		for (int x = 0; x < img->width; x++)
 		{
-			mlx_put_pixel(img, x, y, rgb_to_hex(textures->ceiling));
-			mlx_put_pixel(img, x, img->height - y - 1, rgb_to_hex(textures->floor));
+			mlx_put_pixel(img, x, y, textures->ceiling);
+			mlx_put_pixel(img, x, img->height - y - 1, textures->floor);
 		}
 	}
 }

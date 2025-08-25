@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/08/25 13:36:22 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:13:00 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,54 @@ static char	*get_texture(char *str)
 	return (texture);
 }
 
+bool	transform_rgb_string(char *rgb)
+{
+	int	index;
+	int	commacount;
+
+	index = 0;
+	commacount = 0;
+	while (rgb[index])
+	{
+		if (rgb[index] == ',')
+		{
+			commacount++;
+			if (commacount > 2)
+				return (false);
+			if (!ft_isdigit(rgb[index + 1]))
+				return (false);
+			rgb[index] = '\0';
+		}
+		else if (!ft_isdigit(rgb[index]))
+			return (false);
+		index++;
+	}
+	return (true);
+}
+
+int	rgbfromstr(char *rgb)
+{
+	int	r;
+	int	g;
+	int	b;
+
+	if (!transform_rgb_string(rgb))
+		return (-1);
+	printf("1\n");
+	r = ft_atoi(rgb);
+	while (*rgb)
+		rgb++;
+	rgb++;
+	printf("2\n");
+	g = ft_atoi(rgb);
+	while (*rgb)
+		rgb++;
+	rgb++;
+	printf("3\n");
+	b = ft_atoi(rgb);
+	return ((r << 24) | (g << 16) | (b << 8) | 0xFF);
+}
+
 /**
  * Sorts the raw texture data into the t_textures structure.
  * @param raw The array of raw texture strings.
@@ -126,15 +174,19 @@ static t_textures	*sort_texture_data(char **raw, t_textures *textures)
 		else if (ft_strncmp(raw[i], "WE", 2) == 0)
 			textures->west = mlx_load_png(raw[i] + 2);
 		else if (raw[i][0] == 'F')
-			ft_strlcpy(textures->floor, raw[i] + 1, ft_strlen(raw[i]));
-		else if (raw[i][0] == 'C')
-			ft_strlcpy(textures->ceiling, raw[i] + 1, ft_strlen(raw[i]));
-		else
 		{
-			free_raw_textures(raw);
-			free_textures(textures);
-			return (NULL);
+			textures->floor = rgbfromstr(raw[i] + 1);
+			if (textures->floor == -1)
+				return (free_raw_textures(raw), free_textures(textures), NULL);
 		}
+		else if (raw[i][0] == 'C')
+		{
+			textures->ceiling = rgbfromstr(raw[i] + 1);
+			if (textures->ceiling == -1)
+				return (free_raw_textures(raw), free_textures(textures), NULL);
+		}
+		else
+			return (free_raw_textures(raw), free_textures(textures), NULL);
 	}
 	return (free_raw_textures(raw), textures);
 }
