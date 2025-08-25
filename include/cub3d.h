@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 16:16:12 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:26:42 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include "MLX42/MLX42.h"
 # include "../libft/libft.h"
 
-# define RECT_SIZE 12
+# define RECT_SIZE 32
 # define PLAYER_SIZE 2
 # define LINESMOOTHNESS 1000
 

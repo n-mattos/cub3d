@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:34:49 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/22 15:38:11 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/08/25 17:05:50 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ void	draw_minimap(t_data *d)
 		{
 			//temp kinda fix, this check just cuts off map drawing when it knows a rect is gonna go out of bounds
 			//ideally we do scaling instead,just a bit lazy rn
-			if (x * RECT_SIZE + RECT_SIZE < IMG_WIDTH && y * RECT_SIZE + RECT_SIZE < IMG_HEIGHT)
+			if (((x - d->level->player->x) * RECT_SIZE < 200 && (y - d->level->player->y) * RECT_SIZE < 200)
+				&& (x - d->level->player->x) * RECT_SIZE > -200 && (y - d->level->player->y) * RECT_SIZE > -200)
 				drawrectangle(
 					d->minimap, (t_point){RECT_SIZE, RECT_SIZE},
-					(t_point){x * RECT_SIZE, y * RECT_SIZE},
+					(t_point){(x - d->level->player->x) * RECT_SIZE + 200, (y - d->level->player->y) * RECT_SIZE + 200},
 					getcolor(d->level->map[y][x]));
 			x++;
 		}
@@ -56,8 +57,10 @@ void	draw_minimap_rays(mlx_image_t *mmap, t_playerdata p,
 	{
 		drawline(
 			mmap,
-			(t_point){p.x * RECT_SIZE, p.y * RECT_SIZE},
-			(t_point){intersect.x * RECT_SIZE, intersect.y * RECT_SIZE},
+			// (t_point){p.x * RECT_SIZE, p.y * RECT_SIZE},
+			(t_point){200, 200},
+			// (t_point){(intersect.x * 200) / p.x, (intersect.y * 200) / p.y},
+			(t_point){(intersect.x / p.x) * 200, (intersect.y / p.y) * 200},
 			0xFFd6ffcf);
 	}
 }

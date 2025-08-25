@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 16:09:02 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:25:50 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ void	draw_all(void *data)
 	{
 		d->minimap = mlx_new_image(mlx, IMG_WIDTH, IMG_HEIGHT);
 		mlx_image_to_window(mlx, d->minimap, 0, 0);
-		draw_minimap(d);
 	}
+	ft_memset(d->minimap->pixels, 0, d->last_frame->width * d->last_frame->height * 4);
+	draw_minimap(d);
 	ft_memset(d->last_frame->pixels, 0, d->last_frame->width * d->last_frame->height * 4);
 	raycast_dda(d);
 	mlx_set_mouse_pos(d->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
