@@ -6,13 +6,13 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/18 13:50:48 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:05:41 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static void	collision(int **map, t_playerdata *p, double new_x, double new_y);
+static void	collision(t_level *level, t_vect new);
 static void	turn(t_playerdata *p, double turnspeed);
 
 /**
@@ -29,17 +29,17 @@ void	move(mlx_key_data_t keydata, void *data)
 	d = (t_data *)data;
 	p = d->level->player;
 	if (keydata.key == MLX_KEY_W)
-		collision(d->level->map, p, p->x + p->dir_x * MOVESPEED,
-			p->y + p->dir_y * MOVESPEED);
+		collision(d->level, (t_vect){p->x + p->dir_x * MOVESPEED,
+			p->y + p->dir_y * MOVESPEED});
 	else if (keydata.key == MLX_KEY_A)
-		collision(d->level->map, p, p->x + p->dir_y * MOVESPEED,
-			p->y - p->dir_x * MOVESPEED);
+		collision(d->level, (t_vect){p->x + p->dir_y * MOVESPEED,
+			p->y - p->dir_x * MOVESPEED});
 	else if (keydata.key == MLX_KEY_S)
-		collision(d->level->map, p, p->x - p->dir_x * MOVESPEED,
-			p->y - p->dir_y * MOVESPEED);
+		collision(d->level, (t_vect){p->x - p->dir_x * MOVESPEED,
+			p->y - p->dir_y * MOVESPEED});
 	else if (keydata.key == MLX_KEY_D)
-		collision(d->level->map, p, p->x - p->dir_y * MOVESPEED,
-			p->y + p->dir_x * MOVESPEED);
+		collision(d->level,(t_vect){p->x - p->dir_y * MOVESPEED,
+			p->y + p->dir_x * MOVESPEED});
 	else if (keydata.key == MLX_KEY_RIGHT)
 		turn(p, TURNSPEED);
 	else if (keydata.key == MLX_KEY_LEFT)
@@ -82,15 +82,28 @@ void	mouse_move(double x, double y, void *d)
  * @returns void; Updates the player's position if the new coordinates
  * 				  do not collide with walls.
  */
-static void	collision(int **map, t_playerdata *p, double new_x, double new_y)
+static void	collision(t_level *level, t_vect new)
 {
-	double	old_y;
-
-	old_y = p->y;
-	if (map[(int)new_y][(int)p->x] != WALL)
-		p->y = new_y;
-	if (map[(int)old_y][(int)new_x] != WALL)
-		p->x = new_x;
+	if (new.y > level->player->y)
+	{
+		if (level->map[(int)(new.y + 0.1)][(int)level->player->x] != WALL)
+			level->player->y = new.y;
+	}
+	else
+	{
+		if (level->map[(int)(new.y - 0.1)][(int)level->player->x] != WALL)
+			level->player->y = new.y;
+	}
+	if (new.x < level->player->x)
+	{
+		if (level->map[(int)level->player->y][(int)(new.x - 0.1)] != WALL)
+			level->player->x = new.x;
+	}
+	else
+	{
+		if (level->map[(int)level->player->y][(int)(new.x + 0.1)] != WALL)
+			level->player->x = new.x;
+	}
 }
 
 /**
