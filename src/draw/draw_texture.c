@@ -6,24 +6,38 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 11:00:56 by nmattos           #+#    #+#             */
-/*   Updated: 2025/08/18 13:53:29 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 13:51:28 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-uint32_t	get_pixel_color(mlx_texture_t *texture, int x, int y)
-{
-	uint8_t	*pixels;
-	size_t	index;
-	int		r;
-	int		g;
-	int		b;
+static mlx_texture_t	*get_texture(t_textures *textures, t_raycast *ray);
 
-	pixels = texture->pixels;
-	index = (y * texture->width + x) * texture->bytes_per_pixel;
-	r = pixels[index];
-	g = pixels[index + 1];
-	b = pixels[index + 2];
-	return ((r << 24) | (g << 16) | (b << 8) | pixels[index + 3]);
+uint32_t	get_pixel_color(t_textures *textures, t_raycast *ray)
+{
+	uint8_t			*pixels;
+	mlx_texture_t	*txt;
+	size_t			index;
+
+	txt = get_texture(textures, ray);
+	pixels = txt->pixels;
+	index = (ray->txt_y * txt->width + ray->txt_x) * txt->bytes_per_pixel;
+	return ((pixels[index] << 24) | (pixels[index + 1] << 16)
+		| (pixels[index + 2] << 8) | pixels[index + 3]);
+}
+
+static mlx_texture_t	*get_texture(t_textures *textures, t_raycast *ray)
+{
+	if (ray->hit_side == VERTICAL)
+	{
+		if (ray->raydir.x > 0)
+			return (textures->east);
+		else
+			return (textures->west);
+	}
+	if (ray->raydir.y > 0)
+		return (textures->north);
+	else
+		return (textures->south);
 }

@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 12:41:44 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 13:49:48 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	draw_textured_wall(t_raycast *ray, t_data *d, int x);
 void	draw_wall(mlx_image_t *img, double perp_dist, int side, int x);
 void	drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color);
 void	drawrectangle(mlx_image_t *img, t_point wh, t_point coord, uint32_t color);
-uint32_t	get_pixel_color(mlx_texture_t *texture, int x, int y);
+uint32_t	get_pixel_color(t_textures *textures, t_raycast *ray);
 
 /* draw/minimap */
 void	draw_minimap(t_data *d);
