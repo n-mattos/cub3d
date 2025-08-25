@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 15:09:16 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:12:03 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 
 # define TURNSPEED 0.05		// radians
 # define MOVESPEED 0.1
+# define COLLISION_BUFFER 0.1
 
 # define IMG_HEIGHT 1080.0
 # define IMG_WIDTH 1920.0

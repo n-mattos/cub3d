@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 16:05:41 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:11:49 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,25 +84,28 @@ void	mouse_move(double x, double y, void *d)
  */
 static void	collision(t_level *level, t_vect new)
 {
-	if (new.y > level->player->y)
+	t_playerdata	*p;
+
+	p = level->player;
+	if (new.y > p->y)
 	{
-		if (level->map[(int)(new.y + 0.1)][(int)level->player->x] != WALL)
-			level->player->y = new.y;
+		if (level->map[(int)(new.y + COLLISION_BUFFER)][(int)p->x] != WALL)
+			p->y = new.y;
 	}
 	else
 	{
-		if (level->map[(int)(new.y - 0.1)][(int)level->player->x] != WALL)
-			level->player->y = new.y;
+		if (level->map[(int)(new.y - COLLISION_BUFFER)][(int)p->x] != WALL)
+			p->y = new.y;
 	}
-	if (new.x < level->player->x)
+	if (new.x < p->x)
 	{
-		if (level->map[(int)level->player->y][(int)(new.x - 0.1)] != WALL)
-			level->player->x = new.x;
+		if (level->map[(int)p->y][(int)(new.x - COLLISION_BUFFER)] != WALL)
+			p->x = new.x;
 	}
 	else
 	{
-		if (level->map[(int)level->player->y][(int)(new.x + 0.1)] != WALL)
-			level->player->x = new.x;
+		if (level->map[(int)p->y][(int)(new.x + COLLISION_BUFFER)] != WALL)
+			p->x = new.x;
 	}
 }
 
