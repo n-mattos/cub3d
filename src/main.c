@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 12:32:17 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 15:38:29 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv)
 	level = parse(argv[1]);
 	if (level == NULL)
 		return (1);
-	mlx = mlx_init(1920, 1080, "cub3D", false);
+	mlx = mlx_init(IMG_WIDTH, IMG_HEIGHT, "cub3D", false);
 	if (!mlx)
 	{
 		fprintf(stderr, "Failed to initialize mlx\n");
