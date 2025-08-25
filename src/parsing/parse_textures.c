@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/08/12 14:06:21 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 12:17:15 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,13 @@ static char	**get_raw_texture_data(int fd)
 		{
 			raw_textures[n_data] = get_texture(line);
 			if (raw_textures[n_data] == NULL)
-				return (NULL);
+				return (free(line), NULL);
 			n_data++;
 		}
 		free(line);
 		line = get_next_line(fd);
 	}
+	free(line);
 	return (raw_textures);
 }
 
