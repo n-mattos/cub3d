@@ -6,11 +6,13 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 13:45:14 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 15:26:39 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+static void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures);
 
 /**
  * Draws the entire game frame, including the minimap and the main view.
@@ -23,23 +25,49 @@ void	draw_all(void *data)
 
 	d = (t_data *)data;
 	mlx = d->mlx;
+	if (!d->background)
+	{
+		d->background = mlx_new_image(mlx, IMG_WIDTH, IMG_HEIGHT);
+		mlx_image_to_window(mlx, d->background, 0, 0);
+		draw_floor_ceiling(d->background, d->level->textures);
+	}
 	if (!d->last_frame)
 	{
-		d->last_frame = mlx_new_image(mlx, 1920, 1080);
+		d->last_frame = mlx_new_image(mlx, IMG_WIDTH, IMG_HEIGHT);
 		mlx_image_to_window(mlx, d->last_frame, 0, 0);
 	}
 	if (!d->minimap)
 	{
-		d->minimap = mlx_new_image(mlx, 1920, 1080);
+		d->minimap = mlx_new_image(mlx, IMG_WIDTH, IMG_HEIGHT);
 		mlx_image_to_window(mlx, d->minimap, 0, 0);
+		draw_minimap(d);
 	}
-	ft_memset(d->last_frame->pixels, 0,
-		d->last_frame->width * d->last_frame->height * 4);
-	ft_memset(d->minimap->pixels, 0,
-		d->minimap->width * d->minimap->height * 4);
-	draw_minimap(d);
+	ft_memset(d->last_frame->pixels, 0, d->last_frame->width * d->last_frame->height * 4);
 	raycast_dda(d);
 	mlx_set_mouse_pos(d->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
+}
+
+static int	rgb_to_hex(char *rgb)
+{
+	int		r;
+	int		g;
+	int		b;
+
+	if (sscanf(rgb, "%d,%d,%d", &r, &g, &b) != 3)
+		return (0x000000FF); // Default to black if parsing fails
+	return ((r << 24) | (g << 16) | (b << 8) | 0xFF);
+}
+
+static void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures)
+{
+	for (int y = 0; y < img->height / 2; y++)
+	{
+		for (int x = 0; x < img->width; x++)
+		{
+			mlx_put_pixel(img, x, y, rgb_to_hex(textures->ceiling));
+			mlx_put_pixel(img, x, img->height - y - 1, rgb_to_hex(textures->floor));
+		}
+	}
 }
 
 void	draw_textured_wall(t_raycast *ray, t_data *d, int x)

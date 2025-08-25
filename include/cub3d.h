@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 13:49:48 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/25 15:09:16 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ typedef struct s_data {
 	mlx_t		*mlx;
 	mlx_image_t	*minimap;
 	mlx_image_t	*last_frame;
+	mlx_image_t	*background;
 	t_level		*level;
 	double		prev_mouse_x;
 }	t_data;
