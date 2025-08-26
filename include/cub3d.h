@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 16:26:42 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/26 12:27:29 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,18 @@
 # include "MLX42/MLX42.h"
 # include "../libft/libft.h"
 
-# define RECT_SIZE 32
-# define PLAYER_SIZE 2
-# define LINESMOOTHNESS 1000
+/* Colors: [RGBA] */
+# define BLACK 0x000000FF
+# define WHITE 0xFFFFFFFF
+# define GRAY 0x808080FF
+# define RED 0xFF0000FF
 
-# define WALL_COLOR 0xFF0000FF
-# define EMPTY_COLOR 0x00000000
-# define FLOOR_COLOR 0xFF00FF00
-# define PLAYER_COLOR 0xFFFF0000
+# define WALL_COLOR WHITE
+# define EMPTY_COLOR BLACK
+# define FLOOR_COLOR GRAY
+
+# define RECT_SIZE 32
+# define LINESMOOTHNESS 1000
 
 # define TURNSPEED 0.05		// radians
 # define MOVESPEED 0.1
@@ -37,7 +41,10 @@
 # define IMG_HEIGHT 1080.0
 # define IMG_WIDTH 1920.0
 
-# define TOTAL_RAYS (1 * IMG_WIDTH)	// total rays to cast (width of the screen)
+# define MMAP_DIAM 400.0
+# define MMAP_BORDER_THICKNESS 2
+
+# define TOTAL_RAYS (IMG_WIDTH)		// total rays to cast (width of the screen)
 # define PERCENTAGE_RAYS 10			// percentage of rays to display (minimap)
 
 # define TEXTURE_WIDTH 64			// width of the texture (currently hardcoded to 64)
@@ -162,6 +169,8 @@ double	calculate_wallx(t_playerdata *p, int hit_side, double perp_wall_dist, t_v
 
 /* draw */
 void	draw_all(void *data);
+void	draw_circle_outline(mlx_image_t *img, t_point center, int radius, uint32_t color);
+void	fill_circle(mlx_image_t *img, t_point center, int radius, uint32_t color);
 void	drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color);
 void	draw_textured_wall(t_raycast *ray, t_data *d, int x);
 void	draw_wall(mlx_image_t *img, double perp_dist, int side, int x);

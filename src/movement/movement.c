@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 16:11:49 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/26 12:29:50 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ void	move(mlx_key_data_t keydata, void *data)
 		turn(p, -TURNSPEED);
 	else if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(d->mlx);
-	else
-		printf("Key %d pressed\n", keydata.key);
 }
 
 /**

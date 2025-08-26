@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 16:25:50 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/08/26 12:29:31 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ void	draw_all(void *data)
 	}
 	if (!d->minimap)
 	{
-		d->minimap = mlx_new_image(mlx, IMG_WIDTH, IMG_HEIGHT);
+		d->minimap = mlx_new_image(mlx, 400, 400);
 		mlx_image_to_window(mlx, d->minimap, 0, 0);
 	}
-	ft_memset(d->minimap->pixels, 0, d->last_frame->width * d->last_frame->height * 4);
 	draw_minimap(d);
 	ft_memset(d->last_frame->pixels, 0, d->last_frame->width * d->last_frame->height * 4);
 	raycast_dda(d);

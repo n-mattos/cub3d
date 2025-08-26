@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/08/25 16:13:00 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/08/26 12:29:55 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,17 +136,14 @@ int	rgbfromstr(char *rgb)
 
 	if (!transform_rgb_string(rgb))
 		return (-1);
-	printf("1\n");
 	r = ft_atoi(rgb);
 	while (*rgb)
 		rgb++;
 	rgb++;
-	printf("2\n");
 	g = ft_atoi(rgb);
 	while (*rgb)
 		rgb++;
 	rgb++;
-	printf("3\n");
 	b = ft_atoi(rgb);
 	return ((r << 24) | (g << 16) | (b << 8) | 0xFF);
 }
