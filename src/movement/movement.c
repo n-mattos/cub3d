@@ -6,13 +6,14 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 12:19:52 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:38:09 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
 static void	collision(t_level *level, t_vect new);
+static int	handle_portal(t_level *level, t_playerdata *p, int y, int x);
 static void	turn(t_playerdata *p, double turnspeed);
 static t_vect	move_longitudinal(t_data *d, t_playerdata *p);
 static t_vect	move_lateral(t_data *d, t_playerdata *p);
@@ -125,24 +126,52 @@ static void	collision(t_level *level, t_vect new)
 	p = level->player;
 	if (new.y > p->y)
 	{
+		handle_portal(level, p, (int)(new.y + COLLISION_BUFFER), (int)p->x);
 		if (level->map[(int)(new.y + COLLISION_BUFFER)][(int)p->x] != WALL)
 			p->y = new.y;
 	}
 	else
 	{
+		handle_portal(level, p, (int)(new.y - COLLISION_BUFFER), (int)p->x);
 		if (level->map[(int)(new.y - COLLISION_BUFFER)][(int)p->x] != WALL)
 			p->y = new.y;
 	}
 	if (new.x < p->x)
 	{
+		handle_portal(level, p, (int)p->y, (int)(new.x - COLLISION_BUFFER));
 		if (level->map[(int)p->y][(int)(new.x - COLLISION_BUFFER)] != WALL)
 			p->x = new.x;
 	}
 	else
 	{
+		if (handle_portal(level, p, (int)p->y, (int)(new.x + COLLISION_BUFFER)))
+			return ;
 		if (level->map[(int)p->y][(int)(new.x + COLLISION_BUFFER)] != WALL)
 			p->x = new.x;
 	}
+}
+
+static int	handle_portal(t_level *level, t_playerdata *p, int y, int x)
+{
+	t_portal_list	*portal;
+
+	portal = find_node(level->portals, level->map[y][x]);
+	if (portal)
+	{
+		if (portal->A[SOURCE].x == x && portal->A[SOURCE].y == y)
+		{
+			p->x = portal->B[SOURCE].x + 0.5;
+			p->y = portal->B[SOURCE].y + 0.5;
+			return (1);
+		}
+		else
+		{
+			p->x = portal->A[SOURCE].x + 0.5;
+			p->y = portal->A[SOURCE].y + 0.5;
+			return (1);
+		}
+	}
+	return (0);
 }
 
 /**
