@@ -6,15 +6,13 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 13:19:54 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/18 14:33:58 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:31:00 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
 static t_playerdata	*create_player(int **map, size_t y, size_t x);
-static int			player_starting_direction(
-						t_playerdata *player, int direction);
 static void			set_player_direction(
 						t_playerdata *player, t_point direction, t_vect plane);
 
@@ -83,8 +81,9 @@ static t_playerdata	*create_player(int **map, size_t y, size_t x)
  * 					(NORTH, EAST, SOUTH, WEST).
  * @return 1 if successful, -1 if the direction is invalid.
  */
-static int	player_starting_direction(t_playerdata *player, int direction)
+int	player_starting_direction(t_playerdata *player, int direction)
 {
+	printf("Setting player direction to %d\n", direction);
 	if (direction == NORTH)
 		set_player_direction(player, (t_point){0, -1}, (t_vect){0.66, 0});
 	else if (direction == EAST)
