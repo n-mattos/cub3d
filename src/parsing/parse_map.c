@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:14:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/12 14:05:52 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 13:09:07 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static char	*get_raw_map_data(int fd);
 static int	**create_map(t_level *level, char *raw_map);
+static size_t	calc_longest(char *str);
 static int	get_tile(char c);
 
 /**
@@ -78,17 +79,21 @@ static int	**create_map(t_level *level, char *raw_map)
 	size_t	i;
 	size_t	x;
 	size_t	y;
+	size_t	max_length;
 
 	i = 0;
 	y = 0;
+	max_length = calc_longest(raw_map);
 	while (raw_map[i] != '\0')
 	{
 		x = 0;
-		level->map[y] = malloc(sizeof(int) * (chars_till_eol(&raw_map[i])) + 1);
+		level->map[y] = malloc(sizeof(int) * (max_length) + 1);
 		if (level->map[y] == NULL)
 			return (free_map(level->map, y - 1), free(level), NULL);	// clean level->map[(x ∈ [0, y - 1])]
 		while (raw_map[i] != '\n' && raw_map[i] != '\0')
 			level->map[y][x++] = get_tile(raw_map[i++]);
+		while (x < max_length)
+			level->map[y][x++] = EMPTY;
 		level->map[y++][x] = '\0';
 		if (raw_map[i] == '\n')
 			i++;
@@ -96,6 +101,30 @@ static int	**create_map(t_level *level, char *raw_map)
 	free(raw_map);
 	level->map[y] = NULL;
 	return (level->map);
+}
+
+static size_t	calc_longest(char *str)
+{
+	size_t	longest;
+	size_t	current;
+
+	longest = 0;
+	current = 0;
+	while (*str != '\0')
+	{
+		if (*str == '\n')
+		{
+			if (current > longest)
+				longest = current;
+			current = 0;
+		}
+		else
+			current++;
+		str++;
+	}
+	if (current > longest)
+		longest = current;
+	return (longest);
 }
 
 /**
