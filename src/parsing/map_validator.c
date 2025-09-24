@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 13:57:43 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/12 12:29:48 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:33:56 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ bool	map_is_valid(int **map)
 	player = 0;
 	while (map[y] != NULL)
 	{
+		if (map[y][0] == '\0')
+			return (false);
 		x = 0;
 		while (map[y][x] != '\0')
 		{
