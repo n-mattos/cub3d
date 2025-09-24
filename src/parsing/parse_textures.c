@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/08/26 12:29:55 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 09:58:51 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static char	**get_raw_texture_data(int fd)
 	n_data = 0;
 	i = 0;
 	line = get_next_line(fd);
+	if (line == NULL)
+		return (NULL);
 	raw_textures = malloc(sizeof(char *) * 6);
 	if (raw_textures == NULL)
 		return (NULL);

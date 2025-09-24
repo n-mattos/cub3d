@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/08/12 14:06:26 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 09:59:57 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ t_level	*parse(char *fn_map)
 		return (perror("Failed to open .cub file"), NULL);
 	textures = parse_textures(fd);
 	if (textures == NULL)
-		return (perror("textures == NULL\n"), NULL);
+		return (perror("textures == NULL"), NULL);
 	level = parse_map(fd);
 	if (level == NULL)
-		return (perror("map == NULL\n"), free_textures(textures), NULL);
+		return (perror("map == NULL"), free_textures(textures), NULL);
 	level->textures = textures;
 	if (!map_is_valid(level->map))
 	{
@@ -42,6 +42,6 @@ t_level	*parse(char *fn_map)
 	}
 	level->player = retrieve_player(level->map);
 	if (level->player == NULL)
-		return (perror("Player not found in map\n"), free_level(level), NULL);
+		return (perror("Player not found in map"), free_level(level), NULL);
 	return (level);
 }
