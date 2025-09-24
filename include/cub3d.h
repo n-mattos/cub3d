@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 12:15:01 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:28:49 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@
 
 # define TEXTURE_WIDTH 64			// width of the texture (currently hardcoded to 64)
 # define TEXTURE_HEIGHT 64			// height of the texture (currently hardcoded to 64)
+
+# define SOURCE 0
+# define TARGET 1
 
 # define PI 3.14159265358979323846
 # define HYPOTENUSE 1.41421356237 / 2
@@ -124,6 +127,13 @@ typedef struct s_raycast {
 	double		txt_pos;
 	int			txt_y;
 }	t_raycast;
+
+typedef struct s_portal_list {
+	char					id;
+	t_point					A[2];
+	t_point					B[2];
+	struct s_portal_list	*next;
+}	t_portal_list;
 
 typedef struct s_data {
 	mlx_t		*mlx;
