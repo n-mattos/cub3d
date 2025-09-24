@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 11:25:23 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:58:23 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ static t_vect	move_longitudinal(t_data *d, t_playerdata *p)
 
 	new = (t_vect){0, 0};
 	if (mlx_is_key_down(d->mlx, MLX_KEY_W))
-		new = (t_vect){new.x + p->dir_x * MOVESPEED, new.y + p->dir_y * MOVESPEED};
+		new = (t_vect){new.x + p->dir_x * d->move_speed, new.y + p->dir_y * d->move_speed};
 	if (mlx_is_key_down(d->mlx, MLX_KEY_S))
-		new = (t_vect){new.x - p->dir_x * MOVESPEED, new.y - p->dir_y * MOVESPEED};
+		new = (t_vect){new.x - p->dir_x * d->move_speed, new.y - p->dir_y * d->move_speed};
 	return (new);
 }
 
@@ -63,18 +63,18 @@ static t_vect	move_lateral(t_data *d, t_playerdata *p)
 
 	new = (t_vect){0, 0};
 	if (mlx_is_key_down(d->mlx, MLX_KEY_A))
-		new = (t_vect){new.x + p->dir_y * MOVESPEED, new.y - p->dir_x * MOVESPEED};
+		new = (t_vect){new.x + p->dir_y * d->move_speed, new.y - p->dir_x * d->move_speed};
 	if (mlx_is_key_down(d->mlx, MLX_KEY_D))
-		new = (t_vect){new.x - p->dir_y * MOVESPEED, new.y + p->dir_x * MOVESPEED};
+		new = (t_vect){new.x - p->dir_y * d->move_speed, new.y + p->dir_x * d->move_speed};
 	return (new);
 }
 
 static void	turn_keys(t_data *d, t_playerdata *p)
 {
 	if (mlx_is_key_down(d->mlx, MLX_KEY_RIGHT))
-		turn(p, TURNSPEED);
+		turn(p, d->turn_speed);
 	if (mlx_is_key_down(d->mlx, MLX_KEY_LEFT))
-		turn(p, -TURNSPEED);
+		turn(p, -d->turn_speed);
 }
 
 /**

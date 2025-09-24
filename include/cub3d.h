@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 11:25:32 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:58:32 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <stdbool.h>
 # include <math.h>
+# include <sys/time.h>
 # include "MLX42/MLX42.h"
 # include "../libft/libft.h"
 
@@ -130,6 +131,9 @@ typedef struct s_data {
 	mlx_image_t	*background;
 	t_level		*level;
 	int			rect;
+	double		delta_time;
+	double		move_speed;
+	double		turn_speed;
 	double		prev_mouse_x;
 }	t_data;
 
