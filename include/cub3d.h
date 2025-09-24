@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:41:32 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:17:55 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ t_textures	*allocate_textures(void);
 
 /* player */
 t_playerdata	*retrieve_player(int **map);
+int				player_starting_direction(t_playerdata *player, int direction);
 
 /* movement */
 void	player_input(t_data *d);

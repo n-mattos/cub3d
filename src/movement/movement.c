@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 16:06:19 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:40:08 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	collision(t_level *level, t_vect new);
 static int	handle_portal(t_level *level, t_playerdata *p, int y, int x);
+static int	get_direction(t_point A, t_point B);
 static void	turn(t_playerdata *p, double turnspeed);
 static t_vect	move_longitudinal(t_data *d, t_playerdata *p);
 static t_vect	move_lateral(t_data *d, t_playerdata *p);
@@ -163,18 +164,33 @@ static int	handle_portal(t_level *level, t_playerdata *p, int y, int x)
 	{
 		if (portal->A[SOURCE].x == x && portal->A[SOURCE].y == y)
 		{
+			player_starting_direction(p, get_direction(portal->B[SOURCE], portal->A[TARGET]));
 			p->x = portal->A[TARGET].x + 0.5;
 			p->y = portal->A[TARGET].y + 0.5;
 			return (1);
 		}
 		else
 		{
+			player_starting_direction(p, get_direction(portal->A[SOURCE], portal->B[TARGET]));
 			p->x = portal->B[TARGET].x + 0.5;
 			p->y = portal->B[TARGET].y + 0.5;
 			return (1);
 		}
 	}
 	return (0);
+}
+
+static int	get_direction(t_point A, t_point B)
+{
+	if (A.x < B.x && A.y == B.y)
+		return (EAST);
+	if (A.x > B.x && A.y == B.y)
+		return (WEST);
+	if (A.y < B.y && A.x == B.x)
+		return (SOUTH);
+	if (A.y > B.y && A.x == B.x)
+		return (NORTH);
+	return (-1);
 }
 
 /**
