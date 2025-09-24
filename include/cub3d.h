@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 10:03:50 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:26:11 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define USAGE "Please specify which map to use.\n./cub3D [dir/map.cub]\n"
 
 /* Colors: [RGBA] */
-# define BLACK 0x000000FF
+# define BLACK 0x00000088
 # define WHITE 0xFFFFFFFF
 # define GRAY 0x808080FF
 # define RED 0xFF0000FF
@@ -45,6 +45,7 @@
 
 # define MMAP_DIAM 400.0
 # define MMAP_BORDER_THICKNESS 2
+# define MMAP_SQUARE_BORDER 2
 
 # define TOTAL_RAYS (IMG_WIDTH)		// total rays to cast (width of the screen)
 # define PERCENTAGE_RAYS 10			// percentage of rays to display (minimap)

@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:37:23 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/26 12:28:37 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:26:12 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ void	drawrectangle(mlx_image_t *img, t_point wh,
 	int			x;
 	int			y;
 
-	x = 0;
-	y = 0;
-	while (y < wh.y)
+	x = MMAP_SQUARE_BORDER;
+	y = MMAP_SQUARE_BORDER;
+	while (y < wh.y - MMAP_SQUARE_BORDER)
 	{
-		while (x < wh.x)
+		while (x < wh.x - MMAP_SQUARE_BORDER)
 		{
 			if (in_circle((t_point){x + coord.x, y + coord.y},
 					(t_point){MMAP_DIAM / 2, MMAP_DIAM / 2}, MMAP_DIAM / 2))
