@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 10:26:11 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:40:05 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 # define EMPTY_COLOR BLACK
 # define FLOOR_COLOR GRAY
 
-# define RECT_SIZE 32
 # define LINESMOOTHNESS 1000
 
 # define TURNSPEED 0.05		// radians
@@ -130,6 +129,7 @@ typedef struct s_data {
 	mlx_image_t	*last_frame;
 	mlx_image_t	*background;
 	t_level		*level;
+	int			rect;
 	double		prev_mouse_x;
 }	t_data;
 
@@ -183,7 +183,7 @@ uint32_t	get_pixel_color(t_textures *textures, t_raycast *ray);
 
 /* draw/minimap */
 void	draw_minimap(t_data *d);
-void	draw_minimap_rays(mlx_image_t *mmap, t_playerdata p, t_vect intersect, int x);
+void	draw_minimap_rays(t_data *d, t_playerdata p, t_vect intersect, int x);
 
 /* utils */
 size_t	chars_till_eol(char *str);

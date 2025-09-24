@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/08/22 15:25:27 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:34:07 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	raycast_dda(t_data *d)
 		ray.hit_side = NO_HIT;
 		calculate_ray((&ray.map), &ray, d->level);
 		ray.perp_wall_dist = calculate_perpendicular_distance(p, &ray, ray.map);
-		draw_minimap_rays(d->minimap, p, calculate_intersection(
+		draw_minimap_rays(d, p, calculate_intersection(
 				p, ray.raydir, ray.perp_wall_dist), x);
 		draw_textured_wall(&ray, d, x);
 		x += (int)d->last_frame->width / TOTAL_RAYS;

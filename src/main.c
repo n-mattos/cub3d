@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 10:15:07 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:40:12 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	main(int argc, char **argv)
 	data->level = level;
 	data->mlx = mlx;
 	data->prev_mouse_x = -1;
+	data->rect = 32;
 	run_game(mlx, data);
 	free_level(level);
 	mlx_terminate(mlx);

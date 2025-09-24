@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:34:49 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/26 12:28:54 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:34:27 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	draw_minimap(t_data *d)
 		x = 0;
 		while (d->level->map[y][x])
 		{
-			if ((MMAP_DIAM / 2 + (x - d->level->player->x) * RECT_SIZE <= MMAP_DIAM + RECT_SIZE && MMAP_DIAM / 2 + (y - d->level->player->y) * RECT_SIZE <= MMAP_DIAM + RECT_SIZE)
-				&& MMAP_DIAM / 2 + (x - d->level->player->x) * RECT_SIZE > 0 - RECT_SIZE && MMAP_DIAM / 2 + (y - d->level->player->y) * RECT_SIZE > 0 - RECT_SIZE)
+			if ((MMAP_DIAM / 2 + (x - d->level->player->x) * d->rect <= MMAP_DIAM + d->rect && MMAP_DIAM / 2 + (y - d->level->player->y) * d->rect <= MMAP_DIAM + d->rect)
+				&& MMAP_DIAM / 2 + (x - d->level->player->x) * d->rect > 0 - d->rect && MMAP_DIAM / 2 + (y - d->level->player->y) * d->rect > 0 - d->rect)
 				drawrectangle(
-					d->minimap, (t_point){RECT_SIZE, RECT_SIZE},
-					(t_point){MMAP_DIAM / 2 + (x - d->level->player->x) * RECT_SIZE, MMAP_DIAM / 2 + (y - d->level->player->y) * RECT_SIZE},
+					d->minimap, (t_point){d->rect, d->rect},
+					(t_point){MMAP_DIAM / 2 + (x - d->level->player->x) * d->rect, MMAP_DIAM / 2 + (y - d->level->player->y) * d->rect},
 					getcolor(d->level->map[y][x]));
 			x++;
 		}
@@ -50,15 +50,15 @@ void	draw_minimap(t_data *d)
  * @param intersect The intersection point of the ray.
  * @param x The x-coordinate of the ray.
  */
-void	draw_minimap_rays(mlx_image_t *mmap, t_playerdata p,
+void	draw_minimap_rays(t_data *d, t_playerdata p,
 				t_vect intersect, int x)
 {
 	if (x >= 0 && x <= (int)IMG_WIDTH - 1 && x % (100 / PERCENTAGE_RAYS) == 0)
 	{
 		drawline(
-			mmap,
+			d->minimap,
 			(t_point){MMAP_DIAM / 2, MMAP_DIAM / 2},
-			(t_point){MMAP_DIAM / 2 + (intersect.x - p.x) * RECT_SIZE, MMAP_DIAM / 2 + (intersect.y - p.y) * RECT_SIZE},
+			(t_point){MMAP_DIAM / 2 + (intersect.x - p.x) * d->rect, MMAP_DIAM / 2 + (intersect.y - p.y) * d->rect},
 			RED);
 	}
 }
