@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:06:03 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 14:56:55 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:35:15 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,18 @@ void	update_node(t_portal_list *node, t_point sourceB, t_point targetA)
  * @param head Pointer to the head of the portal list.
  * @return NULL after freeing the list.
  */
-t_portal_list	*free_list(t_portal_list *head)
+t_portal_list	*free_list(t_portal_list **head)
 {
 	t_portal_list	*current;
 	t_portal_list	*next;
 
-	current = head;
+	current = *head;
 	while (current != NULL)
 	{
 		next = current->next;
 		free(current);
 		current = next;
 	}
+	*head = NULL;
 	return (NULL);
 }

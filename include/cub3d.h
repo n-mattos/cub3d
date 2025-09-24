@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:18:58 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:36:11 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,6 @@ t_portal_list	*create_node(char id, t_point sourceA, t_point targetB);
 t_portal_list	*append_node(t_portal_list **head, t_portal_list *new_node);
 t_portal_list	*find_node(t_portal_list *head, char id);
 void			update_node(t_portal_list *node, t_point sourceB, t_point targetA);
-t_portal_list	*free_list(t_portal_list *head);
+t_portal_list	*free_list(t_portal_list **head);
 
 #endif
