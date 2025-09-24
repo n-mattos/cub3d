@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:34:49 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 10:34:27 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:49:44 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static uint32_t	getcolor(t_tile tile);
+static uint32_t	getcolor(char tile);
 
 /**
  * Draws the minimap based on the level map.
@@ -63,12 +63,23 @@ void	draw_minimap_rays(t_data *d, t_playerdata p,
 	}
 }
 
+static uint32_t	get_portal_color(char c)
+{
+	int	r;
+	int	g;
+	int	b;
+	
+	r = (c * 47 + 85) % 128 + 128;
+	g = (c * 67 + 29) % 128 + 128;
+	b = (c * 89 + 123) % 128 + 128;
+	return (r << 24) | (g << 16) | (b << 8) | 255;
+}
 /**
  * Retrieves the color for a given tile.
  * @param tile The tile type to get the color for.
  * @return The color associated with the tile type.
  */
-static uint32_t	getcolor(t_tile tile)
+static uint32_t	getcolor(char tile)
 {
 	if (tile == FLOOR)
 		return (FLOOR_COLOR);
@@ -79,5 +90,5 @@ static uint32_t	getcolor(t_tile tile)
 	if (tile == NORTH || tile == EAST || tile == SOUTH || tile == WEST)
 		return (FLOOR_COLOR);
 	else
-		return (0x12345678);
+		return (get_portal_color(tile));
 }
