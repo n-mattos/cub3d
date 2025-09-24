@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/26 12:27:29 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:03:50 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <math.h>
 # include "MLX42/MLX42.h"
 # include "../libft/libft.h"
+
+# define USAGE "Please specify which map to use.\n./cub3D [dir/map.cub]\n"
 
 /* Colors: [RGBA] */
 # define BLACK 0x000000FF

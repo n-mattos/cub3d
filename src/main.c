@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 15:38:29 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:03:25 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv)
 	t_data		*data;
 
 	if (argc < 2)
-		return (printf("Needs a map filename as arg1 pls\n"), 1);
+		return (printf(USAGE), 1);
 	level = parse(argv[1]);
 	if (level == NULL)
 		return (1);
