@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 10:52:22 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:25:32 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ t_textures	*allocate_textures(void);
 t_playerdata	*retrieve_player(int **map);
 
 /* movement */
-void	move(t_data *d);
+void	player_input(t_data *d);
 void	mouse_move(double x, double y, void *data);
 
 /* raycast */

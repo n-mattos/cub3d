@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 10:59:56 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:25:18 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	loop_game(void *data)
 
 	d = (t_data *)data;
 	draw_all(d);
-	move(d);
+	player_input(d);
 }
 
 /**

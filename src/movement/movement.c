@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 11:23:40 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:25:23 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	turn_keys(t_data *d, t_playerdata *p);
  * @param data Pointer to the game data structure.
  * @returns void; Updates the player's position based on the key pressed.
  */
-void	move(t_data *d)
+void	player_input(t_data *d)
 {
 	t_playerdata	*p;
 	t_vect			long_vect;
