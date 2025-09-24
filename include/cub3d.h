@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 14:28:49 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:41:40 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@
 
 # define SOURCE 0
 # define TARGET 1
+
+# define INVALID_POINT (t_point){-1, -1}
 
 # define PI 3.14159265358979323846
 # define HYPOTENUSE 1.41421356237 / 2
@@ -206,5 +208,11 @@ bool	is_whitespace(char c);
 int		skip_whitespaces(char *str, int i);
 size_t	count_char(char *str, char c);
 bool	is_player(int c);
+
+/* portal list */
+t_portal_list	*create_node(char id, t_point sourceA, t_point targetB);
+t_portal_list	*append_node(t_portal_list **head, t_portal_list *new_node);
+t_portal_list	*find_node(t_portal_list *head, char id);
+t_portal_list	*free_list(t_portal_list *head);
 
 #endif

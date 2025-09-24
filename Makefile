@@ -34,7 +34,8 @@ SRCS =	src/main.c \
 		src/draw/draw.c \
 		src/draw/draw_texture.c \
 		src/movement/movement.c \
-		src/player/player.c
+		src/player/player.c \
+		src/portal_list/list.c
 
 OBJDIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJDIR)/%.o)
