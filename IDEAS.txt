@@ -6,14 +6,10 @@
 #    By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/25 14:20:42 by nmattos-          #+#    #+#              #
-#    Updated: 2025/06/27 09:20:27 by nmattos-         ###   ########.fr        #
+#    Updated: 2025/09/24 14:58:57 by nmattos-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 
-Keep player centered:
-
-Map moves around the (static) player position.
-If player moves, "offset" changes.
-This offset is applied to the map drawing calculation, resulting in the map moving.
+BIKE AS FIRST PERSON SPRITE
