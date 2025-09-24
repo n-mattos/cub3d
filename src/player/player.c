@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 13:19:54 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 16:31:00 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:40:18 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ static t_playerdata	*create_player(int **map, size_t y, size_t x)
  */
 int	player_starting_direction(t_playerdata *player, int direction)
 {
-	printf("Setting player direction to %d\n", direction);
 	if (direction == NORTH)
 		set_player_direction(player, (t_point){0, -1}, (t_vect){0.66, 0});
 	else if (direction == EAST)

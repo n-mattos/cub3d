@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 16:32:45 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:40:08 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,6 @@ static int	handle_portal(t_level *level, t_playerdata *p, int y, int x)
 
 static int	get_direction(t_point A, t_point B)
 {
-	printf("Getting direction from A(%d, %d) to B(%d, %d)\n", A.x, A.y, B.x, B.y);
 	if (A.x < B.x && A.y == B.y)
 		return (EAST);
 	if (A.x > B.x && A.y == B.y)
