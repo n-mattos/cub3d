@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 14:41:40 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:56:51 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,6 @@ typedef struct s_textures {
 	int				ceiling;
 }	t_textures;
 
-typedef struct s_level {
-	int				**map;
-	t_textures		*textures;
-	t_playerdata	*player;
-}	t_level;
-
 typedef struct s_raycast {
 	t_vect		raydir;
 	t_vect		delta;
@@ -136,6 +130,13 @@ typedef struct s_portal_list {
 	t_point					B[2];
 	struct s_portal_list	*next;
 }	t_portal_list;
+
+typedef struct s_level {
+	int				**map;
+	t_portal_list	*portals;
+	t_textures		*textures;
+	t_playerdata	*player;
+}	t_level;
 
 typedef struct s_data {
 	mlx_t		*mlx;

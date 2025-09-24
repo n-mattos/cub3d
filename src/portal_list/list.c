@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:06:03 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 14:44:21 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:56:55 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,18 @@ t_portal_list	*find_node(t_portal_list *head, char id)
 		current = current->next;
 	}
 	return (NULL);
+}
+
+/**
+ * Updates the source B and target A points of a given portal list node.
+ * @param node Pointer to the portal list node to be updated.
+ * @param sourceB t_point representing the new source point of the B portal.
+ * @param targetA t_point representing the new target point of the A portal.
+ */
+void	update_node(t_portal_list *node, t_point sourceB, t_point targetA)
+{
+	node->B[SOURCE] = sourceB;
+	node->A[TARGET] = targetA;
 }
 
 /**
