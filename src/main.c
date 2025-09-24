@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 11:59:16 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:01:34 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ int	main(int argc, char **argv)
 	data = ft_calloc(1, sizeof(t_data));
 	data->level = level;
 	data->mlx = mlx;
-	data->prev_mouse_x = -1;
-	data->rect = 32;
 	run_game(mlx, data);
 	free_level(level);
 	mlx_terminate(mlx);
@@ -55,6 +53,8 @@ int	main(int argc, char **argv)
  */
 static void	run_game(mlx_t *mlx, t_data *data)
 {
+	data->prev_mouse_x = -1;
+	data->rect = 32;
 	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(mlx, &loop_game, (void *)data);
