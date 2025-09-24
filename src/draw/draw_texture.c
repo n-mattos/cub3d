@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 11:00:56 by nmattos           #+#    #+#             */
-/*   Updated: 2025/08/25 13:51:28 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 17:18:26 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ uint32_t	get_pixel_color(t_textures *textures, t_raycast *ray)
 
 static mlx_texture_t	*get_texture(t_textures *textures, t_raycast *ray)
 {
+	if (ray->tile == PORTAL)
+		return (textures->north);
 	if (ray->hit_side == VERTICAL)
 	{
 		if (ray->raydir.x > 0)

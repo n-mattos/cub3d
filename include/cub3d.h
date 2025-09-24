@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 16:17:55 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 17:17:55 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,14 @@ typedef enum e_tile {
 	NORTH = 'N',
 	EAST = 'E',
 	SOUTH = 'S',
-	WEST = 'W'
+	WEST = 'W',
+	PORTAL = 'P'
 }	t_tile;
 
 typedef enum e_hit_side {
 	NO_HIT = -1,
 	VERTICAL = 0,
-	HORIZONTAL = 1
+	HORIZONTAL = 1,
 }	t_hit_side;
 
 typedef struct s_point
@@ -122,6 +123,7 @@ typedef struct s_raycast {
 	int			txt_x;
 	double		txt_pos;
 	int			txt_y;
+	int			tile;
 }	t_raycast;
 
 typedef struct s_portal_list {

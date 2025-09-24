@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:42:20 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/18 14:19:04 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 17:17:23 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,15 +124,17 @@ void	calculate_ray(t_point *map, t_raycast *ray, t_level *lvl)
 		{
 			ray->side.x += ray->delta.x;
 			map->x += ray->step.x;
-			hit = lvl->map[map->y][map->x] == '1';
 			ray->hit_side = VERTICAL;
 		}
 		else
 		{
 			ray->side.y += ray->delta.y;
 			map->y += ray->step.y;
-			hit = lvl->map[map->y][map->x] == '1';
 			ray->hit_side = HORIZONTAL;
 		}
+		hit = !is_player(lvl->map[map->y][map->x]) && lvl->map[map->y][map->x] != FLOOR;
 	}
+	ray->tile = lvl->map[map->y][map->x];
+	if (find_node(lvl->portals, ray->tile) != NULL)
+		ray->tile = PORTAL;
 }
