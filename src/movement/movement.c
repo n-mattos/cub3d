@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 10:38:49 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:58:03 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 static void	collision(t_level *level, t_vect new);
 static void	turn(t_playerdata *p, double turnspeed);
+static void	move_longitudinal(t_data *d, t_playerdata *p);
+static void	move_lateral(t_data *d, t_playerdata *p);
+static void	turn_keys(t_data *d, t_playerdata *p);
 
 /**
  * Handles player movement based on key inputs.
@@ -21,41 +24,52 @@ static void	turn(t_playerdata *p, double turnspeed);
  * @param data Pointer to the game data structure.
  * @returns void; Updates the player's position based on the key pressed.
  */
-void	move(mlx_key_data_t keydata, void *data)
+void	move(t_data *d)
 {
-	t_data			*d;
 	t_playerdata	*p;
 
-	d = (t_data *)data;
 	p = d->level->player;
-	if (keydata.key == MLX_KEY_W)
-		collision(d->level, (t_vect){p->x + p->dir_x * MOVESPEED,
-			p->y + p->dir_y * MOVESPEED});
-	else if (keydata.key == MLX_KEY_A)
-		collision(d->level, (t_vect){p->x + p->dir_y * MOVESPEED,
-			p->y - p->dir_x * MOVESPEED});
-	else if (keydata.key == MLX_KEY_S)
-		collision(d->level, (t_vect){p->x - p->dir_x * MOVESPEED,
-			p->y - p->dir_y * MOVESPEED});
-	else if (keydata.key == MLX_KEY_D)
-		collision(d->level,(t_vect){p->x - p->dir_y * MOVESPEED,
-			p->y + p->dir_x * MOVESPEED});
-	else if (keydata.key == MLX_KEY_RIGHT)
-		turn(p, TURNSPEED);
-	else if (keydata.key == MLX_KEY_LEFT)
-		turn(p, -TURNSPEED);
-	else if (keydata.key == MLX_KEY_ESCAPE)
+	move_longitudinal(d, p);
+	move_lateral(d, p);
+	turn_keys(d, p);
+	if (mlx_is_key_down(d->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(d->mlx);
-	else if (keydata.key == MLX_KEY_EQUAL)
+	else if (mlx_is_key_down(d->mlx, MLX_KEY_EQUAL))
 	{
 		if (d->rect < 48)
 			d->rect += 2;
 	}
-	else if (keydata.key == MLX_KEY_MINUS)
-	{
+	else if (mlx_is_key_down(d->mlx, MLX_KEY_MINUS))
 		if (d->rect > 12)
 			d->rect -= 2;
-	}
+}
+
+static void	move_longitudinal(t_data *d, t_playerdata *p)
+{
+	if (mlx_is_key_down(d->mlx, MLX_KEY_W))
+		collision(d->level, (t_vect){p->x + p->dir_x * MOVESPEED,
+			p->y + p->dir_y * MOVESPEED});
+	else if (mlx_is_key_down(d->mlx, MLX_KEY_S))
+		collision(d->level, (t_vect){p->x - p->dir_x * MOVESPEED,
+			p->y - p->dir_y * MOVESPEED});
+}
+
+static void	move_lateral(t_data *d, t_playerdata *p)
+{
+	if (mlx_is_key_down(d->mlx, MLX_KEY_A))
+		collision(d->level, (t_vect){p->x + p->dir_y * MOVESPEED,
+			p->y - p->dir_x * MOVESPEED});
+	else if (mlx_is_key_down(d->mlx, MLX_KEY_D))
+		collision(d->level, (t_vect){p->x - p->dir_y * MOVESPEED,
+			p->y + p->dir_x * MOVESPEED});
+}
+
+static void	turn_keys(t_data *d, t_playerdata *p)
+{
+	if (mlx_is_key_down(d->mlx, MLX_KEY_RIGHT))
+		turn(p, TURNSPEED);
+	else if (mlx_is_key_down(d->mlx, MLX_KEY_LEFT))
+		turn(p, -TURNSPEED);
 }
 
 /**

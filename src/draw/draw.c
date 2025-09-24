@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 10:42:08 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:51:01 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,10 @@ static void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures);
  * Draws the entire game frame, including the minimap and the main view.
  * @param data Pointer to the game data structure.
  */
-void	draw_all(void *data)
+void	draw_all(t_data *d)
 {
-	t_data	*d;
 	mlx_t	*mlx;
 
-	d = (t_data *)data;
 	mlx = d->mlx;
 	if (!d->background)
 	{

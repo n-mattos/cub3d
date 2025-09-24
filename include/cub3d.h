@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 10:40:05 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:52:22 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ t_textures	*allocate_textures(void);
 t_playerdata	*retrieve_player(int **map);
 
 /* movement */
-void	move(mlx_key_data_t keydata, void *data);
+void	move(t_data *d);
 void	mouse_move(double x, double y, void *data);
 
 /* raycast */
@@ -171,7 +171,7 @@ t_vect	calculate_intersection(t_playerdata p, t_vect raydir, double perp_wall_di
 double	calculate_wallx(t_playerdata *p, int hit_side, double perp_wall_dist, t_vect raydir);
 
 /* draw */
-void	draw_all(void *data);
+void	draw_all(t_data *d);
 void	draw_circle_outline(mlx_image_t *img, t_point center, int radius, uint32_t color);
 void	fill_circle(mlx_image_t *img, t_point center, int radius, uint32_t color);
 void	drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color);
