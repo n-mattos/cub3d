@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/26 12:29:31 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:42:08 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	draw_all(void *data)
 
 static void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures)
 {
-	for (int y = 0; y < img->height / 2; y++)
+	for (int y = 0; y < (int)img->height / 2; y++)
 	{
-		for (int x = 0; x < img->width; x++)
+		for (int x = 0; x < (int)img->width; x++)
 		{
 			mlx_put_pixel(img, x, y, textures->ceiling);
 			mlx_put_pixel(img, x, img->height - y - 1, textures->floor);
