@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 10:58:03 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:06:43 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,14 @@ void	move(t_data *d)
 	move_longitudinal(d, p);
 	move_lateral(d, p);
 	turn_keys(d, p);
-	if (mlx_is_key_down(d->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(d->mlx);
-	else if (mlx_is_key_down(d->mlx, MLX_KEY_EQUAL))
-	{
+	if (mlx_is_key_down(d->mlx, MLX_KEY_EQUAL))
 		if (d->rect < 48)
 			d->rect += 2;
-	}
-	else if (mlx_is_key_down(d->mlx, MLX_KEY_MINUS))
+	if (mlx_is_key_down(d->mlx, MLX_KEY_MINUS))
 		if (d->rect > 12)
 			d->rect -= 2;
+	if (mlx_is_key_down(d->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(d->mlx);
 }
 
 static void	move_longitudinal(t_data *d, t_playerdata *p)
@@ -49,7 +47,7 @@ static void	move_longitudinal(t_data *d, t_playerdata *p)
 	if (mlx_is_key_down(d->mlx, MLX_KEY_W))
 		collision(d->level, (t_vect){p->x + p->dir_x * MOVESPEED,
 			p->y + p->dir_y * MOVESPEED});
-	else if (mlx_is_key_down(d->mlx, MLX_KEY_S))
+	if (mlx_is_key_down(d->mlx, MLX_KEY_S))
 		collision(d->level, (t_vect){p->x - p->dir_x * MOVESPEED,
 			p->y - p->dir_y * MOVESPEED});
 }
@@ -59,7 +57,7 @@ static void	move_lateral(t_data *d, t_playerdata *p)
 	if (mlx_is_key_down(d->mlx, MLX_KEY_A))
 		collision(d->level, (t_vect){p->x + p->dir_y * MOVESPEED,
 			p->y - p->dir_x * MOVESPEED});
-	else if (mlx_is_key_down(d->mlx, MLX_KEY_D))
+	if (mlx_is_key_down(d->mlx, MLX_KEY_D))
 		collision(d->level, (t_vect){p->x - p->dir_y * MOVESPEED,
 			p->y + p->dir_x * MOVESPEED});
 }
@@ -68,7 +66,7 @@ static void	turn_keys(t_data *d, t_playerdata *p)
 {
 	if (mlx_is_key_down(d->mlx, MLX_KEY_RIGHT))
 		turn(p, TURNSPEED);
-	else if (mlx_is_key_down(d->mlx, MLX_KEY_LEFT))
+	if (mlx_is_key_down(d->mlx, MLX_KEY_LEFT))
 		turn(p, -TURNSPEED);
 }
 
