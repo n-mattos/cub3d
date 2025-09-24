@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/09/24 09:58:51 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:12:56 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ static char	**get_raw_texture_data(int fd)
 	i = 0;
 	line = get_next_line(fd);
 	if (line == NULL)
-		return (NULL);
+		return (perror("File is empty"), NULL);
 	raw_textures = malloc(sizeof(char *) * 6);
 	if (raw_textures == NULL)
-		return (NULL);
+		return (perror("Malloc for textures failed"), NULL);
 	while (line && n_data < 6)
 	{
 		i = skip_whitespaces(line, 0);
