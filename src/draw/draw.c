@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 10:51:01 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:37:03 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	draw_textured_wall(t_raycast *ray, t_data *d, int x)
 	while (++y < ray->draw_end)
 	{
 		ray->txt_y = (int)ray->txt_pos & (TEXTURE_HEIGHT - 1);
-		//TODO: For some reason X or Y is somehow negative and goes out of bounds and causes segfault, potentially rounding issue, im not gonna look rn
 		if (x < IMG_WIDTH && y < IMG_HEIGHT && x >= 0 && y >= 0)
 			mlx_put_pixel(d->last_frame, x, y,
 				get_pixel_color(d->level->textures, ray));

@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/09/24 10:15:12 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:42:42 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static char	**get_raw_texture_data(int fd);
 static char	*get_texture(char *str);
 static t_textures	*sort_texture_data(char **raw, t_textures *textures);
+static bool	check_texture_validity(t_textures *textures);
 
 /**
  * Parses textures from a file descriptor.
@@ -173,19 +174,24 @@ static t_textures	*sort_texture_data(char **raw, t_textures *textures)
 		else if (ft_strncmp(raw[i], "WE", 2) == 0)
 			textures->west = mlx_load_png(raw[i] + 2);
 		else if (raw[i][0] == 'F')
-		{
 			textures->floor = rgbfromstr(raw[i] + 1);
-			if (textures->floor == -1)
-				return (free_raw_textures(raw), free_textures(textures), NULL);
-		}
 		else if (raw[i][0] == 'C')
-		{
 			textures->ceiling = rgbfromstr(raw[i] + 1);
-			if (textures->ceiling == -1)
-				return (free_raw_textures(raw), free_textures(textures), NULL);
-		}
 		else
 			return (free_raw_textures(raw), free_textures(textures), NULL);
 	}
+	if (check_texture_validity(textures) == false)
+		return (free_raw_textures(raw), free_textures(textures), NULL);
 	return (free_raw_textures(raw), textures);
+}
+
+static bool	check_texture_validity(t_textures *textures)
+{
+	if (textures->north == NULL || textures->east == NULL
+		|| textures->south == NULL || textures->west == NULL
+		|| textures->floor == -1 || textures->ceiling == -1)
+	{
+		return (false);
+	}
+	return (true);
 }
