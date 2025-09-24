@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 11:06:43 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:23:40 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	collision(t_level *level, t_vect new);
 static void	turn(t_playerdata *p, double turnspeed);
-static void	move_longitudinal(t_data *d, t_playerdata *p);
-static void	move_lateral(t_data *d, t_playerdata *p);
+static t_vect	move_longitudinal(t_data *d, t_playerdata *p);
+static t_vect	move_lateral(t_data *d, t_playerdata *p);
 static void	turn_keys(t_data *d, t_playerdata *p);
 
 /**
@@ -27,11 +27,14 @@ static void	turn_keys(t_data *d, t_playerdata *p);
 void	move(t_data *d)
 {
 	t_playerdata	*p;
+	t_vect			long_vect;
+	t_vect			lat_vect;
 
 	p = d->level->player;
-	move_longitudinal(d, p);
-	move_lateral(d, p);
 	turn_keys(d, p);
+	long_vect = move_longitudinal(d, p);
+	lat_vect = move_lateral(d, p);
+	collision(d->level, (t_vect){p->x + long_vect.x + lat_vect.x, p->y + long_vect.y + lat_vect.y});
 	if (mlx_is_key_down(d->mlx, MLX_KEY_EQUAL))
 		if (d->rect < 48)
 			d->rect += 2;
@@ -42,24 +45,28 @@ void	move(t_data *d)
 		mlx_close_window(d->mlx);
 }
 
-static void	move_longitudinal(t_data *d, t_playerdata *p)
+static t_vect	move_longitudinal(t_data *d, t_playerdata *p)
 {
+	t_vect	new;
+
+	new = (t_vect){0, 0};
 	if (mlx_is_key_down(d->mlx, MLX_KEY_W))
-		collision(d->level, (t_vect){p->x + p->dir_x * MOVESPEED,
-			p->y + p->dir_y * MOVESPEED});
+		new = (t_vect){new.x + p->dir_x * MOVESPEED, new.y + p->dir_y * MOVESPEED};
 	if (mlx_is_key_down(d->mlx, MLX_KEY_S))
-		collision(d->level, (t_vect){p->x - p->dir_x * MOVESPEED,
-			p->y - p->dir_y * MOVESPEED});
+		new = (t_vect){new.x - p->dir_x * MOVESPEED, new.y - p->dir_y * MOVESPEED};
+	return (new);
 }
 
-static void	move_lateral(t_data *d, t_playerdata *p)
+static t_vect	move_lateral(t_data *d, t_playerdata *p)
 {
+	t_vect	new;
+
+	new = (t_vect){0, 0};
 	if (mlx_is_key_down(d->mlx, MLX_KEY_A))
-		collision(d->level, (t_vect){p->x + p->dir_y * MOVESPEED,
-			p->y - p->dir_x * MOVESPEED});
+		new = (t_vect){new.x + p->dir_y * MOVESPEED, new.y - p->dir_x * MOVESPEED};
 	if (mlx_is_key_down(d->mlx, MLX_KEY_D))
-		collision(d->level, (t_vect){p->x - p->dir_y * MOVESPEED,
-			p->y + p->dir_x * MOVESPEED});
+		new = (t_vect){new.x - p->dir_y * MOVESPEED, new.y + p->dir_x * MOVESPEED};
+	return (new);
 }
 
 static void	turn_keys(t_data *d, t_playerdata *p)
