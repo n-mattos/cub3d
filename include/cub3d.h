@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 11:58:32 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:15:01 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@
 # define TEXTURE_HEIGHT 64			// height of the texture (currently hardcoded to 64)
 
 # define PI 3.14159265358979323846
+# define HYPOTENUSE 1.41421356237 / 2
 # define EPSILON 1.e-10
 
 typedef enum e_tile {

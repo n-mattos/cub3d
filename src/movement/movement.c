@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 11:58:23 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:19:52 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,18 @@ void	player_input(t_data *d)
 	t_vect			lat_vect;
 
 	p = d->level->player;
+	if (mlx_is_key_down(d->mlx, MLX_KEY_LEFT_SHIFT))
+		d->move_speed /= 2;
 	turn_keys(d, p);
 	long_vect = move_longitudinal(d, p);
 	lat_vect = move_lateral(d, p);
+	if ((long_vect.x != 0 || long_vect.y != 0) && (lat_vect.x != 0 || lat_vect.y != 0))
+	{
+		long_vect.x *= HYPOTENUSE;
+		long_vect.y *= HYPOTENUSE;
+		lat_vect.x *= HYPOTENUSE;
+		lat_vect.y *= HYPOTENUSE;
+	}
 	collision(d->level, (t_vect){p->x + long_vect.x + lat_vect.x, p->y + long_vect.y + lat_vect.y});
 	if (mlx_is_key_down(d->mlx, MLX_KEY_EQUAL))
 		if (d->rect < 48)
