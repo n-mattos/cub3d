@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/09/24 10:15:23 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:31:02 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ t_level	*parse(char *fn_map)
 		perror("Error\nMap is invalid\n");
 		return (NULL);
 	}
+	if (!get_portals(level->map, &level->portals))
+		return (perror("Error\nInvalid portals\n"), free_level(level), NULL);
 	level->player = retrieve_player(level->map);
 	if (level->player == NULL)
 		return (perror("Error\nPlayer not found in map"), free_level(level), NULL);

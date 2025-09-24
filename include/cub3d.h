@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:36:11 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:41:32 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ t_level		*parse(char *fn_map);
 t_textures	*parse_textures(int fd);
 t_level		*parse_map(int fd);
 bool		map_is_valid(int **map);
+bool		get_portals(int **map, t_portal_list **portals);
 
 /* parse_memory */
 void		free_raw_textures(char **raw_textures);
@@ -216,5 +217,4 @@ t_portal_list	*append_node(t_portal_list **head, t_portal_list *new_node);
 t_portal_list	*find_node(t_portal_list *head, char id);
 void			update_node(t_portal_list *node, t_point sourceB, t_point targetA);
 t_portal_list	*free_list(t_portal_list **head);
-
 #endif

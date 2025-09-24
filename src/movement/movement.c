@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:38:09 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:06:19 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,19 +126,22 @@ static void	collision(t_level *level, t_vect new)
 	p = level->player;
 	if (new.y > p->y)
 	{
-		handle_portal(level, p, (int)(new.y + COLLISION_BUFFER), (int)p->x);
+		if (handle_portal(level, p, (int)(new.y + COLLISION_BUFFER), (int)p->x))
+			return ;
 		if (level->map[(int)(new.y + COLLISION_BUFFER)][(int)p->x] != WALL)
 			p->y = new.y;
 	}
 	else
 	{
-		handle_portal(level, p, (int)(new.y - COLLISION_BUFFER), (int)p->x);
+		if (handle_portal(level, p, (int)(new.y - COLLISION_BUFFER), (int)p->x))
+			return ;
 		if (level->map[(int)(new.y - COLLISION_BUFFER)][(int)p->x] != WALL)
 			p->y = new.y;
 	}
 	if (new.x < p->x)
 	{
-		handle_portal(level, p, (int)p->y, (int)(new.x - COLLISION_BUFFER));
+		if (handle_portal(level, p, (int)p->y, (int)(new.x - COLLISION_BUFFER)))
+			return ;
 		if (level->map[(int)p->y][(int)(new.x - COLLISION_BUFFER)] != WALL)
 			p->x = new.x;
 	}
@@ -160,14 +163,14 @@ static int	handle_portal(t_level *level, t_playerdata *p, int y, int x)
 	{
 		if (portal->A[SOURCE].x == x && portal->A[SOURCE].y == y)
 		{
-			p->x = portal->B[SOURCE].x + 0.5;
-			p->y = portal->B[SOURCE].y + 0.5;
+			p->x = portal->A[TARGET].x + 0.5;
+			p->y = portal->A[TARGET].y + 0.5;
 			return (1);
 		}
 		else
 		{
-			p->x = portal->A[SOURCE].x + 0.5;
-			p->y = portal->A[SOURCE].y + 0.5;
+			p->x = portal->B[TARGET].x + 0.5;
+			p->y = portal->B[TARGET].y + 0.5;
 			return (1);
 		}
 	}

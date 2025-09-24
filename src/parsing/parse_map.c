@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:14:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 13:09:07 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:58:27 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_level	*parse_map(int fd)
 	level = malloc(sizeof(t_level));
 	if (level == NULL)
 		return (NULL);
+	level->portals = NULL;
 	raw_map = get_raw_map_data(fd);
 	level->map = malloc(sizeof(int *) * (count_char(raw_map, '\n') + 2));
 	if (level->map == NULL)
@@ -87,7 +88,7 @@ static int	**create_map(t_level *level, char *raw_map)
 	while (raw_map[i] != '\0')
 	{
 		x = 0;
-		level->map[y] = malloc(sizeof(int) * (max_length) + 1);
+		level->map[y] = malloc(sizeof(int) * (max_length + 1));
 		if (level->map[y] == NULL)
 			return (free_map(level->map, y - 1), free(level), NULL);	// clean level->map[(x ∈ [0, y - 1])]
 		while (raw_map[i] != '\n' && raw_map[i] != '\0')
