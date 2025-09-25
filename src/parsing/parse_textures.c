@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/09/25 10:57:36 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:40:59 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	**get_raw_texture_data(int fd)
 	raw_textures = malloc(sizeof(char *) * 6);
 	if (raw_textures == NULL)
 		return (perror("Error\nMalloc for textures failed"), NULL);
-	while (line && n_data < 6)
+	while (line && n_data < 7)
 	{
 		i = skip_whitespaces(line, 0);
 		if (line[i] != '\n' && line[i] != '\0')
@@ -163,7 +163,7 @@ static t_textures	*sort_texture_data(char **raw, t_textures *textures)
 	size_t	i;
 
 	i = -1;
-	while (++i < 6)
+	while (++i < 7)
 	{
 		if (ft_strncmp(raw[i], "NO", 2) == 0)
 			textures->north = mlx_load_png(raw[i] + 2);
@@ -173,6 +173,8 @@ static t_textures	*sort_texture_data(char **raw, t_textures *textures)
 			textures->south = mlx_load_png(raw[i] + 2);
 		else if (ft_strncmp(raw[i], "WE", 2) == 0)
 			textures->west = mlx_load_png(raw[i] + 2);
+		else if (ft_strncmp(raw[i], "DO", 2) == 0)
+			textures->door = mlx_load_png(raw[i] + 2);
 		else if (raw[i][0] == 'F')
 			textures->floor = rgbfromstr(raw[i] + 1);
 		else if (raw[i][0] == 'C')
@@ -198,7 +200,8 @@ static bool	check_texture_validity(t_textures *textures)
 		|| textures->floor == -1 || textures->ceiling == -1
 		|| textures->portal[0] == NULL || textures->portal[1] == NULL
 		|| textures->portal[2] == NULL || textures->portal[3] == NULL
-		|| textures->portal[4] == NULL || textures->portal[5] == NULL)
+		|| textures->portal[4] == NULL || textures->portal[5] == NULL
+		|| textures->door == NULL)
 	{
 		return (false);
 	}
