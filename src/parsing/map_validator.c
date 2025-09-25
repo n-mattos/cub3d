@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 13:57:43 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 15:01:30 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:19:34 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ bool	is_valid_point(t_point point)
 
 bool	get_portals(int **map, t_portal_list **portals)
 {
-	size_t	x;
-	size_t	y;
+	size_t			x;
+	size_t			y;
 	t_portal_list	*found_tp;
-	int		curr_tp_char;
+	int				curr_tp_char;
 
 	x = 0;
 	y = 0;
@@ -79,18 +79,25 @@ bool	get_portals(int **map, t_portal_list **portals)
 		x = 0;
 		while (map[y][x] != '\0')
 		{
-			if (map[y][x] != FLOOR && map[y][x] != WALL && map[y][x] != EMPTY && !is_player(map[y][x]) && map[y][x] != DOOR)
+			if (map[y][x] != FLOOR
+				&& map[y][x] != WALL
+				&& map[y][x] != EMPTY
+				&& map[y][x] != DOOR
+				&& !is_player(map[y][x]))
 			{
 				found_tp = find_portal_node(*portals, map[y][x]);
 				if (!is_valid_point(get_portal_target(map, x, y)))
 					return (free_portal_list(portals), false);
 				else if (!found_tp)
 				{
-					if (!append_portal_node(portals, create_portal_node(map[y][x], (t_point){x, y}, get_portal_target(map, x, y))))
+					if (!append_portal_node(portals, create_portal_node(
+								map[y][x], (t_point){x, y},
+						get_portal_target(map, x, y))))
 						return (free_portal_list(portals), false);
 				}
-				else if(found_tp->B[SOURCE].x == -1)
-					update_portal_node(found_tp, (t_point){x, y}, get_portal_target(map, x, y));
+				else if (found_tp->B[SOURCE].x == -1)
+					update_portal_node(found_tp, (t_point){x, y},
+						get_portal_target(map, x, y));
 				else
 					return (free_portal_list(portals), false);
 			}

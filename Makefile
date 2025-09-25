@@ -16,6 +16,7 @@ HEADERS = -I$(MLX42_PATH)/include -I$(LIBFT_PATH)
 LIBS = $(MLX42_PATH)/build/libmlx42.a $(LIBFT_PATH)/libft.a -ldl -lglfw -pthread -lm
 
 SRCS =	src/main.c \
+		src/game.c \
 		src/parsing/parse.c \
 		src/parsing/parse_map.c \
 		src/parsing/parse_textures.c \

@@ -6,22 +6,24 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 13:36:27 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:16:12 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static void	collision(t_level *level, t_vect new);
-static int	handle_portal(t_level *level, t_playerdata *p, int y, int x);
-static int	get_direction(t_point A, t_point B);
-static void	turn(t_playerdata *p, double turnspeed);
-static t_vect	move_longitudinal(t_data *d, t_playerdata *p);
-static t_vect	move_lateral(t_data *d, t_playerdata *p);
-static void		door_interaction(t_data *d, mlx_key_data_t keydata);
+static void			collision(t_level *level, t_vect new);
+static int			handle_portal(t_level *level, t_playerdata *p,
+						int y, int x);
+static int			get_direction(t_point A, t_point B);
+static void			turn(t_playerdata *p, double turnspeed);
+static t_vect		move_longitudinal(t_data *d, t_playerdata *p);
+static t_vect		move_lateral(t_data *d, t_playerdata *p);
+static void			door_interaction(t_data *d, mlx_key_data_t keydata);
 static t_raycast	door_ray(t_data *d);
-static void	calculate_door_ray(t_point *map, t_raycast *ray, t_level *lvl);
-static void	turn_keys(t_data *d, t_playerdata *p);
+static void			calculate_door_ray(t_point *map, t_raycast *ray,
+						t_level *lvl);
+static void			turn_keys(t_data *d, t_playerdata *p);
 
 /**
  * Handles player movement based on key inputs.
@@ -41,14 +43,16 @@ void	player_input(t_data *d)
 	turn_keys(d, p);
 	long_vect = move_longitudinal(d, p);
 	lat_vect = move_lateral(d, p);
-	if ((long_vect.x != 0 || long_vect.y != 0) && (lat_vect.x != 0 || lat_vect.y != 0))
+	if ((long_vect.x != 0 || long_vect.y != 0)
+		&& (lat_vect.x != 0 || lat_vect.y != 0))
 	{
 		long_vect.x *= HYPOTENUSE;
 		long_vect.y *= HYPOTENUSE;
 		lat_vect.x *= HYPOTENUSE;
 		lat_vect.y *= HYPOTENUSE;
 	}
-	collision(d->level, (t_vect){p->x + long_vect.x + lat_vect.x, p->y + long_vect.y + lat_vect.y});
+	collision(d->level, (t_vect){p->x + long_vect.x + lat_vect.x,
+		p->y + long_vect.y + lat_vect.y});
 	if (mlx_is_key_down(d->mlx, MLX_KEY_EQUAL))
 		if (d->rect < 48)
 			d->rect += 2;
@@ -73,9 +77,11 @@ static t_vect	move_longitudinal(t_data *d, t_playerdata *p)
 
 	new = (t_vect){0, 0};
 	if (mlx_is_key_down(d->mlx, MLX_KEY_W))
-		new = (t_vect){new.x + p->dir_x * d->move_speed, new.y + p->dir_y * d->move_speed};
+		new = (t_vect){new.x + p->dir_x * d->move_speed,
+			new.y + p->dir_y * d->move_speed};
 	if (mlx_is_key_down(d->mlx, MLX_KEY_S))
-		new = (t_vect){new.x - p->dir_x * d->move_speed, new.y - p->dir_y * d->move_speed};
+		new = (t_vect){new.x - p->dir_x * d->move_speed,
+			new.y - p->dir_y * d->move_speed};
 	return (new);
 }
 
@@ -85,9 +91,11 @@ static t_vect	move_lateral(t_data *d, t_playerdata *p)
 
 	new = (t_vect){0, 0};
 	if (mlx_is_key_down(d->mlx, MLX_KEY_A))
-		new = (t_vect){new.x + p->dir_y * d->move_speed, new.y - p->dir_x * d->move_speed};
+		new = (t_vect){new.x + p->dir_y * d->move_speed,
+			new.y - p->dir_x * d->move_speed};
 	if (mlx_is_key_down(d->mlx, MLX_KEY_D))
-		new = (t_vect){new.x - p->dir_y * d->move_speed, new.y + p->dir_x * d->move_speed};
+		new = (t_vect){new.x - p->dir_y * d->move_speed,
+			new.y + p->dir_x * d->move_speed};
 	return (new);
 }
 
@@ -140,28 +148,32 @@ static void	collision(t_level *level, t_vect new)
 	{
 		if (handle_portal(level, p, (int)(new.y + COLLISION_BUFFER), (int)p->x))
 			return ;
-		if (level->map[(int)(new.y + COLLISION_BUFFER)][(int)p->x] != WALL && level->map[(int)(new.y + COLLISION_BUFFER)][(int)p->x] != DOOR)
+		if (level->map[(int)(new.y + COLLISION_BUFFER)][(int)p->x] != WALL
+			&& level->map[(int)(new.y + COLLISION_BUFFER)][(int)p->x] != DOOR)
 			p->y = new.y;
 	}
 	else
 	{
 		if (handle_portal(level, p, (int)(new.y - COLLISION_BUFFER), (int)p->x))
 			return ;
-		if (level->map[(int)(new.y - COLLISION_BUFFER)][(int)p->x] != WALL && level->map[(int)(new.y - COLLISION_BUFFER)][(int)p->x] != DOOR)
+		if (level->map[(int)(new.y - COLLISION_BUFFER)][(int)p->x] != WALL
+			&& level->map[(int)(new.y - COLLISION_BUFFER)][(int)p->x] != DOOR)
 			p->y = new.y;
 	}
 	if (new.x < p->x)
 	{
 		if (handle_portal(level, p, (int)p->y, (int)(new.x - COLLISION_BUFFER)))
 			return ;
-		if (level->map[(int)p->y][(int)(new.x - COLLISION_BUFFER)] != WALL && level->map[(int)(new.x - COLLISION_BUFFER)][(int)p->x] != DOOR)
+		if (level->map[(int)p->y][(int)(new.x - COLLISION_BUFFER)] != WALL
+			&& level->map[(int)(new.x - COLLISION_BUFFER)][(int)p->x] != DOOR)
 			p->x = new.x;
 	}
 	else
 	{
 		if (handle_portal(level, p, (int)p->y, (int)(new.x + COLLISION_BUFFER)))
 			return ;
-		if (level->map[(int)p->y][(int)(new.x + COLLISION_BUFFER)] != WALL && level->map[(int)(new.x + COLLISION_BUFFER)][(int)p->x] != DOOR)
+		if (level->map[(int)p->y][(int)(new.x + COLLISION_BUFFER)] != WALL
+			&& level->map[(int)(new.x + COLLISION_BUFFER)][(int)p->x] != DOOR)
 			p->x = new.x;
 	}
 }
@@ -175,14 +187,16 @@ static int	handle_portal(t_level *level, t_playerdata *p, int y, int x)
 	{
 		if (portal->A[SOURCE].x == x && portal->A[SOURCE].y == y)
 		{
-			player_starting_direction(p, get_direction(portal->B[SOURCE], portal->A[TARGET]));
+			player_starting_direction(p,
+				get_direction(portal->B[SOURCE], portal->A[TARGET]));
 			p->x = portal->A[TARGET].x + 0.5;
 			p->y = portal->A[TARGET].y + 0.5;
 			return (1);
 		}
 		else
 		{
-			player_starting_direction(p, get_direction(portal->A[SOURCE], portal->B[TARGET]));
+			player_starting_direction(p,
+				get_direction(portal->A[SOURCE], portal->B[TARGET]));
 			p->x = portal->B[TARGET].x + 0.5;
 			p->y = portal->B[TARGET].y + 0.5;
 			return (1);
@@ -193,10 +207,14 @@ static int	handle_portal(t_level *level, t_playerdata *p, int y, int x)
 
 static void	door_interaction(t_data *d, mlx_key_data_t keydata)
 {
-	t_raycast	ray;
+	t_raycast		ray;
+	t_playerdata	*p;
 
+	p = d->level->player;
 	ray = door_ray(d);
-	if ((ray.tile == DOOR || ray.tile == DOOR_OPEN) && ray.perp_wall_dist < 1 && d->level->map[(int)d->level->player->x][(int)d->level->player->y] != DOOR_OPEN)
+	if ((ray.tile == DOOR || ray.tile == DOOR_OPEN)
+		&& ray.perp_wall_dist < 1
+		&& d->level->map[(int)p->x][(int)p->y] != DOOR_OPEN)
 	{
 		if (keydata.key == MLX_KEY_E && keydata.action == MLX_PRESS)
 		{
@@ -216,7 +234,6 @@ static t_raycast	door_ray(t_data *d)
 
 	p = *d->level->player;
 	x = (int)d->last_frame->width / 2;
-
 	ray.raydir = calculate_raydir(d->last_frame, p, x);
 	ray.delta = calculate_delta(ray.raydir);
 	ray.map = calculate_map(p);
@@ -246,7 +263,8 @@ static void	calculate_door_ray(t_point *map, t_raycast *ray, t_level *lvl)
 			map->y += ray->step.y;
 			ray->hit_side = HORIZONTAL;
 		}
-		hit = !is_player(lvl->map[map->y][map->x]) && lvl->map[map->y][map->x] != FLOOR;
+		hit = !is_player(lvl->map[map->y][map->x])
+			&& lvl->map[map->y][map->x] != FLOOR;
 	}
 	ray->tile = lvl->map[map->y][map->x];
 	if (find_portal_node(lvl->portals, ray->tile) != NULL)

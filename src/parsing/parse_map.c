@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:14:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:58:27 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:20:14 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static char	*get_raw_map_data(int fd);
-static int	**create_map(t_level *level, char *raw_map);
+static char		*get_raw_map_data(int fd);
+static int		**create_map(t_level *level, char *raw_map);
 static size_t	calc_longest(char *str);
-static int	get_tile(char c);
+static int		get_tile(char c);
 
 /**
  * Parses the map from a file descriptor and returns a t_level structure.
@@ -43,7 +43,8 @@ t_level	*parse_map(int fd)
 }
 
 /**
- * Reads the entire map from the file descriptor and returns it as a single string.
+ * Reads the entire map from the file descriptor and
+ * returns it as a single string.
  * @param fd The file descriptor to read from.
  * @return A string containing the raw map data, or NULL if an error occurs.
  */
@@ -65,7 +66,7 @@ static char	*get_raw_map_data(int fd)
 		raw_map = temp;
 		line = get_next_line(fd);
 	}
-	return(raw_map);
+	return (raw_map);
 }
 
 /**
@@ -90,7 +91,7 @@ static int	**create_map(t_level *level, char *raw_map)
 		x = 0;
 		level->map[y] = malloc(sizeof(int) * (max_length + 1));
 		if (level->map[y] == NULL)
-			return (free_map(level->map, y - 1), free(level), NULL);	// clean level->map[(x ∈ [0, y - 1])]
+			return (free_map(level->map, y - 1), free(level), NULL);
 		while (raw_map[i] != '\n' && raw_map[i] != '\0')
 			level->map[y][x++] = get_tile(raw_map[i++]);
 		while (x < max_length)
