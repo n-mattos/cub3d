@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 16:12:38 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:41:05 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ static mlx_t	*initialize_mlx(t_level *level)
  * Allocates memory for the game data structure and initializes its members.
  * @param level Pointer to the game level structure.
  * @param mlx Pointer to the MLX instance.
- * @returns t_data*; Pointer to the allocated and initialized game data structure.
+ * @returns t_data*; Pointer to the allocated and
+ * 	initialized game data structure.
  */
 static t_data	*allocate_data(t_level *level, mlx_t *mlx)
 {
