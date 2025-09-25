@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 13:19:14 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:25:05 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,14 @@ static void	loop_game(void *data)
  */
 static void	calc_fps(t_data *d)
 {
-	struct timeval	current_time;
+	struct timeval			current_time;
 	static struct timeval	last_time;
 
 	gettimeofday(&current_time, NULL);
 	if (last_time.tv_sec != 0 || last_time.tv_usec != 0)
 	{
-		d->delta_time = (current_time.tv_sec - last_time.tv_sec) +
-						(current_time.tv_usec - last_time.tv_usec) / 1000000.0;
+		d->delta_time = (current_time.tv_sec - last_time.tv_sec)
+			+ (current_time.tv_usec - last_time.tv_usec) / 1000000.0;
 	}
 	d->gif->current = current_time.tv_sec + current_time.tv_usec / 1000000.0;
 	last_time = current_time;
