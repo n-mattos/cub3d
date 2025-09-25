@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validator.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 13:57:43 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 12:44:43 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:52:30 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ bool	get_doors(int **map, t_door_list **doors)
 {
 	size_t	x;
 	size_t	y;
-	t_door_list	*found_door;
 
 	x = 0;
 	y = 0;
@@ -123,6 +122,7 @@ bool	get_doors(int **map, t_door_list **doors)
 		}
 		y++;
 	}
+	return (true);
 }
 
 /**

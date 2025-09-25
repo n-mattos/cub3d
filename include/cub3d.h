@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 12:15:18 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 13:23:55 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef enum e_tile {
 	SOUTH = 'S',
 	WEST = 'W',
 	DOOR = 'D',
+	DOOR_OPEN = 'd',
 	PORTAL = 'P'
 }	t_tile;
 
@@ -196,6 +197,7 @@ int				player_starting_direction(t_playerdata *player, int direction);
 
 /* movement */
 void	player_input(t_data *d);
+void	keys(mlx_key_data_t keydata, void *data);
 void	mouse_move(double x, double y, void *data);
 
 /* raycast */
