@@ -6,16 +6,11 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 15:25:05 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:43:24 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-static void		run_game(mlx_t *mlx, t_data *data);
-static void		loop_game(void *data);
-static void		calc_fps(t_data *d);
-static void		set_title(mlx_t *mlx, double delta_time);
 
 int	main(int argc, char **argv)
 {
@@ -28,20 +23,38 @@ int	main(int argc, char **argv)
 	level = parse(argv[1]);
 	if (level == NULL)
 		return (1);
+	mlx = initialize_mlx(level);
+	data = allocate_data(level, mlx);
+	run_game(mlx, data);
+	exit_program(mlx, data);
+	return (0);
+}
+
+static mlx_t	*initialize_mlx(t_level *level)
+{
+	mlx_t	*mlx;
+
 	mlx = mlx_init(IMG_WIDTH, IMG_HEIGHT, "cub3D", false);
 	if (!mlx)
 	{
 		perror("Error\nFailed to initialize mlx");
 		free_level(level);
-		return (1);
+		exit (1);
 	}
+	return (mlx);
+}
+
+static t_data	*allocate_data(t_level *level, mlx_t *mlx)
+{
+	t_data	*data;
+
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 	{
 		perror("Error\nFailed to allocate memory for game data");
 		free_level(level);
 		mlx_terminate(mlx);
-		return (1);
+		exit (1);
 	}
 	data->level = level;
 	data->mlx = mlx;
@@ -52,87 +65,15 @@ int	main(int argc, char **argv)
 		free_level(level);
 		mlx_terminate(mlx);
 		free(data);
-		return (1);
+		exit (1);
 	}
-	run_game(mlx, data);
-	free_level(level);
-	mlx_terminate(mlx);
+	return (data);
+}
+
+static void	exit_program(mlx_t *mlx, t_data *data)
+{
+	free_level(data->level);
 	free(data->gif);
 	free(data);
-	return (0);
-}
-
-/**
- * Initializes the game loop and sets up hooks for key and mouse events.
- * @param mlx Pointer to the MLX instance.
- * @param data Pointer to the game data structure.
- * @returns void; Starts the game loop and handles rendering and input.
- */
-static void	run_game(mlx_t *mlx, t_data *data)
-{
-	data->prev_mouse_x = -1;
-	data->rect = 32;
-	data->gif->last = 0;
-	data->gif->current = 0;
-	data->gif->frame = 0;
-	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
-	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
-	mlx_loop_hook(mlx, &loop_game, (void *)data);
-	mlx_key_hook(mlx, &keys, (void *)data);
-	mlx_cursor_hook(mlx, &mouse_move, (void *)data);
-	mlx_loop(mlx);
-	mlx_delete_image(mlx, data->minimap);
-}
-
-/**
- * Main game loop function called every frame.
- * Handles frame rate calculation, title updating, rendering, and player input.
- * @param data Pointer to the game data structure.
- */
-static void	loop_game(void *data)
-{
-	t_data					*d;
-
-	d = (t_data *)data;
-	calc_fps(d);
-	set_title(d->mlx, d->delta_time);
-	draw_all(d);
-	player_input(d);
-}
-
-/**
- * Calculates the time elapsed since the last frame to determine delta time.
- * Updates movement and turn speeds based on the delta time to ensure
- * consistent movement regardless of frame rate.
- * @param d Pointer to the game data structure.
- */
-static void	calc_fps(t_data *d)
-{
-	struct timeval			current_time;
-	static struct timeval	last_time;
-
-	gettimeofday(&current_time, NULL);
-	if (last_time.tv_sec != 0 || last_time.tv_usec != 0)
-	{
-		d->delta_time = (current_time.tv_sec - last_time.tv_sec)
-			+ (current_time.tv_usec - last_time.tv_usec) / 1000000.0;
-	}
-	d->gif->current = current_time.tv_sec + current_time.tv_usec / 1000000.0;
-	last_time = current_time;
-	d->move_speed = MOVESPEED * d->delta_time * 60;
-	d->turn_speed = TURNSPEED * d->delta_time * 60;
-}
-
-/**
- * Sets the window title to include the current frames per second (FPS).
- * @param mlx Pointer to the MLX instance.
- * @param delta_time Time elapsed since the last frame.
- */
-static void	set_title(mlx_t *mlx, double delta_time)
-{
-	char	title[50];
-
-	ft_strlcpy(title, "cub3D | FPS: ", 50);
-	ft_strlcat(title, ft_itoa((int)(1.0 / delta_time)), 50);
-	mlx_set_window_title(mlx, title);
+	mlx_terminate(mlx);
 }
