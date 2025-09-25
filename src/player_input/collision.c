@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collision.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:01:23 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 16:04:53 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:46:11 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	collision(t_level *level, t_vect new)
 		if (handle_portal(level, p, (int)p->y, (int)(new.x - COLLISION_BUFFER)))
 			return ;
 		if (level->map[(int)p->y][(int)(new.x - COLLISION_BUFFER)] != WALL
-			&& level->map[(int)(new.x - COLLISION_BUFFER)][(int)p->x] != DOOR)
+			&& level->map[(int)p->y][(int)(new.x - COLLISION_BUFFER)] != DOOR)
 			p->x = new.x;
 	}
 	else
@@ -58,7 +58,7 @@ void	collision(t_level *level, t_vect new)
 		if (handle_portal(level, p, (int)p->y, (int)(new.x + COLLISION_BUFFER)))
 			return ;
 		if (level->map[(int)p->y][(int)(new.x + COLLISION_BUFFER)] != WALL
-			&& level->map[(int)(new.x + COLLISION_BUFFER)][(int)p->x] != DOOR)
+			&& level->map[(int)p->y][(int)(new.x + COLLISION_BUFFER)] != DOOR)
 			p->x = new.x;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:37:23 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 14:49:08 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:50:48 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,10 @@ static void	drawline_draw(mlx_image_t *img, t_point a, t_point b,
 		y = (uint32_t)(pos.y + 0.5);
 		if (in_circle((t_point){x, y},
 			(t_point){MMAP_DIAM / 2, MMAP_DIAM / 2}, MMAP_DIAM / 2))
-			mlx_put_pixel(img, x, y, color);
+		{
+			if (x > 0 && x <MMAP_DIAM && y > 0 && y < MMAP_DIAM)
+				mlx_put_pixel(img, x, y, color);
+		}
 		pos.x += inc.x;
 		pos.y += inc.y;
 	}
