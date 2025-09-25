@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/09/24 10:34:07 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:18:41 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,14 @@ void	raycast_dda(t_data *d)
 
 	p = *d->level->player;
 	x = 0;
+	if (d->gif->current - d->gif->last > 0.1)
+	{
+		d->gif->frame = (d->gif->frame + 1) % 6;
+		d->gif->last = d->gif->current;
+	}
 	while (x < (int)d->last_frame->width)
 	{
+		ray.frame = d->gif->frame;
 		ray.raydir = calculate_raydir(d->last_frame, p, x);
 		ray.delta = calculate_delta(ray.raydir);
 		ray.map = calculate_map(p);

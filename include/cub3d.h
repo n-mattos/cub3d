@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 17:17:55 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:14:29 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_textures {
 	mlx_texture_t	*east;
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
+	mlx_texture_t	*portal[6];
 	int				floor;
 	int				ceiling;
 }	t_textures;
@@ -124,6 +125,7 @@ typedef struct s_raycast {
 	double		txt_pos;
 	int			txt_y;
 	int			tile;
+	int			frame;
 }	t_raycast;
 
 typedef struct s_portal_list {
@@ -132,6 +134,14 @@ typedef struct s_portal_list {
 	t_point					B[2];
 	struct s_portal_list	*next;
 }	t_portal_list;
+
+typedef struct s_gif
+{
+	double	current;
+	double	last;
+	int		frame;
+}	t_gif;
+
 
 typedef struct s_level {
 	int				**map;
@@ -146,6 +156,7 @@ typedef struct s_data {
 	mlx_image_t	*last_frame;
 	mlx_image_t	*background;
 	t_level		*level;
+	t_gif		*gif;
 	int			rect;
 	double		delta_time;
 	double		move_speed;

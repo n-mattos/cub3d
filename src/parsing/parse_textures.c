@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/09/24 12:42:42 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 10:57:36 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,12 @@ static t_textures	*sort_texture_data(char **raw, t_textures *textures)
 		else
 			return (free_raw_textures(raw), free_textures(textures), NULL);
 	}
+	textures->portal[0] = mlx_load_png("textures/portal/1.png");
+	textures->portal[1] = mlx_load_png("textures/portal/2.png");
+	textures->portal[2] = mlx_load_png("textures/portal/3.png");
+	textures->portal[3] = mlx_load_png("textures/portal/4.png");
+	textures->portal[4] = mlx_load_png("textures/portal/5.png");
+	textures->portal[5] = mlx_load_png("textures/portal/6.png");
 	if (check_texture_validity(textures) == false)
 		return (free_raw_textures(raw), free_textures(textures), NULL);
 	return (free_raw_textures(raw), textures);
@@ -189,7 +195,10 @@ static bool	check_texture_validity(t_textures *textures)
 {
 	if (textures->north == NULL || textures->east == NULL
 		|| textures->south == NULL || textures->west == NULL
-		|| textures->floor == -1 || textures->ceiling == -1)
+		|| textures->floor == -1 || textures->ceiling == -1
+		|| textures->portal[0] == NULL || textures->portal[1] == NULL
+		|| textures->portal[2] == NULL || textures->portal[3] == NULL
+		|| textures->portal[4] == NULL || textures->portal[5] == NULL)
 	{
 		return (false);
 	}

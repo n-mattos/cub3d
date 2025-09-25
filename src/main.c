@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 12:01:34 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:15:11 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,28 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	data = ft_calloc(1, sizeof(t_data));
+	if (!data)
+	{
+		perror("Error\nFailed to allocate memory for game data");
+		free_level(level);
+		mlx_terminate(mlx);
+		return (1);
+	}
 	data->level = level;
 	data->mlx = mlx;
+	data->gif = ft_calloc(1, sizeof(t_gif));
+	if (!data->gif)
+	{
+		perror("Error\nFailed to allocate memory for gif data");
+		free_level(level);
+		mlx_terminate(mlx);
+		free(data);
+		return (1);
+	}
 	run_game(mlx, data);
 	free_level(level);
 	mlx_terminate(mlx);
+	free(data->gif);
 	free(data);
 	return (0);
 }
@@ -55,6 +72,9 @@ static void	run_game(mlx_t *mlx, t_data *data)
 {
 	data->prev_mouse_x = -1;
 	data->rect = 32;
+	data->gif->last = 0;
+	data->gif->current = 0;
+	data->gif->frame = 0;
 	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(mlx, &loop_game, (void *)data);
@@ -96,6 +116,7 @@ static void	calc_fps(t_data *d)
 		d->delta_time = (current_time.tv_sec - last_time.tv_sec) +
 						(current_time.tv_usec - last_time.tv_usec) / 1000000.0;
 	}
+	d->gif->current = current_time.tv_sec + current_time.tv_usec / 1000000.0;
 	last_time = current_time;
 	d->move_speed = MOVESPEED * d->delta_time * 60;
 	d->turn_speed = TURNSPEED * d->delta_time * 60;

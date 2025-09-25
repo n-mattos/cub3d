@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/08/25 16:11:37 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/09/25 10:59:39 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	free_raw_textures(char **raw_textures)
  */
 void	free_textures(t_textures *textures)
 {
+	int	i;
+
 	if (textures == NULL)
 		return ;
 	if (textures->north != NULL)
@@ -48,6 +50,13 @@ void	free_textures(t_textures *textures)
 		mlx_delete_texture(textures->south);
 	if (textures->west != NULL)
 		mlx_delete_texture(textures->west);
+	i = 0;
+	while (i < 6)
+	{
+		if (textures->portal[i] != NULL)
+			mlx_delete_texture(textures->portal[i]);
+		i++;
+	}
 	free(textures);
 }
 
@@ -92,6 +101,7 @@ void	free_level(t_level *level)
 t_textures	*allocate_textures(void)
 {
 	t_textures	*textures;
+	int			i;
 
 	textures = malloc(sizeof(t_textures));
 	if (textures == NULL)
@@ -100,5 +110,8 @@ t_textures	*allocate_textures(void)
 	textures->east = NULL;
 	textures->south = NULL;
 	textures->west = NULL;
+	i = 0;
+	while (i < 6)
+		textures->portal[i++] = NULL;
 	return (textures);
 }
