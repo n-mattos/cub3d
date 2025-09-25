@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 13:57:43 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 12:52:30 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:01:30 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,30 +95,6 @@ bool	get_portals(int **map, t_portal_list **portals)
 					return (free_portal_list(portals), false);
 			}
 			x++;
-		}
-		y++;
-	}
-	return (true);
-}
-
-bool	get_doors(int **map, t_door_list **doors)
-{
-	size_t	x;
-	size_t	y;
-
-	x = 0;
-	y = 0;
-	while (map[y] != NULL)
-	{
-		x = 0;
-		while (map[y][x] != '\0')
-		{
-			x++;
-			if (map[y][x] == DOOR)
-			{
-				if (!append_door_node(doors, create_door_node((t_point){x, y}, false)))
-					return(free_door_list(doors), false);
-			}
 		}
 		y++;
 	}
