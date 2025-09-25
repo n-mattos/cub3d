@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validator.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 13:57:43 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 12:32:18 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:44:43 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,10 @@ bool	get_portals(int **map, t_portal_list **portals)
 				if (!is_valid_point(get_portal_target(map, x, y)))
 					return (free_portal_list(portals), false);
 				else if (!found_tp)
-					append_portal_node(portals, create_portal_node(map[y][x], (t_point){x, y}, get_portal_target(map, x, y)));
+				{
+					if (!append_portal_node(portals, create_portal_node(map[y][x], (t_point){x, y}, get_portal_target(map, x, y))))
+						return (free_portal_list(portals), false);
+				}
 				else if(found_tp->B[SOURCE].x == -1)
 					update_portal_node(found_tp, (t_point){x, y}, get_portal_target(map, x, y));
 				else
@@ -96,6 +99,30 @@ bool	get_portals(int **map, t_portal_list **portals)
 		y++;
 	}
 	return (true);
+}
+
+bool	get_doors(int **map, t_door_list **doors)
+{
+	size_t	x;
+	size_t	y;
+	t_door_list	*found_door;
+
+	x = 0;
+	y = 0;
+	while (map[y] != NULL)
+	{
+		x = 0;
+		while (map[y][x] != '\0')
+		{
+			x++;
+			if (map[y][x] == DOOR)
+			{
+				if (!append_door_node(doors, create_door_node((t_point){x, y}, false)))
+					return(free_door_list(doors), false);
+			}
+		}
+		y++;
+	}
 }
 
 /**
