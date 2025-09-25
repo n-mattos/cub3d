@@ -1,9 +1,9 @@
-NO textures/bluestone.png
-SO textures/eagle.png
-WE textures/pillar.png
-EA textures/wood.png
-DO textures/door.png
-F 70,232,67
+NO textures/no.PNG
+SO textures/so.PNG
+WE textures/we.PNG
+EA textures/ea.PNG
+DO textures/door.PNG
+F 54, 69, 79
 C 77,164,240
 
         11111111111111111F1111111
