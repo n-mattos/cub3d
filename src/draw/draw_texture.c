@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 11:00:56 by nmattos           #+#    #+#             */
-/*   Updated: 2025/09/25 13:39:57 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 14:46:08 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,28 @@ uint32_t	get_pixel_color(t_textures *textures, t_raycast *ray)
 
 static mlx_texture_t	*get_texture(t_textures *textures, t_raycast *ray)
 {
+	mlx_texture_t	*txt;
+	uint8_t			pixel;
+
+	txt = textures->portal[ray->frame];
+	pixel = txt->pixels[((ray->txt_y * txt->width + ray->txt_x)
+			* txt->bytes_per_pixel) + 3];
 	if (ray->tile == PORTAL)
-	{
-		if (textures->portal[ray->frame]->pixels[((ray->txt_y * textures->portal[ray->frame]->width + ray->txt_x) * textures->portal[ray->frame]->bytes_per_pixel) + 3] != 0)
-			return (textures->portal[ray->frame]);
-	}
+		if (pixel != 0)
+			return (txt);
+	txt = textures->door;
+	pixel = txt->pixels[((ray->txt_y * txt->width + ray->txt_x)
+			* txt->bytes_per_pixel) + 3];
 	if (ray->tile == DOOR)
-	{
-		if (textures->door->pixels[((ray->txt_y * textures->door->width + ray->txt_x) * textures->door->bytes_per_pixel) + 3] != 0)
-			return (textures->door);
-	}
+		if (pixel != 0)
+			return (txt);
 	if (ray->hit_side == VERTICAL)
 	{
 		if (ray->raydir.x > 0)
 			return (textures->east);
-		else
-			return (textures->west);
+		return (textures->west);
 	}
 	if (ray->raydir.y > 0)
 		return (textures->north);
-	else
-		return (textures->south);
+	return (textures->south);
 }

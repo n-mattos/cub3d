@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 12:37:03 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:00:31 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,28 @@ void	draw_all(t_data *d)
 		mlx_image_to_window(mlx, d->minimap, 0, 0);
 	}
 	draw_minimap(d);
-	ft_memset(d->last_frame->pixels, 0, d->last_frame->width * d->last_frame->height * 4);
+	ft_memset(d->last_frame->pixels, 0,
+		d->last_frame->width * d->last_frame->height * 4);
 	raycast_dda(d);
 	mlx_set_mouse_pos(d->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 }
 
 static void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures)
 {
-	for (int y = 0; y < (int)img->height / 2; y++)
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < (int)img->height / 2)
 	{
-		for (int x = 0; x < (int)img->width; x++)
+		x = 0;
+		while (x < (int)img->width)
 		{
 			mlx_put_pixel(img, x, y, textures->ceiling);
 			mlx_put_pixel(img, x, img->height - y - 1, textures->floor);
+			x++;
 		}
+		y++;
 	}
 }
 

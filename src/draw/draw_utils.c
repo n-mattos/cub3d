@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:37:23 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 10:26:12 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 14:49:08 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static bool	in_circle(t_point point, t_point center, int radius);
 static void	drawline_draw(mlx_image_t *img, t_point a, t_point b,
 				uint32_t color);
 
-void	draw_circle_outline(mlx_image_t *img, t_point center, int radius, uint32_t color)
+void	draw_circle_outline(mlx_image_t *img, t_point center,
+			int radius, uint32_t color)
 {
 	int			x;
 	int			y;
@@ -28,9 +29,9 @@ void	draw_circle_outline(mlx_image_t *img, t_point center, int radius, uint32_t 
 		while (x <= radius)
 		{
 			if (in_circle((t_point){x + center.x, y + center.y},
-					(t_point){center.x, center.y}, radius)
+				(t_point){center.x, center.y}, radius)
 				&& !in_circle((t_point){x + center.x, y + center.y},
-					(t_point){center.x, center.y}, radius - MMAP_BORDER_THICKNESS))
+				(t_point){center.x, center.y}, radius - MMAP_BORDER_THICKNESS))
 			{
 				mlx_put_pixel(img, x + center.x, y + center.y, color);
 			}
@@ -40,7 +41,8 @@ void	draw_circle_outline(mlx_image_t *img, t_point center, int radius, uint32_t 
 	}
 }
 
-void	fill_circle(mlx_image_t *img, t_point center, int radius, uint32_t color)
+void	fill_circle(mlx_image_t *img, t_point center,
+			int radius, uint32_t color)
 {
 	int			x;
 	int			y;
@@ -52,7 +54,7 @@ void	fill_circle(mlx_image_t *img, t_point center, int radius, uint32_t color)
 		while (x <= radius)
 		{
 			if (in_circle((t_point){x + center.x, y + center.y},
-					(t_point){center.x, center.y}, radius))
+				(t_point){center.x, center.y}, radius))
 			{
 				mlx_put_pixel(img, x + center.x, y + center.y, color);
 			}
@@ -99,12 +101,12 @@ void	drawrectangle(mlx_image_t *img, t_point wh,
 		while (x < wh.x - MMAP_SQUARE_BORDER)
 		{
 			if (in_circle((t_point){x + coord.x, y + coord.y},
-					(t_point){MMAP_DIAM / 2, MMAP_DIAM / 2}, MMAP_DIAM / 2))
+				(t_point){MMAP_DIAM / 2, MMAP_DIAM / 2}, MMAP_DIAM / 2))
 				mlx_put_pixel(img, x + coord.x, y + coord.y, color);
 			x++;
 		}
 		if (!(y + coord.y < IMG_WIDTH && x + coord.x < IMG_HEIGHT))
-			break;
+			break ;
 		x = 0;
 		y++;
 	}
@@ -130,12 +132,12 @@ static void	drawline_draw(mlx_image_t *img, t_point a, t_point b,
 	pos.x = ((double)a.x);
 	pos.y = ((double)a.y);
 	while ((fabs((double)b.x - pos.x) > 0.001
-		|| fabs((double)b.y - pos.y) > 0.001))
+			|| fabs((double)b.y - pos.y) > 0.001))
 	{
 		x = (uint32_t)(pos.x + 0.5);
 		y = (uint32_t)(pos.y + 0.5);
 		if (in_circle((t_point){x, y},
-				(t_point){MMAP_DIAM / 2, MMAP_DIAM / 2}, MMAP_DIAM / 2))
+			(t_point){MMAP_DIAM / 2, MMAP_DIAM / 2}, MMAP_DIAM / 2))
 			mlx_put_pixel(img, x, y, color);
 		pos.x += inc.x;
 		pos.y += inc.y;
