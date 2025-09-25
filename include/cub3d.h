@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 13:23:55 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:01:52 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,6 @@ typedef struct s_portal_list {
 	struct s_portal_list	*next;
 }	t_portal_list;
 
-typedef struct s_door_list {
-	t_point				pos;
-	bool				is_open;
-	struct s_door_list	*next;
-}	t_door_list;
-
 typedef struct s_gif
 {
 	double	current;
@@ -154,7 +148,6 @@ typedef struct s_gif
 typedef struct s_level {
 	int				**map;
 	t_portal_list	*portals;
-	t_door_list		*doors;
 	t_textures		*textures;
 	t_playerdata	*player;
 }	t_level;
@@ -241,11 +234,5 @@ t_portal_list	*append_portal_node(t_portal_list **head, t_portal_list *new_node)
 t_portal_list	*find_portal_node(t_portal_list *head, char id);
 void			update_portal_node(t_portal_list *node, t_point sourceB, t_point targetA);
 t_portal_list	*free_portal_list(t_portal_list **head);
-
-/* door list */
-t_door_list	*create_door_node(t_point position, bool is_open);
-t_door_list	*append_door_node(t_door_list **head, t_door_list *new_node);
-t_door_list	*find_door_node(t_door_list *head, t_point pos);
-t_door_list	*free_door_list(t_door_list **head);
 
 #endif
