@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:34:49 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 16:49:44 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:20:38 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static uint32_t	get_portal_color(char c)
 	int	r;
 	int	g;
 	int	b;
-	
+
 	r = (c * 47 + 85) % 128 + 128;
 	g = (c * 67 + 29) % 128 + 128;
 	b = (c * 89 + 123) % 128 + 128;
