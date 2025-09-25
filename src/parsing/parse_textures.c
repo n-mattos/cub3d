@@ -6,16 +6,16 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/09/25 12:40:59 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:21:33 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static char	**get_raw_texture_data(int fd);
-static char	*get_texture(char *str);
+static char			**get_raw_texture_data(int fd);
+static char			*get_texture(char *str);
 static t_textures	*sort_texture_data(char **raw, t_textures *textures);
-static bool	check_texture_validity(t_textures *textures);
+static bool			check_texture_validity(t_textures *textures);
 
 /**
  * Parses textures from a file descriptor.
@@ -42,7 +42,8 @@ t_textures	*parse_textures(int fd)
 }
 
 /**
- * Reads texture data from a file descriptor and returns it as an array of strings.
+ * Reads texture data from a file descriptor and
+ * returns it as an array of strings.
  * @param fd The file descriptor to read from.
  * @return An array of strings containing the raw texture data,
  * 		   or NULL on error.
@@ -91,8 +92,8 @@ static char	*get_texture(char *str)
 	size_t	i;
 	size_t	j;
 
-	texture = malloc(sizeof(char) *
-					(chars_till_eol(str) - count_char(str, ' ') + 1));
+	texture = malloc(sizeof(char)
+			* (chars_till_eol(str) - count_char(str, ' ') + 1));
 	if (texture == NULL)
 		return (NULL);
 	j = 0;
