@@ -6,33 +6,13 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:42:20 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 16:36:35 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:40:06 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
 static int	get_tile_type(t_level *lvl, int tile);
-
-/**
- * Calculates the delta values for the ray direction.
- * @param raydir The ray direction vector.
- * @return A vector describing the delta value.
- */
-t_vect	calculate_delta(t_vect raydir)
-{
-	t_vect	delta;
-
-	if (fabs(raydir.x) < EPSILON)
-		delta.x = 1e30;
-	else
-		delta.x = fabs(1 / raydir.x);
-	if (fabs(raydir.y) < EPSILON)
-		delta.y = 1e30;
-	else
-		delta.y = fabs(1 / raydir.y);
-	return (delta);
-}
 
 /**
  * Calculates the side distances based on the player's position,
@@ -112,7 +92,8 @@ t_point	calculate_map(t_playerdata p)
  * @param lvl The level data containing the map and player data.
  * @return void
  */
-void	calculate_ray(t_point *map, t_raycast *ray, t_level *lvl, bool check_door)
+void	calculate_ray(t_point *map, t_raycast *ray,
+		t_level *lvl, bool check_door)
 {
 	bool	hit;
 
