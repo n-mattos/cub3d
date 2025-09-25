@@ -6,14 +6,15 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:06:03 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 12:05:51 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:02:46 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
 /**
- * Creates a new portal list node with the given id, source point A, and target point for B.
+ * Creates a new portal list node with the given id,
+ * source point A, and target point for B.
  * @param id Character identifier for the portal.
  * @param sourceA t_point representing the source point of the A portal.
  * @param targetB t_point representing the target point of the B portal.
@@ -41,7 +42,8 @@ t_portal_list	*create_portal_node(char id, t_point sourceA, t_point targetB)
  * @param new_node Pointer to the new node to be appended.
  * @return Pointer to the newly appended node, or NULL if new_node is NULL.
  */
-t_portal_list	*append_portal_node(t_portal_list **head, t_portal_list *new_node)
+t_portal_list	*append_portal_node(t_portal_list **head,
+		t_portal_list *new_node)
 {
 	t_portal_list	*current;
 
@@ -85,7 +87,8 @@ t_portal_list	*find_portal_node(t_portal_list *head, char id)
  * @param sourceB t_point representing the new source point of the B portal.
  * @param targetA t_point representing the new target point of the A portal.
  */
-void	update_portal_node(t_portal_list *node, t_point sourceB, t_point targetA)
+void	update_portal_node(t_portal_list *node, t_point sourceB,
+		t_point targetA)
 {
 	node->B[SOURCE] = sourceB;
 	node->A[TARGET] = targetA;
