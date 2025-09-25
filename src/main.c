@@ -6,11 +6,15 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 15:43:24 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:12:38 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+static mlx_t	*initialize_mlx(t_level *level);
+static t_data	*allocate_data(t_level *level, mlx_t *mlx);
+static void		exit_program(mlx_t *mlx, t_data *data);
 
 int	main(int argc, char **argv)
 {
@@ -30,6 +34,11 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
+/**
+ * Initializes the MLX instance with the specified width and height.
+ * @param level Pointer to the game level structure (used for error handling).
+ * @returns mlx_t*; Pointer to the initialized MLX instance.
+ */
 static mlx_t	*initialize_mlx(t_level *level)
 {
 	mlx_t	*mlx;
@@ -44,6 +53,12 @@ static mlx_t	*initialize_mlx(t_level *level)
 	return (mlx);
 }
 
+/**
+ * Allocates memory for the game data structure and initializes its members.
+ * @param level Pointer to the game level structure.
+ * @param mlx Pointer to the MLX instance.
+ * @returns t_data*; Pointer to the allocated and initialized game data structure.
+ */
 static t_data	*allocate_data(t_level *level, mlx_t *mlx)
 {
 	t_data	*data;
@@ -70,6 +85,9 @@ static t_data	*allocate_data(t_level *level, mlx_t *mlx)
 	return (data);
 }
 
+/**
+ * Frees all allocated resources and exits the program.
+ */
 static void	exit_program(mlx_t *mlx, t_data *data)
 {
 	free_level(data->level);

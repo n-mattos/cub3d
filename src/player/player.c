@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 13:19:54 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 16:40:18 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:15:19 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,12 @@ int	player_starting_direction(t_playerdata *player, int direction)
 	return (1);
 }
 
+/**
+ * Sets the player's direction and camera plane.
+ * @param player Pointer to the player data structure to be updated.
+ * @param direction The direction vector representing the player's facing direction.
+ * @param plane The camera plane vector perpendicular to the direction.
+ */
 static void	set_player_direction(
 				t_playerdata *player, t_point direction, t_vect plane)
 {

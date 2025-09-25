@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:31:19 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 15:34:27 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:14:56 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	run_game(mlx_t *mlx, t_data *data)
 	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(mlx, &loop_game, (void *)data);
-	mlx_key_hook(mlx, &keys, (void *)data);
+	mlx_key_hook(mlx, &single_press_interactions, (void *)data);
 	mlx_cursor_hook(mlx, &mouse_move, (void *)data);
 	mlx_loop(mlx);
 	mlx_delete_image(mlx, data->minimap);

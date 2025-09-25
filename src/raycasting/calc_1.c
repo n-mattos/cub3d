@@ -6,11 +6,13 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:42:20 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 15:24:04 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:36:35 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+static int	get_tile_type(t_level *lvl, int tile);
 
 /**
  * Calculates the delta values for the ray direction.
@@ -106,14 +108,11 @@ t_point	calculate_map(t_playerdata p)
  * Calculates the ray based on the map coordinates, side distances,
  * delta values, step values, and hit side.
  * @param map The current map coordinates.
- * @param side The side distance vector.
- * @param delta The delta values for the ray direction.
- * @param step The step values for the ray direction.
- * @param hit_side Which side was hit (horizontal or vertical).
+ * @param ray The raycast data structure to be updated.
  * @param lvl The level data containing the map and player data.
  * @return void
  */
-void	calculate_ray(t_point *map, t_raycast *ray, t_level *lvl)
+void	calculate_ray(t_point *map, t_raycast *ray, t_level *lvl, bool check_door)
 {
 	bool	hit;
 
@@ -135,12 +134,25 @@ void	calculate_ray(t_point *map, t_raycast *ray, t_level *lvl)
 		hit = !is_player(lvl->map[map->y][map->x])
 			&& lvl->map[map->y][map->x] != FLOOR
 			&& lvl->map[map->y][map->x] != DOOR_OPEN;
+		if (check_door)
+			hit = !is_player(lvl->map[map->y][map->x])
+				&& lvl->map[map->y][map->x] != FLOOR;
 	}
-	ray->tile = lvl->map[map->y][map->x];
-	if (find_portal_node(lvl->portals, ray->tile) != NULL)
-		ray->tile = PORTAL;
-	if (ray->tile == 'D')
-		ray->tile = DOOR;
-	if (ray->tile == 'd')
-		ray->tile = DOOR_OPEN;
+	ray->tile = get_tile_type(lvl, lvl->map[map->y][map->x]);
+}
+
+/**
+ * Determines the type of tile based on its character representation.
+ * @param tile The character representing the tile.
+ * @return An integer representing the tile type (WALL, DOOR, PORTAL, or EMPTY).
+ */
+static int	get_tile_type(t_level *lvl, int tile)
+{
+	if (tile == 'D')
+		return (DOOR);
+	if (tile == 'd')
+		return (DOOR_OPEN);
+	if (find_portal_node(lvl->portals, tile) != NULL)
+		return (PORTAL);
+	return (EMPTY);
 }

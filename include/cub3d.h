@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 15:34:32 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:33:06 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,20 +191,25 @@ void			run_game(mlx_t *mlx, t_data *data);
 t_playerdata	*retrieve_player(int **map);
 int				player_starting_direction(t_playerdata *player, int direction);
 
-/* movement */
+/* player_input */
 void			player_input(t_data *d);
-void			keys(mlx_key_data_t keydata, void *data);
-void			mouse_move(double x, double y, void *data);
+void			single_press_interactions(mlx_key_data_t keydata, void *data);
+void			mouse_move(double x, double y, void *d);
+void			turn_keys(t_data *d, t_playerdata *p);
+void			move_player(t_data *d, t_playerdata *p);
+void			door_interaction(t_data *d, mlx_key_data_t keydata);
+void			collision(t_level *level, t_vect new);
 
 /* raycast */
 void			raycast_dda(t_data *d);
+t_raycast		single_ray(t_data *d, t_playerdata p, int x);
 
 /* calculations */
 t_vect			calculate_raydir(mlx_image_t *img, t_playerdata p, int x);
 t_vect			calculate_side(t_playerdata p, t_raycast *ray, t_point map);
 t_vect			calculate_delta(t_vect raydir);
 t_point			calculate_map(t_playerdata p);
-void			calculate_ray(t_point *map, t_raycast *ray, t_level *lvl);
+void			calculate_ray(t_point *map, t_raycast *ray, t_level *lvl, bool check_door);
 double			calculate_perpendicular_distance(t_playerdata p, t_raycast *ray, t_point map);
 t_vect			calculate_intersection(t_playerdata p, t_vect raydir, double perp_wall_dist);
 double			calculate_wallx(t_playerdata *p, int hit_side, double perp_wall_dist, t_vect raydir);
