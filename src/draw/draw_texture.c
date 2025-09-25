@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 11:00:56 by nmattos           #+#    #+#             */
-/*   Updated: 2025/09/25 11:37:36 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:15:08 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static mlx_texture_t	*get_texture(t_textures *textures, t_raycast *ray)
 		if (textures->portal[ray->frame]->pixels[((ray->txt_y * textures->portal[ray->frame]->width + ray->txt_x) * textures->portal[ray->frame]->bytes_per_pixel) + 3] != 0)
 			return (textures->portal[ray->frame]);
 	}
+	if (ray->tile == DOOR)
+		return (textures->door);
 	if (ray->hit_side == VERTICAL)
 	{
 		if (ray->raydir.x > 0)

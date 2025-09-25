@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 16:40:08 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:28:08 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ static int	handle_portal(t_level *level, t_playerdata *p, int y, int x)
 {
 	t_portal_list	*portal;
 
-	portal = find_node(level->portals, level->map[y][x]);
+	portal = find_portal_node(level->portals, level->map[y][x]);
 	if (portal)
 	{
 		if (portal->A[SOURCE].x == x && portal->A[SOURCE].y == y)

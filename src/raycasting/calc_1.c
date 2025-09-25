@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:42:20 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 17:17:23 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:16:52 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ void	calculate_ray(t_point *map, t_raycast *ray, t_level *lvl)
 		hit = !is_player(lvl->map[map->y][map->x]) && lvl->map[map->y][map->x] != FLOOR;
 	}
 	ray->tile = lvl->map[map->y][map->x];
-	if (find_node(lvl->portals, ray->tile) != NULL)
+	if (find_portal_node(lvl->portals, ray->tile) != NULL)
 		ray->tile = PORTAL;
+	if (ray->tile == 'd' || ray->tile == 'D')
+		ray->tile = DOOR;
 }

@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 11:14:29 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:15:18 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef enum e_tile {
 	EAST = 'E',
 	SOUTH = 'S',
 	WEST = 'W',
+	DOOR = 'D',
 	PORTAL = 'P'
 }	t_tile;
 
@@ -106,6 +107,7 @@ typedef struct s_textures {
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
 	mlx_texture_t	*portal[6];
+	mlx_texture_t	*door;
 	int				floor;
 	int				ceiling;
 }	t_textures;
@@ -135,6 +137,12 @@ typedef struct s_portal_list {
 	struct s_portal_list	*next;
 }	t_portal_list;
 
+typedef struct s_door_list {
+	t_point				pos;
+	bool				is_open;
+	struct s_door_list	*next;
+}	t_door_list;
+
 typedef struct s_gif
 {
 	double	current;
@@ -142,10 +150,10 @@ typedef struct s_gif
 	int		frame;
 }	t_gif;
 
-
 typedef struct s_level {
 	int				**map;
 	t_portal_list	*portals;
+	t_door_list		*doors;
 	t_textures		*textures;
 	t_playerdata	*player;
 }	t_level;
@@ -226,9 +234,16 @@ size_t	count_char(char *str, char c);
 bool	is_player(int c);
 
 /* portal list */
-t_portal_list	*create_node(char id, t_point sourceA, t_point targetB);
-t_portal_list	*append_node(t_portal_list **head, t_portal_list *new_node);
-t_portal_list	*find_node(t_portal_list *head, char id);
-void			update_node(t_portal_list *node, t_point sourceB, t_point targetA);
-t_portal_list	*free_list(t_portal_list **head);
+t_portal_list	*create_portal_node(char id, t_point sourceB, t_point targetA);
+t_portal_list	*append_portal_node(t_portal_list **head, t_portal_list *new_node);
+t_portal_list	*find_portal_node(t_portal_list *head, char id);
+void			update_portal_node(t_portal_list *node, t_point sourceB, t_point targetA);
+t_portal_list	*free_portal_list(t_portal_list **head);
+
+/* door list */
+t_door_list	*create_door_node(t_point position, bool is_open);
+t_door_list	*append_door_node(t_door_list **head, t_door_list *new_node);
+t_door_list	*find_door_node(t_door_list *head, t_point pos);
+t_door_list	*free_door_list(t_door_list **head);
+
 #endif

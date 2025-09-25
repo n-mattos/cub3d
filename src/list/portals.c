@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.c                                             :+:      :+:    :+:   */
+/*   portals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:06:03 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:35:15 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:05:51 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param targetB t_point representing the target point of the B portal.
  * @return Pointer to the newly created node, or NULL if memory allocation fails.
  */
-t_portal_list	*create_node(char id, t_point sourceA, t_point targetB)
+t_portal_list	*create_portal_node(char id, t_point sourceA, t_point targetB)
 {
 	t_portal_list	*new_node;
 
@@ -41,7 +41,7 @@ t_portal_list	*create_node(char id, t_point sourceA, t_point targetB)
  * @param new_node Pointer to the new node to be appended.
  * @return Pointer to the newly appended node, or NULL if new_node is NULL.
  */
-t_portal_list	*append_node(t_portal_list **head, t_portal_list *new_node)
+t_portal_list	*append_portal_node(t_portal_list **head, t_portal_list *new_node)
 {
 	t_portal_list	*current;
 
@@ -65,7 +65,7 @@ t_portal_list	*append_node(t_portal_list **head, t_portal_list *new_node)
  * @param id Character identifier of the portal to find.
  * @return Pointer to the found node, or NULL if not found.
  */
-t_portal_list	*find_node(t_portal_list *head, char id)
+t_portal_list	*find_portal_node(t_portal_list *head, char id)
 {
 	t_portal_list	*current;
 
@@ -85,7 +85,7 @@ t_portal_list	*find_node(t_portal_list *head, char id)
  * @param sourceB t_point representing the new source point of the B portal.
  * @param targetA t_point representing the new target point of the A portal.
  */
-void	update_node(t_portal_list *node, t_point sourceB, t_point targetA)
+void	update_portal_node(t_portal_list *node, t_point sourceB, t_point targetA)
 {
 	node->B[SOURCE] = sourceB;
 	node->A[TARGET] = targetA;
@@ -96,7 +96,7 @@ void	update_node(t_portal_list *node, t_point sourceB, t_point targetA)
  * @param head Pointer to the head of the portal list.
  * @return NULL after freeing the list.
  */
-t_portal_list	*free_list(t_portal_list **head)
+t_portal_list	*free_portal_list(t_portal_list **head)
 {
 	t_portal_list	*current;
 	t_portal_list	*next;
