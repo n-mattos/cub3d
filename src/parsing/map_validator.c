@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   map_validator.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 13:57:43 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 15:19:34 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   map_validator.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/24 13:57:43 by nmattos-      #+#    #+#                 */
+/*   Updated: 2025/09/30 08:46:53 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,9 @@ bool	get_portals(int **map, t_portal_list **portals)
 	size_t			x;
 	size_t			y;
 	t_portal_list	*found_tp;
-	int				curr_tp_char;
 
 	x = 0;
 	y = 0;
-	curr_tp_char = 0;
 	while (map[y] != NULL)
 	{
 		x = 0;
