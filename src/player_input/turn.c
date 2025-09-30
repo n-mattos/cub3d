@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   turn.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/25 15:52:49 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 16:05:10 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   turn.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/09/25 15:52:49 by nmattos-      #+#    #+#                 */
+/*   Updated: 2025/09/30 13:46:55 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	mouse_move(double x, double y, void *d)
 		return ;
 	}
 	data->prev_mouse_x = x;
-	turn(data->level->player, -((IMG_WIDTH / 2 - x) * 0.0006));
+	turn(data->level->player, -((IMG_WIDTH / 2 - x) * 0.0004));
 	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 }
 
