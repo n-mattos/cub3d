@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_textures.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
-/*   Updated: 2025/09/25 15:21:33 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse_textures.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/24 09:10:46 by nmattos       #+#    #+#                 */
+/*   Updated: 2025/09/30 09:38:11 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
 static char			**get_raw_texture_data(int fd);
+static char			**get_raw_texture(int fd, char *line, char **raw_textures);
 static char			*get_texture(char *str);
-static t_textures	*sort_texture_data(char **raw, t_textures *textures);
-static bool			check_texture_validity(t_textures *textures);
 
 /**
  * Parses textures from a file descriptor.
@@ -51,18 +50,27 @@ t_textures	*parse_textures(int fd)
 static char	**get_raw_texture_data(int fd)
 {
 	char	**raw_textures;
-	size_t	n_data;
 	char	*line;
-	size_t	i;
 
-	n_data = 0;
-	i = 0;
 	line = get_next_line(fd);
 	if (line == NULL)
 		return (perror("Error\nFile is empty"), NULL);
 	raw_textures = malloc(sizeof(char *) * 6);
 	if (raw_textures == NULL)
 		return (perror("Error\nMalloc for textures failed"), NULL);
+	raw_textures = get_raw_texture(fd, line, raw_textures);
+	if (raw_textures == NULL)
+		return (perror("Error\nMalloc for textures failed"), NULL);
+	free(line);
+	return (raw_textures);
+}
+
+static char	**get_raw_texture(int fd, char *line, char **raw_textures)
+{
+	size_t	n_data;
+	size_t	i;
+
+	n_data = 0;
 	while (line && n_data < 7)
 	{
 		i = skip_whitespaces(line, 0);
@@ -70,13 +78,12 @@ static char	**get_raw_texture_data(int fd)
 		{
 			raw_textures[n_data] = get_texture(line);
 			if (raw_textures[n_data] == NULL)
-				return (free(line), NULL);
+				return (free(line), free_raw_textures(raw_textures), NULL);
 			n_data++;
 		}
 		free(line);
 		line = get_next_line(fd);
 	}
-	free(line);
 	return (raw_textures);
 }
 
@@ -105,106 +112,4 @@ static char	*get_texture(char *str)
 	}
 	texture[j] = '\0';
 	return (texture);
-}
-
-bool	transform_rgb_string(char *rgb)
-{
-	int	index;
-	int	commacount;
-
-	index = 0;
-	commacount = 0;
-	while (rgb[index])
-	{
-		if (rgb[index] == ',')
-		{
-			commacount++;
-			if (commacount > 2)
-				return (false);
-			if (!ft_isdigit(rgb[index + 1]))
-				return (false);
-			rgb[index] = '\0';
-		}
-		else if (!ft_isdigit(rgb[index]))
-			return (false);
-		index++;
-	}
-	return (true);
-}
-
-int	rgbfromstr(char *rgb)
-{
-	int	r;
-	int	g;
-	int	b;
-
-	if (!transform_rgb_string(rgb))
-		return (-1);
-	r = ft_atoi(rgb);
-	while (*rgb)
-		rgb++;
-	rgb++;
-	g = ft_atoi(rgb);
-	while (*rgb)
-		rgb++;
-	rgb++;
-	b = ft_atoi(rgb);
-	return ((r << 24) | (g << 16) | (b << 8) | 0xFF);
-}
-
-/**
- * Sorts the raw texture data into the t_textures structure.
- * @param raw The array of raw texture strings.
- * @param textures The t_textures structure to fill.
- * @return A pointer to the filled t_textures structure,
- *         or NULL if an error occurs.
- */
-static t_textures	*sort_texture_data(char **raw, t_textures *textures)
-{
-	size_t	i;
-
-	i = -1;
-	while (++i < 7)
-	{
-		if (ft_strncmp(raw[i], "NO", 2) == 0)
-			textures->north = mlx_load_png(raw[i] + 2);
-		else if (ft_strncmp(raw[i], "EA", 2) == 0)
-			textures->east = mlx_load_png(raw[i] + 2);
-		else if (ft_strncmp(raw[i], "SO", 2) == 0)
-			textures->south = mlx_load_png(raw[i] + 2);
-		else if (ft_strncmp(raw[i], "WE", 2) == 0)
-			textures->west = mlx_load_png(raw[i] + 2);
-		else if (ft_strncmp(raw[i], "DO", 2) == 0)
-			textures->door = mlx_load_png(raw[i] + 2);
-		else if (raw[i][0] == 'F')
-			textures->floor = rgbfromstr(raw[i] + 1);
-		else if (raw[i][0] == 'C')
-			textures->ceiling = rgbfromstr(raw[i] + 1);
-		else
-			return (free_raw_textures(raw), free_textures(textures), NULL);
-	}
-	textures->portal[0] = mlx_load_png("textures/portal/1.png");
-	textures->portal[1] = mlx_load_png("textures/portal/2.png");
-	textures->portal[2] = mlx_load_png("textures/portal/3.png");
-	textures->portal[3] = mlx_load_png("textures/portal/4.png");
-	textures->portal[4] = mlx_load_png("textures/portal/5.png");
-	textures->portal[5] = mlx_load_png("textures/portal/6.png");
-	if (check_texture_validity(textures) == false)
-		return (free_raw_textures(raw), free_textures(textures), NULL);
-	return (free_raw_textures(raw), textures);
-}
-
-static bool	check_texture_validity(t_textures *textures)
-{
-	if (textures->north == NULL || textures->east == NULL
-		|| textures->south == NULL || textures->west == NULL
-		|| textures->floor == -1 || textures->ceiling == -1
-		|| textures->portal[0] == NULL || textures->portal[1] == NULL
-		|| textures->portal[2] == NULL || textures->portal[3] == NULL
-		|| textures->portal[4] == NULL || textures->portal[5] == NULL
-		|| textures->door == NULL)
-	{
-		return (false);
-	}
-	return (true);
 }

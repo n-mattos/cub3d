@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 12:53:01 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 09:09:52 by nmattos       ########   odam.nl         */
+/*   Updated: 2025/09/30 09:28:03 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ typedef struct s_data
 /* parse */
 t_level			*parse(char *fn_map);
 t_textures		*parse_textures(int fd);
+t_textures		*sort_texture_data(char **raw, t_textures *textures);
 t_level			*parse_map(int fd);
 bool			map_is_valid(int **map);
 bool			get_portals(int **map, t_portal_list **portals);

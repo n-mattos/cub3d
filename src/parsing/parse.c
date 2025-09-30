@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/09/25 15:23:17 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/24 09:10:52 by nmattos       #+#    #+#                 */
+/*   Updated: 2025/09/30 09:32:07 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,8 @@ t_level	*parse(char *fn_map)
 		return (perror("Error\nmap == NULL"), free_textures(textures), NULL);
 	level->textures = textures;
 	if (!map_is_valid(level->map))
-	{
-		free_textures(textures);
-		free_map(level->map, -1);
-		perror("Error\nMap is invalid\n");
-		return (NULL);
-	}
+		return (perror("Error\nMap is invalid\n"), free_map(level->map, -1),
+			free_textures(textures), NULL);
 	if (!get_portals(level->map, &level->portals))
 		return (perror("Error\nInvalid portals\n"), free_level(level), NULL);
 	level->player = retrieve_player(level->map);
