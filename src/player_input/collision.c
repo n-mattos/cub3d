@@ -6,7 +6,7 @@
 /*   By: mschippe <mschippe@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/25 16:01:23 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 13:35:17 by nmattos       ########   odam.nl         */
+/*   Updated: 2025/09/30 13:36:22 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ void	collision(t_level *level, t_vect new)
 	collision_x(level, level->player, new);
 }
 
+/**
+ * Handles player collision with walls in the y-direction.
+ * @param level Pointer to the level data structure.
+ * @param p Pointer to the player data structure.
+ * @param new The new position vector of the player.
+ * @returns int; PORTAL if the player teleported through a portal, 0 otherwise.
+ * 					Updates the player's y-coordinate if the new y-coordinate
+ * 					does not collide with walls.
+ */
 static int	collision_y(t_level *level, t_playerdata *p, t_vect new)
 {
 	if (new.y > p->y)
@@ -54,6 +63,14 @@ static int	collision_y(t_level *level, t_playerdata *p, t_vect new)
 	return (0);
 }
 
+/**
+ * Handles player collision with walls in the x-direction.
+ * @param level Pointer to the level data structure.
+ * @param p Pointer to the player data structure.
+ * @param new The new position vector of the player.
+ * @returns void; Updates the player's x-coordinate if the new x-coordinate
+ * 				  does not collide with walls.
+ */
 static void	collision_x(t_level *level, t_playerdata *p, t_vect new)
 {
 	if (new.x < p->x)
