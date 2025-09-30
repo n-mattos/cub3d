@@ -6,7 +6,7 @@
 /*   By: nmattos <nmattos@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/30 08:56:07 by nmattos       #+#    #+#                 */
-/*   Updated: 2025/09/30 08:56:33 by nmattos       ########   odam.nl         */
+/*   Updated: 2025/09/30 13:17:06 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	drawrectangle(mlx_image_t *img, t_point wh,
 	int			x;
 	int			y;
 
-	x = MMAP_SQUARE_BORDER;
-	y = MMAP_SQUARE_BORDER;
+	x = 0;
+	y = 0;
 	while (y < wh.y - MMAP_SQUARE_BORDER)
 	{
 		while (x < wh.x - MMAP_SQUARE_BORDER)
