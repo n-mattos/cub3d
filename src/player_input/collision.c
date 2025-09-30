@@ -6,13 +6,13 @@
 /*   By: mschippe <mschippe@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/25 16:01:23 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 09:10:16 by nmattos       ########   odam.nl         */
+/*   Updated: 2025/09/30 13:35:17 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static void		collision_y(t_level *level, t_playerdata *p, t_vect new);
+static int		collision_y(t_level *level, t_playerdata *p, t_vect new);
 static void		collision_x(t_level *level, t_playerdata *p, t_vect new);
 static int		handle_portal(t_level *level, t_playerdata *p, int y, int x);
 static int		get_direction(t_point A, t_point B);
@@ -28,16 +28,17 @@ static int		get_direction(t_point A, t_point B);
  */
 void	collision(t_level *level, t_vect new)
 {
-	collision_y(level, level->player, new);
+	if (collision_y(level, level->player, new) == PORTAL)
+		return ;
 	collision_x(level, level->player, new);
 }
 
-static void	collision_y(t_level *level, t_playerdata *p, t_vect new)
+static int	collision_y(t_level *level, t_playerdata *p, t_vect new)
 {
 	if (new.y > p->y)
 	{
 		if (handle_portal(level, p, (int)(new.y + COLLISION_BUFFER), (int)p->x))
-			return ;
+			return (PORTAL);
 		if (level->map[(int)(new.y + COLLISION_BUFFER)][(int)p->x] != WALL
 			&& level->map[(int)(new.y + COLLISION_BUFFER)][(int)p->x] != DOOR)
 			p->y = new.y;
@@ -45,11 +46,12 @@ static void	collision_y(t_level *level, t_playerdata *p, t_vect new)
 	else
 	{
 		if (handle_portal(level, p, (int)(new.y - COLLISION_BUFFER), (int)p->x))
-			return ;
+			return (PORTAL);
 		if (level->map[(int)(new.y - COLLISION_BUFFER)][(int)p->x] != WALL
 			&& level->map[(int)(new.y - COLLISION_BUFFER)][(int)p->x] != DOOR)
 			p->y = new.y;
 	}
+	return (0);
 }
 
 static void	collision_x(t_level *level, t_playerdata *p, t_vect new)
