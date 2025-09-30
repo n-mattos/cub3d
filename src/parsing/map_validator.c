@@ -6,13 +6,16 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/24 13:57:43 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 09:09:52 by nmattos       ########   odam.nl         */
+/*   Updated: 2025/09/30 09:19:16 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static bool	invalid_tile(int **map, size_t y, size_t x);
+static bool		fetch_portal(int **map, t_portal_list **portals,
+					size_t x, size_t y);
+static t_point	get_portal_target(int **map, int x, int y);
+static bool		invalid_tile(int **map, size_t y, size_t x);
 
 /**
  * Checks if the map is valid.
@@ -46,7 +49,57 @@ bool	map_is_valid(int **map)
 	return (true);
 }
 
-t_point	get_portal_target(int **map, int x, int y)
+bool	get_portals(int **map, t_portal_list **portals)
+{
+	size_t			x;
+	size_t			y;
+
+	x = 0;
+	y = 0;
+	while (map[y] != NULL)
+	{
+		x = 0;
+		while (map[y][x] != '\0')
+		{
+			if (!fetch_portal(map, portals, x, y))
+				return (false);
+			x++;
+		}
+		y++;
+	}
+	return (true);
+}
+
+static bool	fetch_portal(int **map, t_portal_list **portals,
+			size_t x, size_t y)
+{
+	t_portal_list	*found_tp;
+
+	if (map[y][x] != FLOOR && map[y][x] != WALL
+		&& map[y][x] != EMPTY && map[y][x] != DOOR
+		&& !is_player(map[y][x]))
+	{
+		found_tp = find_portal_node(*portals, map[y][x]);
+		if (get_portal_target(map, x, y).x == -1
+			&& get_portal_target(map, x, y).y == -1)
+			return (free_portal_list(portals), false);
+		else if (!found_tp)
+		{
+			if (!append_portal_node(portals, create_portal_node(
+						map[y][x], (t_point){x, y},
+				get_portal_target(map, x, y))))
+				return (free_portal_list(portals), false);
+		}
+		else if (found_tp->b[SOURCE].x == -1)
+			update_portal_node(found_tp, (t_point){x, y},
+				get_portal_target(map, x, y));
+		else
+			return (free_portal_list(portals), false);
+	}
+	return (true);
+}
+
+static t_point	get_portal_target(int **map, int x, int y)
 {
 	if (map[y + 1][x] == FLOOR)
 		return ((t_point){x, y + 1});
@@ -57,53 +110,6 @@ t_point	get_portal_target(int **map, int x, int y)
 	if (map[y][x - 1] == FLOOR)
 		return ((t_point){x - 1, y});
 	return ((t_point){-1, -1});
-}
-
-bool	is_valid_point(t_point point)
-{
-	return (point.x != -1 && point.y != -1);
-}
-
-bool	get_portals(int **map, t_portal_list **portals)
-{
-	size_t			x;
-	size_t			y;
-	t_portal_list	*found_tp;
-
-	x = 0;
-	y = 0;
-	while (map[y] != NULL)
-	{
-		x = 0;
-		while (map[y][x] != '\0')
-		{
-			if (map[y][x] != FLOOR
-				&& map[y][x] != WALL
-				&& map[y][x] != EMPTY
-				&& map[y][x] != DOOR
-				&& !is_player(map[y][x]))
-			{
-				found_tp = find_portal_node(*portals, map[y][x]);
-				if (!is_valid_point(get_portal_target(map, x, y)))
-					return (free_portal_list(portals), false);
-				else if (!found_tp)
-				{
-					if (!append_portal_node(portals, create_portal_node(
-								map[y][x], (t_point){x, y},
-						get_portal_target(map, x, y))))
-						return (free_portal_list(portals), false);
-				}
-				else if (found_tp->b[SOURCE].x == -1)
-					update_portal_node(found_tp, (t_point){x, y},
-						get_portal_target(map, x, y));
-				else
-					return (free_portal_list(portals), false);
-			}
-			x++;
-		}
-		y++;
-	}
-	return (true);
 }
 
 /**
