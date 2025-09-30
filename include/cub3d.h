@@ -6,11 +6,11 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 12:53:01 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 08:57:29 by nmattos       ########   odam.nl         */
+/*   Updated: 2025/09/30 09:09:52 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	CUB3D_H
+#ifndef CUB3D_H
 # define CUB3D_H
 
 # include <fcntl.h>
@@ -40,29 +40,28 @@
 # define MOVESPEED 0.1
 # define COLLISION_BUFFER 0.1
 
-# define IMG_HEIGHT 1080.0
-# define IMG_WIDTH 1920.0
+# define IMG_HEIGHT 1080
+# define IMG_WIDTH 1920
 
 # define MMAP_DIAM 400.0
 # define MMAP_BORDER_THICKNESS 2
 # define MMAP_SQUARE_BORDER 2
 
-# define TOTAL_RAYS (IMG_WIDTH)		// total rays to cast (width of the screen)
+# define TOTAL_RAYS IMG_WIDTH		// total rays to cast (width of the screen)
 # define PERCENTAGE_RAYS 10			// percentage of rays to display (minimap)
 
-# define TEXTURE_WIDTH 64			// width of the texture (currently hardcoded to 64)
-# define TEXTURE_HEIGHT 64			// height of the texture (currently hardcoded to 64)
+# define TEXTURE_WIDTH 64			// width of the texture
+# define TEXTURE_HEIGHT 64			// height of the texture
 
 # define SOURCE 0
 # define TARGET 1
 
-# define INVALID_POINT (t_point){-1, -1}
-
 # define PI 3.14159265358979323846
-# define HYPOTENUSE 1.41421356237 / 2
+# define HYPOTENUSE 0.70710678118654752440 // sqrt(2)/2
 # define EPSILON 1.e-10
 
-typedef enum e_tile {
+typedef enum e_tile
+{
 	EMPTY = ' ',
 	WALL = '1',
 	FLOOR = '0',
@@ -75,7 +74,8 @@ typedef enum e_tile {
 	PORTAL = 'P'
 }	t_tile;
 
-typedef enum e_hit_side {
+typedef enum e_hit_side
+{
 	NO_HIT = -1,
 	VERTICAL = 0,
 	HORIZONTAL = 1,
@@ -93,7 +93,8 @@ typedef struct s_vect
 	double	y;
 }	t_vect;
 
-typedef struct s_playerdata {
+typedef struct s_playerdata
+{
 	double	x;
 	double	y;
 	double	dir_x;
@@ -102,7 +103,8 @@ typedef struct s_playerdata {
 	double	plane_y;
 }	t_playerdata;
 
-typedef struct s_textures {
+typedef struct s_textures
+{
 	mlx_texture_t	*north;
 	mlx_texture_t	*east;
 	mlx_texture_t	*south;
@@ -113,7 +115,8 @@ typedef struct s_textures {
 	int				ceiling;
 }	t_textures;
 
-typedef struct s_raycast {
+typedef struct s_raycast
+{
 	t_vect		raydir;
 	t_vect		delta;
 	t_vect		side;
@@ -131,10 +134,11 @@ typedef struct s_raycast {
 	int			frame;
 }	t_raycast;
 
-typedef struct s_portal_list {
+typedef struct s_portal_list
+{
 	char					id;
-	t_point					A[2];
-	t_point					B[2];
+	t_point					a[2];
+	t_point					b[2];
 	struct s_portal_list	*next;
 }	t_portal_list;
 
@@ -145,14 +149,16 @@ typedef struct s_gif
 	int		frame;
 }	t_gif;
 
-typedef struct s_level {
+typedef struct s_level
+{
 	int				**map;
 	t_portal_list	*portals;
 	t_textures		*textures;
 	t_playerdata	*player;
 }	t_level;
 
-typedef struct s_data {
+typedef struct s_data
+{
 	mlx_t		*mlx;
 	mlx_image_t	*minimap;
 	mlx_image_t	*last_frame;
@@ -166,9 +172,8 @@ typedef struct s_data {
 	double		prev_mouse_x;
 }	t_data;
 
-/*****************************************************************************\
-*	Function Prototypes														  *
-\*****************************************************************************/
+/*	Function Prototypes
+\************************************************************************/
 
 /* parse */
 t_level			*parse(char *fn_map);
@@ -209,26 +214,37 @@ t_vect			calculate_raydir(mlx_image_t *img, t_playerdata p, int x);
 t_vect			calculate_side(t_playerdata p, t_raycast *ray, t_point map);
 t_vect			calculate_delta(t_vect raydir);
 t_point			calculate_map(t_playerdata p);
-void			calculate_ray(t_point *map, t_raycast *ray, t_level *lvl, bool check_door);
-double			calculate_perpendicular_distance(t_playerdata p, t_raycast *ray, t_point map);
-t_vect			calculate_intersection(t_playerdata p, t_vect raydir, double perp_wall_dist);
-double			calculate_wallx(t_playerdata *p, int hit_side, double perp_wall_dist, t_vect raydir);
+void			calculate_ray(t_point *map, t_raycast *ray,
+					t_level *lvl, bool check_door);
+double			calculate_perpendicular_distance(t_playerdata p,
+					t_raycast *ray, t_point map);
+t_vect			calculate_intersection(t_playerdata p, t_vect raydir,
+					double perp_wall_dist);
+double			calculate_wallx(t_playerdata *p, int hit_side,
+					double perp_wall_dist, t_vect raydir);
 
 /* draw */
 void			draw_all(t_data *d);
-void			draw_circle_outline(mlx_image_t *img, t_point center, int radius, uint32_t color);
-void			fill_circle(mlx_image_t *img, t_point center, int radius, uint32_t color);
+void			draw_circle_outline(mlx_image_t *img, t_point center,
+					int radius, uint32_t color);
+void			fill_circle(mlx_image_t *img, t_point center, int radius,
+					uint32_t color);
 bool			in_circle(t_point point, t_point center, int radius);
-void			drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color);
+void			drawvert(mlx_image_t *img, t_point a, t_point b,
+					uint32_t color);
 void			draw_textured_wall(t_raycast *ray, t_data *d, int x);
-void			draw_wall(mlx_image_t *img, double perp_dist, int side, int x);
-void			drawline(mlx_image_t *img, t_point a, t_point b, uint32_t color);
-void			drawrectangle(mlx_image_t *img, t_point wh, t_point coord, uint32_t color);
+void			draw_wall(mlx_image_t *img, double perp_dist,
+					int side, int x);
+void			drawline(mlx_image_t *img, t_point a, t_point b,
+					uint32_t color);
+void			drawrectangle(mlx_image_t *img, t_point wh, t_point coord,
+					uint32_t color);
 uint32_t		get_pixel_color(t_textures *textures, t_raycast *ray);
 
 /* draw/minimap */
 void			draw_minimap(t_data *d);
-void			draw_minimap_rays(t_data *d, t_playerdata p, t_vect intersect, int x);
+void			draw_minimap_rays(t_data *d, t_playerdata p,
+					t_vect intersect, int x);
 
 /* utils */
 size_t			chars_till_eol(char *str);
@@ -239,9 +255,11 @@ bool			is_player(int c);
 
 /* portal list */
 t_portal_list	*create_portal_node(char id, t_point sourceB, t_point targetA);
-t_portal_list	*append_portal_node(t_portal_list **head, t_portal_list *new_node);
+t_portal_list	*append_portal_node(t_portal_list **head,
+					t_portal_list *new_node);
 t_portal_list	*find_portal_node(t_portal_list *head, char id);
-void			update_portal_node(t_portal_list *node, t_point sourceB, t_point targetA);
+void			update_portal_node(t_portal_list *node,
+					t_point sourceB, t_point targetA);
 t_portal_list	*free_portal_list(t_portal_list **head);
 
 #endif

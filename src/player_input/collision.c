@@ -6,14 +6,16 @@
 /*   By: mschippe <mschippe@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/25 16:01:23 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 08:59:40 by nmattos       ########   odam.nl         */
+/*   Updated: 2025/09/30 09:10:16 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static int	handle_portal(t_level *level, t_playerdata *p, int y, int x);
-static int	get_direction(t_point A, t_point B);
+static void		collision_y(t_level *level, t_playerdata *p, t_vect new);
+static void		collision_x(t_level *level, t_playerdata *p, t_vect new);
+static int		handle_portal(t_level *level, t_playerdata *p, int y, int x);
+static int		get_direction(t_point A, t_point B);
 
 /**
  * Handles player collision with walls.
@@ -85,20 +87,20 @@ static int	handle_portal(t_level *level, t_playerdata *p, int y, int x)
 	portal = find_portal_node(level->portals, level->map[y][x]);
 	if (portal)
 	{
-		if (portal->A[SOURCE].x == x && portal->A[SOURCE].y == y)
+		if (portal->a[SOURCE].x == x && portal->a[SOURCE].y == y)
 		{
 			player_starting_direction(p,
-				get_direction(portal->B[SOURCE], portal->A[TARGET]));
-			p->x = portal->A[TARGET].x + 0.5;
-			p->y = portal->A[TARGET].y + 0.5;
+				get_direction(portal->b[SOURCE], portal->a[TARGET]));
+			p->x = portal->a[TARGET].x + 0.5;
+			p->y = portal->a[TARGET].y + 0.5;
 			return (1);
 		}
 		else
 		{
 			player_starting_direction(p,
-				get_direction(portal->A[SOURCE], portal->B[TARGET]));
-			p->x = portal->B[TARGET].x + 0.5;
-			p->y = portal->B[TARGET].y + 0.5;
+				get_direction(portal->a[SOURCE], portal->b[TARGET]));
+			p->x = portal->b[TARGET].x + 0.5;
+			p->y = portal->b[TARGET].y + 0.5;
 			return (1);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/24 13:57:43 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 08:46:53 by nmattos       ########   odam.nl         */
+/*   Updated: 2025/09/30 09:09:52 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_point	get_portal_target(int **map, int x, int y)
 		return ((t_point){x + 1, y});
 	if (map[y][x - 1] == FLOOR)
 		return ((t_point){x - 1, y});
-	return (INVALID_POINT);
+	return ((t_point){-1, -1});
 }
 
 bool	is_valid_point(t_point point)
@@ -93,7 +93,7 @@ bool	get_portals(int **map, t_portal_list **portals)
 						get_portal_target(map, x, y))))
 						return (free_portal_list(portals), false);
 				}
-				else if (found_tp->B[SOURCE].x == -1)
+				else if (found_tp->b[SOURCE].x == -1)
 					update_portal_node(found_tp, (t_point){x, y},
 						get_portal_target(map, x, y));
 				else

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   portals.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/24 14:06:03 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 15:02:46 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   portals.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/09/24 14:06:03 by nmattos-      #+#    #+#                 */
+/*   Updated: 2025/09/30 09:09:52 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ t_portal_list	*create_portal_node(char id, t_point sourceA, t_point targetB)
 	if (!new_node)
 		return (NULL);
 	new_node->id = id;
-	new_node->A[SOURCE] = sourceA;
-	new_node->A[TARGET] = INVALID_POINT;
-	new_node->B[SOURCE] = INVALID_POINT;
-	new_node->B[TARGET] = targetB;
+	new_node->a[SOURCE] = sourceA;
+	new_node->a[TARGET] = (t_point){-1, -1};
+	new_node->b[SOURCE] = (t_point){-1, -1};
+	new_node->b[TARGET] = targetB;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -90,8 +90,8 @@ t_portal_list	*find_portal_node(t_portal_list *head, char id)
 void	update_portal_node(t_portal_list *node, t_point sourceB,
 		t_point targetA)
 {
-	node->B[SOURCE] = sourceB;
-	node->A[TARGET] = targetA;
+	node->b[SOURCE] = sourceB;
+	node->a[TARGET] = targetA;
 }
 
 /**
