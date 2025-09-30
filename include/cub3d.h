@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 16:33:06 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/23 12:53:01 by nmattos-      #+#    #+#                 */
+/*   Updated: 2025/09/30 08:57:29 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ double			calculate_wallx(t_playerdata *p, int hit_side, double perp_wall_dist, t
 void			draw_all(t_data *d);
 void			draw_circle_outline(mlx_image_t *img, t_point center, int radius, uint32_t color);
 void			fill_circle(mlx_image_t *img, t_point center, int radius, uint32_t color);
+bool			in_circle(t_point point, t_point center, int radius);
 void			drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color);
 void			draw_textured_wall(t_raycast *ray, t_data *d, int x);
 void			draw_wall(mlx_image_t *img, double perp_dist, int side, int x);

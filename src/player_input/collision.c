@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   collision.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/25 16:01:23 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 16:46:11 by mschippe         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   collision.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mschippe <mschippe@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/09/25 16:01:23 by nmattos-      #+#    #+#                 */
+/*   Updated: 2025/09/30 08:59:40 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@ static int	get_direction(t_point A, t_point B);
  */
 void	collision(t_level *level, t_vect new)
 {
-	t_playerdata	*p;
+	collision_y(level, level->player, new);
+	collision_x(level, level->player, new);
+}
 
-	p = level->player;
+static void	collision_y(t_level *level, t_playerdata *p, t_vect new)
+{
 	if (new.y > p->y)
 	{
 		if (handle_portal(level, p, (int)(new.y + COLLISION_BUFFER), (int)p->x))
@@ -45,6 +48,10 @@ void	collision(t_level *level, t_vect new)
 			&& level->map[(int)(new.y - COLLISION_BUFFER)][(int)p->x] != DOOR)
 			p->y = new.y;
 	}
+}
+
+static void	collision_x(t_level *level, t_playerdata *p, t_vect new)
+{
 	if (new.x < p->x)
 	{
 		if (handle_portal(level, p, (int)p->y, (int)(new.x - COLLISION_BUFFER)))
