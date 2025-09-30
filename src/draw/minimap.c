@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minimap.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/11 13:34:49 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 14:59:28 by nmattos-         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minimap.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/08/11 13:34:49 by nmattos-      #+#    #+#                 */
+/*   Updated: 2025/09/30 12:56:25 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static uint32_t	getcolor(char tile);
 
 /**
  * Draws the minimap based on the level map.
- * @param d Pointer to the game data structure containing the minimap and level.
+ * @param d Pointer to the game data structure.
  */
 void	draw_minimap(t_data *d)
 {
@@ -41,6 +41,13 @@ void	draw_minimap(t_data *d)
 		(t_point){MMAP_DIAM / 2, MMAP_DIAM / 2}, MMAP_DIAM / 2, 0xFFFFFFFF);
 }
 
+/**
+ * Draws a single tile on the minimap.
+ * @param d Pointer to the game data structure.
+ * @param p Pointer to the player data containing the player's position.
+ * @param x The x-coordinate of the tile in the level map.
+ * @param y The y-coordinate of the tile in the level map.
+ */
 static void	draw_minimap_tile(t_data *d, t_playerdata *p, int x, int y)
 {
 	if ((MMAP_DIAM / 2 + (x - p->x) * d->rect <= MMAP_DIAM + d->rect
@@ -76,6 +83,11 @@ void	draw_minimap_rays(t_data *d, t_playerdata p, t_vect intersect, int x)
 	}
 }
 
+/**
+ * Generates a unique color for a portal based on its character ID.
+ * @param c The character ID of the portal.
+ * @return A unique color for the portal.
+ */
 static uint32_t	get_portal_color(char c)
 {
 	int	r;
