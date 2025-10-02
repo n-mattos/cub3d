@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/02 13:42:42 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/02 17:30:06 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct s_textures
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
 	mlx_texture_t	*portal[6];
+	mlx_texture_t	*door_gif[23];
 	mlx_texture_t	*door;
 	int				floor;
 	int				ceiling;
@@ -167,7 +168,7 @@ typedef struct s_data
 	mlx_image_t	*portal_effect;
 	mlx_image_t	*crosshair;
 	t_level		*level;
-	t_gif		*gif;
+	t_gif		*gif_portal;
 	int			rect;
 	double		delta_time;
 	double		move_speed;
@@ -237,6 +238,7 @@ bool			in_circle(t_point point, t_point center, int radius);
 void			drawvert(mlx_image_t *img, t_point a, t_point b,
 					uint32_t color);
 void			draw_textured_wall(t_raycast *ray, t_data *d, int x);
+void			draw_door(t_raycast *ray, t_data *d, int x);
 void			draw_wall(mlx_image_t *img, double perp_dist,
 					int side, int x);
 void			drawline(mlx_image_t *img, t_point a, t_point b,

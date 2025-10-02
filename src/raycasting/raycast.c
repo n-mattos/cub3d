@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/09/25 16:36:41 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/02 17:30:03 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,16 @@
 void	raycast_dda(t_data *d)
 {
 	t_raycast		ray;
+	t_raycast		copy;
 	t_playerdata	p;
 	int				x;
 
 	p = *d->level->player;
 	x = 0;
-	if (d->gif->current - d->gif->last > 0.1)
+	if (d->gif_portal->current - d->gif_portal->last > 0.1)
 	{
-		d->gif->frame = (d->gif->frame + 1) % 6;
-		d->gif->last = d->gif->current;
+		d->gif_portal->frame = (d->gif_portal->frame + 1) % 6;
+		d->gif_portal->last = d->gif_portal->current;
 	}
 	while (x < (int)d->last_frame->width)
 	{
@@ -39,7 +40,10 @@ void	raycast_dda(t_data *d)
 		ray.perp_wall_dist = calculate_perpendicular_distance(p, &ray, ray.map);
 		draw_minimap_rays(d, p, calculate_intersection(
 				p, ray.raydir, ray.perp_wall_dist), x);
-		draw_textured_wall(&ray, d, x);
+		copy = ray;
+		draw_textured_wall(&copy, d, x);
+		if (ray.tile == DOOR)
+			draw_door(&ray, d, x);
 		x += (int)d->last_frame->width / TOTAL_RAYS;
 	}
 }
@@ -55,11 +59,21 @@ t_raycast	single_ray(t_data *d, t_playerdata p, int x)
 {
 	t_raycast	ray;
 
-	ray.frame = d->gif->frame;
+	ray.frame = d->gif_portal->frame;
 	ray.raydir = calculate_raydir(d->last_frame, p, x);
 	ray.delta = calculate_delta(ray.raydir);
 	ray.map = calculate_map(p);
 	ray.side = calculate_side(p, &ray, ray.map);
 	ray.hit_side = NO_HIT;
 	return (ray);
+}
+
+void	calculate_gifs(t_data *d)
+{
+	if (d->gif_portal->current - d->gif_portal->last > 0.1)
+	{
+		d->gif_portal->frame = (d->gif_portal->frame + 1) % 6;
+		d->gif_portal->last = d->gif_portal->current;
+	}
+	if (d->gif_door != )
 }

@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 16:41:05 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/02 17:19:34 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,9 @@ static t_data	*allocate_data(t_level *level, mlx_t *mlx)
 	}
 	data->level = level;
 	data->mlx = mlx;
-	data->gif = ft_calloc(1, sizeof(t_gif));
-	if (!data->gif)
+	data->gif_portal = ft_calloc(1, sizeof(t_gif));
+	data->gif_door = ft_calloc(1, sizeof(t_gif));
+	if (!data->gif_portal || !data->gif_door)
 	{
 		perror("Error\nFailed to allocate memory for gif data");
 		free_level(level);
@@ -92,7 +93,8 @@ static t_data	*allocate_data(t_level *level, mlx_t *mlx)
 static void	exit_program(mlx_t *mlx, t_data *data)
 {
 	free_level(data->level);
-	free(data->gif);
+	free(data->gif_portal);
+	free(data->gif_door);
 	free(data);
 	mlx_terminate(mlx);
 }

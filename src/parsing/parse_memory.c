@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 12:33:47 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/02 17:04:38 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,18 @@ void	free_textures(t_textures *textures)
 		mlx_delete_texture(textures->south);
 	if (textures->west != NULL)
 		mlx_delete_texture(textures->west);
-	if (textures->door != NULL)
-		mlx_delete_texture(textures->door);
 	i = 0;
 	while (i < 6)
 	{
 		if (textures->portal[i] != NULL)
 			mlx_delete_texture(textures->portal[i]);
+		i++;
+	}
+	i = 0;
+	while (i < 23)
+	{
+		if (textures->door_gif[i] != NULL)
+			mlx_delete_texture(textures->door_gif[i]);
 		i++;
 	}
 	free(textures);
@@ -112,7 +117,6 @@ t_textures	*allocate_textures(void)
 	textures->east = NULL;
 	textures->south = NULL;
 	textures->west = NULL;
-	textures->door = NULL;
 	i = 0;
 	while (i < 6)
 		textures->portal[i++] = NULL;
