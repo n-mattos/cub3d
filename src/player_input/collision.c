@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   collision.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: mschippe <mschippe@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/09/25 16:01:23 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 13:36:22 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   collision.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/25 16:01:23 by nmattos-          #+#    #+#             */
+/*   Updated: 2025/10/02 10:45:39 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,16 +110,16 @@ static int	handle_portal(t_level *level, t_playerdata *p, int y, int x)
 		{
 			player_starting_direction(p,
 				get_direction(portal->b[SOURCE], portal->a[TARGET]));
-			p->x = portal->a[TARGET].x + 0.5;
-			p->y = portal->a[TARGET].y + 0.5;
+			p->x = portal->a[TARGET].x + 0.5 - (p->dir_x * (COLLISION_BUFFER + 0.1));
+			p->y = portal->a[TARGET].y + 0.5 - (p->dir_y * (COLLISION_BUFFER + 0.1));
 			return (1);
 		}
 		else
 		{
 			player_starting_direction(p,
 				get_direction(portal->a[SOURCE], portal->b[TARGET]));
-			p->x = portal->b[TARGET].x + 0.5;
-			p->y = portal->b[TARGET].y + 0.5;
+			p->x = portal->b[TARGET].x + 0.5 - (p->dir_x * (COLLISION_BUFFER + 0.1));
+			p->y = portal->b[TARGET].y + 0.5 - (p->dir_y * (COLLISION_BUFFER + 0.1));
 			return (1);
 		}
 	}
