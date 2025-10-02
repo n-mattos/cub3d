@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   draw_utils.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: mschippe <mschippe@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/08/11 13:37:23 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 08:57:06 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   draw_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/11 13:37:23 by nmattos-          #+#    #+#             */
+/*   Updated: 2025/10/02 12:22:30 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,24 @@ void	drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color)
 			mlx_put_pixel(img, x, y, color);
 			y++;
 		}
+	}
+}
+
+void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < (int)img->height / 2)
+	{
+		x = 0;
+		while (x < (int)img->width)
+		{
+			mlx_put_pixel(img, x, y, textures->ceiling);
+			mlx_put_pixel(img, x, img->height - y - 1, textures->floor);
+			x++;
+		}
+		y++;
 	}
 }

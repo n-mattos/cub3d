@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/24 09:10:52 by nmattos       #+#    #+#                 */
-/*   Updated: 2025/09/30 09:32:07 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
+/*   Updated: 2025/10/02 11:07:17 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ t_level	*parse(char *fn_map)
 	level->player = retrieve_player(level->map);
 	if (level->player == NULL)
 		return (perror("Error\nNo player found"), free_level(level), NULL);
+	level->portal_effect_opacity = 0x00;
 	return (level);
 }

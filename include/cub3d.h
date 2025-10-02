@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/23 12:53:01 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 09:28:03 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
+/*   Updated: 2025/10/02 13:42:42 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ typedef struct s_gif
 typedef struct s_level
 {
 	int				**map;
+	int				portal_effect_opacity;
 	t_portal_list	*portals;
 	t_textures		*textures;
 	t_playerdata	*player;
@@ -163,6 +164,8 @@ typedef struct s_data
 	mlx_image_t	*minimap;
 	mlx_image_t	*last_frame;
 	mlx_image_t	*background;
+	mlx_image_t	*portal_effect;
+	mlx_image_t	*crosshair;
 	t_level		*level;
 	t_gif		*gif;
 	int			rect;
@@ -241,11 +244,15 @@ void			drawline(mlx_image_t *img, t_point a, t_point b,
 void			drawrectangle(mlx_image_t *img, t_point wh, t_point coord,
 					uint32_t color);
 uint32_t		get_pixel_color(t_textures *textures, t_raycast *ray);
-
-/* draw/minimap */
 void			draw_minimap(t_data *d);
 void			draw_minimap_rays(t_data *d, t_playerdata p,
 					t_vect intersect, int x);
+void			draw_floor_ceiling(mlx_image_t *img, t_textures *textures);
+void			create_background(t_data *d);
+void			create_last_frame(t_data *d);
+void			create_minimap(t_data *d);
+void			create_portal_effect(t_data *d);
+void			create_crosshair(t_data *d);
 
 /* utils */
 size_t			chars_till_eol(char *str);

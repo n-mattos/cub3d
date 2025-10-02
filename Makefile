@@ -36,6 +36,7 @@ SRCS =	src/main.c \
 		src/draw/draw.c \
 		src/draw/draw_texture.c \
 		src/draw/draw_shapes.c \
+		src/draw/images.c \
 		src/player_input/input.c \
 		src/player_input/door.c \
 		src/player_input/collision.c \

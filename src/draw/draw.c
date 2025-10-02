@@ -6,13 +6,13 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 15:00:31 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/02 13:50:22 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures);
+static void	draw_portal_effect(t_data *d);
 
 /**
  * Draws the entire game frame, including the minimap and the main view.
@@ -20,48 +20,35 @@ static void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures);
  */
 void	draw_all(t_data *d)
 {
-	mlx_t	*mlx;
-
-	mlx = d->mlx;
-	if (!d->background)
-	{
-		d->background = mlx_new_image(mlx, IMG_WIDTH, IMG_HEIGHT);
-		mlx_image_to_window(mlx, d->background, 0, 0);
-		draw_floor_ceiling(d->background, d->level->textures);
-	}
-	if (!d->last_frame)
-	{
-		d->last_frame = mlx_new_image(mlx, IMG_WIDTH, IMG_HEIGHT);
-		mlx_image_to_window(mlx, d->last_frame, 0, 0);
-	}
-	if (!d->minimap)
-	{
-		d->minimap = mlx_new_image(mlx, 400, 400);
-		mlx_image_to_window(mlx, d->minimap, 0, 0);
-	}
-	draw_minimap(d);
+	create_background(d);
+	create_last_frame(d);
 	ft_memset(d->last_frame->pixels, 0,
 		d->last_frame->width * d->last_frame->height * 4);
+	create_minimap(d);
+	draw_minimap(d);
 	raycast_dda(d);
+	create_portal_effect(d);
+	draw_portal_effect(d);
+	create_crosshair(d);
 	mlx_set_mouse_pos(d->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 }
 
-static void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures)
+static void	draw_portal_effect(t_data *d)
 {
-	int	y;
-	int	x;
+	int	i;
 
-	y = 0;
-	while (y < (int)img->height / 2)
+	i = 0;
+	if (d->level->portal_effect_opacity > 0x00)
+		d->level->portal_effect_opacity -= 3;
+	if (d->level->portal_effect_opacity < 0x00)
+		d->level->portal_effect_opacity = 0x00;
+	while (i < IMG_WIDTH * IMG_HEIGHT * 4)
 	{
-		x = 0;
-		while (x < (int)img->width)
-		{
-			mlx_put_pixel(img, x, y, textures->ceiling);
-			mlx_put_pixel(img, x, img->height - y - 1, textures->floor);
-			x++;
-		}
-		y++;
+		d->portal_effect->pixels[i] = 0x00;
+		d->portal_effect->pixels[i + 1] = 0xFF;
+		d->portal_effect->pixels[i + 2] = 0x00;
+		d->portal_effect->pixels[i + 3] = d->level->portal_effect_opacity;
+		i += 4;
 	}
 }
 
