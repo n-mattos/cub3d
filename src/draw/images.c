@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 12:19:59 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/03 13:55:59 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:21:21 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ void	create_portal_effect(t_data *d)
 	}
 }
 
-void create_crosshair(t_data *d)
+void	create_crosshair(t_data *d)
 {
-    if (!d->crosshair)
-    {
-		mlx_texture_t	*texture;
+	mlx_texture_t	*texture;
 
+	if (!d->crosshair)
+	{
 		texture = mlx_load_png("textures/crosshair.png");
 		if (!texture)
 			return ;
@@ -65,13 +65,13 @@ void create_crosshair(t_data *d)
 			return ;
 		}
 		ft_memcpy(d->crosshair->pixels, texture->pixels,
-				texture->width * texture->height * 4);
+			texture->width * texture->height * 4);
 		mlx_delete_texture(texture);
-        if (d->crosshair)
-        {
-            mlx_image_to_window(d->mlx, d->crosshair,
-                (IMG_WIDTH / 2) - (16 / 2),
-                (IMG_HEIGHT / 2) - (16 / 2));
-        }
-    }
+		if (d->crosshair)
+		{
+			mlx_image_to_window(d->mlx, d->crosshair,
+				(IMG_WIDTH / 2) - (16 / 2),
+				(IMG_HEIGHT / 2) - (16 / 2));
+		}
+	}
 }

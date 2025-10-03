@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/03 13:55:49 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:22:21 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ static bool	draw_pixel(t_data *d, t_raycast *ray, t_point pxl, bool draw_door)
 		if (draw_door)
 			return (0);
 		calculate_ray((&ray->map), ray, d->level, false);
-		ray->perp_wall_dist = calculate_perpendicular_distance(*d->level->player, ray, ray->map);
+		ray->perp_wall_dist = calculate_perpendicular_distance(
+				*d->level->player, ray, ray->map);
 		draw_textured_wall(ray, d, pxl.x, draw_door);
 		if (pxl.x < IMG_WIDTH && pxl.y < IMG_HEIGHT && pxl.x >= 0 && pxl.y >= 0)
 			mlx_put_pixel(d->last_frame, pxl.x, pxl.y, color);

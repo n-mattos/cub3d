@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:01:23 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/02 11:13:24 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:14:15 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,18 @@ static int	collision_y(t_level *level, t_playerdata *p, t_vect new)
 {
 	if (new.y > p->y)
 	{
-		if (handle_portal(level, p, (int)(new.y + COLLISION_BUFFER), (int)p->x))
+		if (handle_portal(level, p, (int)(new.y + COLLISION), (int)p->x))
 			return (PORTAL);
-		if (level->map[(int)(new.y + COLLISION_BUFFER)][(int)p->x] != WALL
-			&& level->map[(int)(new.y + COLLISION_BUFFER)][(int)p->x] != DOOR)
+		if (level->map[(int)(new.y + COLLISION)][(int)p->x] != WALL
+			&& level->map[(int)(new.y + COLLISION)][(int)p->x] != DOOR)
 			p->y = new.y;
 	}
 	else
 	{
-		if (handle_portal(level, p, (int)(new.y - COLLISION_BUFFER), (int)p->x))
+		if (handle_portal(level, p, (int)(new.y - COLLISION), (int)p->x))
 			return (PORTAL);
-		if (level->map[(int)(new.y - COLLISION_BUFFER)][(int)p->x] != WALL
-			&& level->map[(int)(new.y - COLLISION_BUFFER)][(int)p->x] != DOOR)
+		if (level->map[(int)(new.y - COLLISION)][(int)p->x] != WALL
+			&& level->map[(int)(new.y - COLLISION)][(int)p->x] != DOOR)
 			p->y = new.y;
 	}
 	return (0);
@@ -75,18 +75,18 @@ static void	collision_x(t_level *level, t_playerdata *p, t_vect new)
 {
 	if (new.x < p->x)
 	{
-		if (handle_portal(level, p, (int)p->y, (int)(new.x - COLLISION_BUFFER)))
+		if (handle_portal(level, p, (int)p->y, (int)(new.x - COLLISION)))
 			return ;
-		if (level->map[(int)p->y][(int)(new.x - COLLISION_BUFFER)] != WALL
-			&& level->map[(int)p->y][(int)(new.x - COLLISION_BUFFER)] != DOOR)
+		if (level->map[(int)p->y][(int)(new.x - COLLISION)] != WALL
+			&& level->map[(int)p->y][(int)(new.x - COLLISION)] != DOOR)
 			p->x = new.x;
 	}
 	else
 	{
-		if (handle_portal(level, p, (int)p->y, (int)(new.x + COLLISION_BUFFER)))
+		if (handle_portal(level, p, (int)p->y, (int)(new.x + COLLISION)))
 			return ;
-		if (level->map[(int)p->y][(int)(new.x + COLLISION_BUFFER)] != WALL
-			&& level->map[(int)p->y][(int)(new.x + COLLISION_BUFFER)] != DOOR)
+		if (level->map[(int)p->y][(int)(new.x + COLLISION)] != WALL
+			&& level->map[(int)p->y][(int)(new.x + COLLISION)] != DOOR)
 			p->x = new.x;
 	}
 }
@@ -110,8 +110,8 @@ static int	handle_portal(t_level *level, t_playerdata *p, int y, int x)
 		{
 			player_starting_direction(p,
 				get_direction(portal->b[SOURCE], portal->a[TARGET]));
-			p->x = portal->a[TARGET].x + 0.5 - (p->dir_x * (COLLISION_BUFFER + 0.1));
-			p->y = portal->a[TARGET].y + 0.5 - (p->dir_y * (COLLISION_BUFFER + 0.1));
+			p->x = portal->a[TARGET].x + 0.5 - (p->dir_x * (COLLISION + 0.1));
+			p->y = portal->a[TARGET].y + 0.5 - (p->dir_y * (COLLISION + 0.1));
 			level->portal_effect_opacity = 0x88;
 			return (1);
 		}
@@ -119,8 +119,8 @@ static int	handle_portal(t_level *level, t_playerdata *p, int y, int x)
 		{
 			player_starting_direction(p,
 				get_direction(portal->a[SOURCE], portal->b[TARGET]));
-			p->x = portal->b[TARGET].x + 0.5 - (p->dir_x * (COLLISION_BUFFER + 0.1));
-			p->y = portal->b[TARGET].y + 0.5 - (p->dir_y * (COLLISION_BUFFER + 0.1));
+			p->x = portal->b[TARGET].x + 0.5 - (p->dir_x * (COLLISION + 0.1));
+			p->y = portal->b[TARGET].y + 0.5 - (p->dir_y * (COLLISION + 0.1));
 			level->portal_effect_opacity = 0x88;
 			return (1);
 		}

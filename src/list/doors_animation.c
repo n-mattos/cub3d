@@ -6,11 +6,13 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 10:26:56 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/03 12:19:23 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:20:04 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+static void	next_frame(t_door_list *door, t_level *level);
 
 mlx_texture_t	*get_door_texture(t_door_list *door, t_point door_pos)
 {
@@ -20,44 +22,6 @@ mlx_texture_t	*get_door_texture(t_door_list *door, t_point door_pos)
 	if (!node || !node->texture)
 		return (NULL);
 	return (node->texture);
-}
-
-void	update_doors(t_door_list *doors, t_level *level, double delta_time)
-{
-	t_door_list	*current;
-	(void)delta_time;
-
-	current = doors;
-	while (current)
-	{
-		if (current->state == CLOSED || current->state == OPEN)
-		{
-			current->texture = level->textures->door[current->index];
-			current = current->next;
-			continue ;
-		}
-		if (current->state == OPENING)
-			current->index += 1;
-		else if (current->state == CLOSING)
-		{
-			current->index -= 1;
-			level->map[current->pos.y][current->pos.x] = DOOR;
-		}
-		if (current->index <= 0)
-		{
-			current->index = 0;
-			current->state = CLOSED;
-			level->map[current->pos.y][current->pos.x] = DOOR;
-		}
-		else if (current->index >= 20)
-		{
-			current->index = 20;
-			current->state = OPEN;
-			level->map[current->pos.y][current->pos.x] = DOOR_OPEN;
-		}
-		current->texture = level->textures->door[current->index];
-		current = current->next;
-	}
 }
 
 void	trigger_door(t_level *level, t_point door_pos)
@@ -71,4 +35,46 @@ void	trigger_door(t_level *level, t_point door_pos)
 		door->state = OPENING;
 	else if (door->state == OPEN)
 		door->state = CLOSING;
+}
+
+void	update_doors(t_door_list *doors, t_level *level)
+{
+	t_door_list	*current;
+
+	current = doors;
+	while (current)
+	{
+		if (current->state == CLOSED || current->state == OPEN)
+		{
+			current->texture = level->textures->door[current->index];
+			current = current->next;
+			continue ;
+		}
+		next_frame(current, level);
+		current->texture = level->textures->door[current->index];
+		current = current->next;
+	}
+}
+
+static void	next_frame(t_door_list *door, t_level *level)
+{
+	if (door->state == OPENING)
+		door->index += 1;
+	else if (door->state == CLOSING)
+	{
+		door->index -= 1;
+		level->map[door->pos.y][door->pos.x] = DOOR;
+	}
+	if (door->index <= 0)
+	{
+		door->index = 0;
+		door->state = CLOSED;
+		level->map[door->pos.y][door->pos.x] = DOOR;
+	}
+	else if (door->index >= 20)
+	{
+		door->index = 20;
+		door->state = OPEN;
+		level->map[door->pos.y][door->pos.x] = DOOR_OPEN;
+	}
 }

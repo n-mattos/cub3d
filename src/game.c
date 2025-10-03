@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:31:19 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/03 12:18:07 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:23:07 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	loop_game(void *data)
 
 	d = (t_data *)data;
 	calc_fps(d);
-	update_doors(d->level->doors, d->level, d->delta_time);
+	update_doors(d->level->doors, d->level);
 	set_title(d->mlx, d->delta_time);
 	draw_all(d);
 	player_input(d);
@@ -73,7 +73,8 @@ static void	calc_fps(t_data *d)
 		d->delta_time = (current_time.tv_sec - last_time.tv_sec)
 			+ (current_time.tv_usec - last_time.tv_usec) / 1000000.0;
 	}
-	d->gif_portal->current = current_time.tv_sec + current_time.tv_usec / 1000000.0;
+	d->gif_portal->current
+		= current_time.tv_sec + current_time.tv_usec / 1000000.0;
 	last_time = current_time;
 	d->move_speed = MOVESPEED * d->delta_time * 60;
 	d->turn_speed = TURNSPEED * d->delta_time * 60;

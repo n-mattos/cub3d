@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/03 13:55:32 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:20:23 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 
 # define TURNSPEED 0.05		// radians
 # define MOVESPEED 0.1
-# define COLLISION_BUFFER 0.1
+# define COLLISION 0.15
 
 # define IMG_HEIGHT 1080
 # define IMG_WIDTH 1920
@@ -294,7 +294,7 @@ t_door_list		*append_door_node(t_door_list **head, t_door_list *new_node);
 t_door_list		*find_door_node(t_door_list *head, t_point pos);
 t_door_list		*free_door_list(t_door_list **head);
 mlx_texture_t	*get_door_texture(t_door_list *door, t_point door_pos);
-void			update_doors(t_door_list *doors, t_level *level, double delta_time);
+void			update_doors(t_door_list *doors, t_level *level);
 void			trigger_door(t_level *level, t_point door_pos);
 
 #endif
