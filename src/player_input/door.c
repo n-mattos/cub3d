@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:09:25 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/02 13:42:33 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:16:36 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ void	door_interaction(t_data *d, mlx_key_data_t keydata)
 	{
 		if (keydata.key == MLX_KEY_E && keydata.action == MLX_PRESS)
 		{
-			if (d->level->map[ray.map.y][ray.map.x] == DOOR)
-				d->level->map[ray.map.y][ray.map.x] = DOOR_OPEN;
-			else if (d->level->map[ray.map.y][ray.map.x] == DOOR_OPEN)
-				d->level->map[ray.map.y][ray.map.x] = DOOR;
+			// if (d->level->map[ray.map.y][ray.map.x] == DOOR)
+			// 	d->level->map[ray.map.y][ray.map.x] = DOOR_OPEN;
+			// else if (d->level->map[ray.map.y][ray.map.x] == DOOR_OPEN)
+			// 	d->level->map[ray.map.y][ray.map.x] = DOOR;
+			trigger_door(d->level, ray.map);
 		}
 	}
 }

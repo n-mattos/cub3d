@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 09:25:18 by nmattos           #+#    #+#             */
-/*   Updated: 2025/10/02 17:09:43 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:59:16 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,30 +35,27 @@ t_textures	*sort_texture_data(char **raw, t_textures *textures)
 	textures->portal[3] = mlx_load_png("textures/portal/4.png");
 	textures->portal[4] = mlx_load_png("textures/portal/5.png");
 	textures->portal[5] = mlx_load_png("textures/portal/6.png");
-	textures->door_gif[0] = mlx_load_png("textures/door/1.png");
-	textures->door_gif[1] = mlx_load_png("textures/door/2.png");
-	textures->door_gif[2] = mlx_load_png("textures/door/3.png");
-	textures->door_gif[3] = mlx_load_png("textures/door/4.png");
-	textures->door_gif[4] = mlx_load_png("textures/door/5.png");
-	textures->door_gif[5] = mlx_load_png("textures/door/6.png");
-	textures->door_gif[6] = mlx_load_png("textures/door/7.png");
-	textures->door_gif[7] = mlx_load_png("textures/door/8.png");
-	textures->door_gif[8] = mlx_load_png("textures/door/9.png");
-	textures->door_gif[9] = mlx_load_png("textures/door/10.png");
-	textures->door_gif[10] = mlx_load_png("textures/door/11.png");
-	textures->door_gif[11] = mlx_load_png("textures/door/12.png");
-	textures->door_gif[12] = mlx_load_png("textures/door/13.png");
-	textures->door_gif[13] = mlx_load_png("textures/door/14.png");
-	textures->door_gif[14] = mlx_load_png("textures/door/15.png");
-	textures->door_gif[15] = mlx_load_png("textures/door/16.png");
-	textures->door_gif[16] = mlx_load_png("textures/door/17.png");
-	textures->door_gif[17] = mlx_load_png("textures/door/18.png");
-	textures->door_gif[18] = mlx_load_png("textures/door/19.png");
-	textures->door_gif[19] = mlx_load_png("textures/door/20.png");
-	textures->door_gif[20] = mlx_load_png("textures/door/21.png");
-	textures->door_gif[21] = mlx_load_png("textures/door/22.png");
-	textures->door_gif[22] = mlx_load_png("textures/door/23.png");
-	textures->door = textures->door_gif[0];
+	textures->door[0] = mlx_load_png("textures/door/1.png");
+	textures->door[1] = mlx_load_png("textures/door/2.png");
+	textures->door[2] = mlx_load_png("textures/door/3.png");
+	textures->door[3] = mlx_load_png("textures/door/4.png");
+	textures->door[4] = mlx_load_png("textures/door/5.png");
+	textures->door[5] = mlx_load_png("textures/door/6.png");
+	textures->door[6] = mlx_load_png("textures/door/7.png");
+	textures->door[7] = mlx_load_png("textures/door/8.png");
+	textures->door[8] = mlx_load_png("textures/door/9.png");
+	textures->door[9] = mlx_load_png("textures/door/10.png");
+	textures->door[10] = mlx_load_png("textures/door/11.png");
+	textures->door[11] = mlx_load_png("textures/door/12.png");
+	textures->door[12] = mlx_load_png("textures/door/13.png");
+	textures->door[13] = mlx_load_png("textures/door/14.png");
+	textures->door[14] = mlx_load_png("textures/door/15.png");
+	textures->door[15] = mlx_load_png("textures/door/16.png");
+	textures->door[16] = mlx_load_png("textures/door/17.png");
+	textures->door[17] = mlx_load_png("textures/door/18.png");
+	textures->door[18] = mlx_load_png("textures/door/19.png");
+	textures->door[19] = mlx_load_png("textures/door/20.png");
+	textures->door[20] = mlx_load_png("textures/door/21.png");
 	if (check_texture_validity(textures) == false)
 		return (free_raw_textures(raw), free_textures(textures), NULL);
 	return (free_raw_textures(raw), textures);

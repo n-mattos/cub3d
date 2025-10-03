@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/02 17:18:12 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:56:29 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,12 @@ void	draw_door(t_raycast *ray, t_data *d, int x)
 	while (++y < ray->draw_end)
 	{
 		ray->txt_y = (int)ray->txt_pos & (TEXTURE_HEIGHT - 1);
-		uint32_t color = get_pixel_color(d->level->textures, ray);
+		uint32_t color = get_pixel_color(d->level, ray);
 		if (color == 0x00000000)
+		{
+			ray->txt_pos += step;
 			continue ;
+		}
 		if (x < IMG_WIDTH && y < IMG_HEIGHT && x >= 0 && y >= 0)
 			mlx_put_pixel(d->last_frame, x, y, color);
 		ray->txt_pos += step;
@@ -116,7 +119,7 @@ static bool	draw_pixel(t_data *d, t_raycast *ray, int x, int y)
 {
 	uint32_t	color;
 
-	color = get_pixel_color(d->level->textures, ray);
+	color = get_pixel_color(d->level, ray);
 	if (color == 0x00000000)
 	{
 		calculate_ray((&ray->map), ray, d->level, false);

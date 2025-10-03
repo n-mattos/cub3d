@@ -1,7 +1,7 @@
 NAME = cub3D
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -O2 -march=native -ffast-math
-# CFLAGS = -g
+# CFLAGS = -Wall -Wextra -Werror -O2 -march=native -ffast-math
+CFLAGS = -g
 
 # Library paths
 MLX42_PATH = ./include/MLX42
@@ -43,7 +43,9 @@ SRCS =	src/main.c \
 		src/player_input/move.c \
 		src/player_input/turn.c \
 		src/player/player.c \
-		src/list/portals.c
+		src/list/portals.c \
+		src/list/doors_list.c \
+		src/list/doors_animation.c
 
 OBJDIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJDIR)/%.o)

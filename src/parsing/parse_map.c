@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:14:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 15:20:14 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:31:17 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_level	*parse_map(int fd)
 	if (level == NULL)
 		return (NULL);
 	level->portals = NULL;
+	level->doors = NULL;
 	raw_map = get_raw_map_data(fd);
 	level->map = malloc(sizeof(int *) * (count_char(raw_map, '\n') + 2));
 	if (level->map == NULL)

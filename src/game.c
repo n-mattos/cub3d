@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:31:19 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/02 17:19:08 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:18:07 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ void	run_game(mlx_t *mlx, t_data *data)
 	data->gif_portal->last = 0;
 	data->gif_portal->current = 0;
 	data->gif_portal->frame = 0;
-	data->gif_door->last = 0;
-	data->gif_door->current = 0;
-	data->gif_door->frame = 0;
 	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(mlx, &loop_game, (void *)data);
@@ -53,6 +50,7 @@ static void	loop_game(void *data)
 
 	d = (t_data *)data;
 	calc_fps(d);
+	update_doors(d->level->doors, d->level, d->delta_time);
 	set_title(d->mlx, d->delta_time);
 	draw_all(d);
 	player_input(d);
@@ -76,7 +74,6 @@ static void	calc_fps(t_data *d)
 			+ (current_time.tv_usec - last_time.tv_usec) / 1000000.0;
 	}
 	d->gif_portal->current = current_time.tv_sec + current_time.tv_usec / 1000000.0;
-	d->gif_door->current = current_time.tv_sec + current_time.tv_usec / 1000000.0;
 	last_time = current_time;
 	d->move_speed = MOVESPEED * d->delta_time * 60;
 	d->turn_speed = TURNSPEED * d->delta_time * 60;

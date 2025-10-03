@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/02 17:04:38 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:47:21 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ void	free_textures(t_textures *textures)
 		i++;
 	}
 	i = 0;
-	while (i < 23)
+	while (i < 21)
 	{
-		if (textures->door_gif[i] != NULL)
-			mlx_delete_texture(textures->door_gif[i]);
+		if (textures->door[i] != NULL)
+			mlx_delete_texture(textures->door[i]);
 		i++;
 	}
 	free(textures);

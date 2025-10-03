@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/10/02 11:07:17 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:29:07 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ t_level	*parse(char *fn_map)
 			free_textures(textures), NULL);
 	if (!get_portals(level->map, &level->portals))
 		return (perror("Error\nInvalid portals\n"), free_level(level), NULL);
+	if (!get_doors(level->map, &level->doors))
+		return (perror("Error\nInvalid doors\n"), free_level(level), NULL);
 	level->player = retrieve_player(level->map);
 	if (level->player == NULL)
 		return (perror("Error\nNo player found"), free_level(level), NULL);
