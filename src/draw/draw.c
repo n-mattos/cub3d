@@ -6,14 +6,14 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/03 11:56:29 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:55:49 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
 static void	draw_portal_effect(t_data *d);
-static bool	draw_pixel(t_data *d, t_raycast *ray, int x, int y);
+static bool	draw_pixel(t_data *d, t_raycast *ray, t_point pxl, bool draw_door);
 
 /**
  * Draws the entire game frame, including the minimap and the main view.
@@ -53,7 +53,7 @@ static void	draw_portal_effect(t_data *d)
 	}
 }
 
-void	draw_textured_wall(t_raycast *ray, t_data *d, int x)
+void	draw_textured_wall(t_raycast *ray, t_data *d, int x, bool draw_door)
 {
 	double	step;
 	int		y;
@@ -75,62 +75,30 @@ void	draw_textured_wall(t_raycast *ray, t_data *d, int x)
 	while (++y < ray->draw_end)
 	{
 		ray->txt_y = (int)ray->txt_pos & (TEXTURE_HEIGHT - 1);
-		if (draw_pixel(d, ray, x, y) == 1)
+		if (draw_pixel(d, ray, (t_point){x, y}, draw_door) == 1)
 			break ;
 		ray->txt_pos += step;
 	}
 }
 
-void	draw_door(t_raycast *ray, t_data *d, int x)
-{
-	double	step;
-	int		y;
-
-	ray->txt_x = (int)(calculate_wallx(d->level->player, ray->hit_side,
-				ray->perp_wall_dist, ray->raydir) * TEXTURE_WIDTH);
-	if ((ray->hit_side == VERTICAL && ray->raydir.x > 0)
-		|| (ray->hit_side == HORIZONTAL && ray->raydir.y < 0))
-		ray->txt_x = TEXTURE_WIDTH - ray->txt_x - 1;
-	ray->line_height = (int)(IMG_HEIGHT / ray->perp_wall_dist);
-	step = 1.0 * TEXTURE_HEIGHT / ray->line_height;
-	ray->draw_start = -ray->line_height / 2 + IMG_HEIGHT / 2;
-	ray->draw_end = ray->line_height / 2 + IMG_HEIGHT / 2;
-	if (ray->draw_end >= IMG_HEIGHT)
-		ray->draw_end = IMG_HEIGHT - 1;
-	ray->txt_pos = (ray->draw_start - IMG_HEIGHT / 2 + ray->line_height / 2)
-		* step;
-	y = ray->draw_start - 1;
-	while (++y < ray->draw_end)
-	{
-		ray->txt_y = (int)ray->txt_pos & (TEXTURE_HEIGHT - 1);
-		uint32_t color = get_pixel_color(d->level, ray);
-		if (color == 0x00000000)
-		{
-			ray->txt_pos += step;
-			continue ;
-		}
-		if (x < IMG_WIDTH && y < IMG_HEIGHT && x >= 0 && y >= 0)
-			mlx_put_pixel(d->last_frame, x, y, color);
-		ray->txt_pos += step;
-	}
-}
-
-static bool	draw_pixel(t_data *d, t_raycast *ray, int x, int y)
+static bool	draw_pixel(t_data *d, t_raycast *ray, t_point pxl, bool draw_door)
 {
 	uint32_t	color;
 
 	color = get_pixel_color(d->level, ray);
 	if (color == 0x00000000)
 	{
+		if (draw_door)
+			return (0);
 		calculate_ray((&ray->map), ray, d->level, false);
 		ray->perp_wall_dist = calculate_perpendicular_distance(*d->level->player, ray, ray->map);
-		draw_textured_wall(ray, d, x);
-		if (x < IMG_WIDTH && y < IMG_HEIGHT && x >= 0 && y >= 0)
-			mlx_put_pixel(d->last_frame, x, y, color);
+		draw_textured_wall(ray, d, pxl.x, draw_door);
+		if (pxl.x < IMG_WIDTH && pxl.y < IMG_HEIGHT && pxl.x >= 0 && pxl.y >= 0)
+			mlx_put_pixel(d->last_frame, pxl.x, pxl.y, color);
 		return (1);
 	}
-	if (x < IMG_WIDTH && y < IMG_HEIGHT && x >= 0 && y >= 0)
-		mlx_put_pixel(d->last_frame, x, y, color);
+	if (pxl.x < IMG_WIDTH && pxl.y < IMG_HEIGHT && pxl.x >= 0 && pxl.y >= 0)
+		mlx_put_pixel(d->last_frame, pxl.x, pxl.y, color);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 12:19:59 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/02 13:52:26 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:55:59 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	create_background(t_data *d)
 	if (!d->background)
 	{
 		d->background = mlx_new_image(d->mlx, IMG_WIDTH, IMG_HEIGHT);
-		mlx_image_to_window(d->mlx, d->background, 0, 0);
 		draw_floor_ceiling(d->background, d->level->textures);
+		mlx_image_to_window(d->mlx, d->background, 0, 0);
 	}
 }
 

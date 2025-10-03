@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/10/03 12:40:08 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:56:25 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,10 @@ void	raycast_dda(t_data *d)
 		door = single_ray(d, p, x);
 		calculate_ray((&door.map), &door, d->level, true);
 		door.perp_wall_dist = calculate_perpendicular_distance(p, &door, door.map);
-		draw_textured_wall(&ray, d, x);
+		draw_textured_wall(&ray, d, x, false);
 		if (door.tile == DOOR || door.tile == DOOR_OPEN)
-		{
 			if (door.perp_wall_dist >= 0.2)
-				draw_door(&door, d, x);
-		}
+				draw_textured_wall(&door, d, x, true);
 		x += (int)d->last_frame->width / TOTAL_RAYS;
 	}
 }

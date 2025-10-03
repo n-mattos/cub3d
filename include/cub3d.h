@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/03 12:17:32 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:55:32 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,8 +254,7 @@ void			fill_circle(mlx_image_t *img, t_point center, int radius,
 bool			in_circle(t_point point, t_point center, int radius);
 void			drawvert(mlx_image_t *img, t_point a, t_point b,
 					uint32_t color);
-void			draw_textured_wall(t_raycast *ray, t_data *d, int x);
-void			draw_door(t_raycast *ray, t_data *d, int x);
+void			draw_textured_wall(t_raycast *ray, t_data *d, int x, bool draw_door);
 void			draw_wall(mlx_image_t *img, double perp_dist,
 					int side, int x);
 void			drawline(mlx_image_t *img, t_point a, t_point b,
