@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 11:00:56 by nmattos           #+#    #+#             */
-/*   Updated: 2025/10/07 09:40:13 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/07 09:55:45 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,7 @@ static mlx_texture_t	*get_texture(t_level *level, t_raycast *ray)
 		if (pixel != 0)
 			return (txt);
 	if (ray->tile == DOOR || ray->tile == DOOR_OPEN)
-	{
-		txt = get_door_texture(level->doors, ray->map);
-		pixel = txt->pixels[((ray->txt_y * txt->width + ray->txt_x)
-				* txt->bytes_per_pixel) + 3];
-		return (txt);
-	}
+		return (get_door_texture(level->doors, ray->map));
 	if (ray->hit_side == VERTICAL)
 	{
 		if (ray->raydir.x > 0)
