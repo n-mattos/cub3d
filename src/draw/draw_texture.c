@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 11:00:56 by nmattos           #+#    #+#             */
-/*   Updated: 2025/10/03 12:06:25 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/07 09:40:13 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ uint32_t	get_pixel_color(t_level *level, t_raycast *ray)
 	txt = get_texture(level, ray);
 	pixels = txt->pixels;
 	index = (ray->txt_y * txt->width + ray->txt_x) * txt->bytes_per_pixel;
+	if (ray->hit_side == HORIZONTAL)
+		return (((uint8_t)(pixels[index] * 0.8) << 24)
+			| ((uint8_t)(pixels[index + 1] * 0.8) << 16)
+			| ((uint8_t)(pixels[index + 2] * 0.8) << 8)
+			| pixels[index + 3]);
 	return ((pixels[index] << 24) | (pixels[index + 1] << 16)
 		| (pixels[index + 2] << 8) | pixels[index + 3]);
 }
