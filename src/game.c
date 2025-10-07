@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:31:19 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/03 14:23:07 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:04:00 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,10 @@ void	run_game(mlx_t *mlx, t_data *data)
 	data->gif_portal->frame = 0;
 	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
-	mlx_loop_hook(mlx, &loop_game, (void *)data);
 	mlx_key_hook(mlx, &single_press_interactions, (void *)data);
 	mlx_cursor_hook(mlx, &mouse_move, (void *)data);
+	mlx_loop_hook(mlx, &loop_game, (void *)data);
 	mlx_loop(mlx);
-	mlx_delete_image(mlx, data->portal_effect);
-	mlx_delete_image(mlx, data->minimap);
 }
 
 /**
@@ -88,8 +86,14 @@ static void	calc_fps(t_data *d)
 static void	set_title(mlx_t *mlx, double delta_time)
 {
 	char	title[50];
+    char	*fps_str;
 
-	ft_strlcpy(title, "cub3D | FPS: ", 50);
-	ft_strlcat(title, ft_itoa((int)(1.0 / delta_time)), 50);
-	mlx_set_window_title(mlx, title);
+    ft_strlcpy(title, "cub3D | FPS: ", 50);
+    fps_str = ft_itoa((int)(1.0 / delta_time));
+    if (fps_str)
+    {
+        ft_strlcat(title, fps_str, 50);
+        free(fps_str);
+    }
+    mlx_set_window_title(mlx, title);
 }

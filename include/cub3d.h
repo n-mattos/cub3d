@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/03 14:20:23 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:25:34 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,8 @@ typedef struct s_data
 
 /*	Function Prototypes
 \************************************************************************/
+
+void			exit_program(mlx_t *mlx, t_data *data);
 
 /* parse */
 t_level			*parse(char *fn_map);

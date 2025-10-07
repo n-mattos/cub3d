@@ -1,6 +1,6 @@
 NAME = cub3D
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -O2 -march=native -ffast-math
+CFLAGS = -Wall -Wextra -Werror -O3 -march=native -ffast-math
 # CFLAGS = -g
 
 # Library paths
