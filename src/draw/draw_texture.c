@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 11:00:56 by nmattos           #+#    #+#             */
-/*   Updated: 2025/10/09 12:39:16 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:43:50 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ uint32_t	get_pixel_color(t_level *level, t_raycast *ray)
 	if (ray->tile == PORTAL && ray->transparent == false)
 	{
 		id = level->map[ray->map.y][ray->map.x];
-		return ((id * pixels[index]) << 24 | ((id / 2) * pixels[index + 1]) << 16
+		return ((id * pixels[index]) << 24
+			| ((id / 2) * pixels[index + 1]) << 16
 			| (id * pixels[index + 2]) << 8 | pixels[index + 3]);
 	}
 	if (ray->hit_side == HORIZONTAL)
