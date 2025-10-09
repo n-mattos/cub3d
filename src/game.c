@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:31:19 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/07 17:04:00 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/09 11:30:07 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ static void	calc_fps(t_data *d)
 	last_time = current_time;
 	d->move_speed = MOVESPEED * d->delta_time * 60;
 	d->turn_speed = TURNSPEED * d->delta_time * 60;
+	if (d->move_speed == 0)
+		d->move_speed = MOVESPEED;
+	if (d->turn_speed == 0)
+		d->turn_speed = TURNSPEED;
 }
 
 /**
