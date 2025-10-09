@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:58:15 by mschippe          #+#    #+#             */
-/*   Updated: 2025/10/07 14:42:13 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:32:14 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_raycast	single_ray(t_data *d, t_playerdata p, int x)
 	t_raycast	ray;
 
 	ray.frame = d->gif_portal->frame;
+	ray.transparent = false;
 	ray.raydir = calculate_raydir(d->last_frame, p, x);
 	ray.delta = calculate_delta(ray.raydir);
 	ray.map = calculate_map(p);

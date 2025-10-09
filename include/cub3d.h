@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/07 11:25:34 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:36:28 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ typedef struct s_raycast
 	int			txt_y;
 	int			tile;
 	int			frame;
+	bool		transparent;
 }	t_raycast;
 
 typedef struct s_portal_list
