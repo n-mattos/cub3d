@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 16:41:05 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/10/27 18:50:33 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ int	main(int argc, char **argv)
 	t_level		*level;
 	t_data		*data;
 
+	char	**lines = read_cub_file("maps/bigmap.cub");
+	t_textures *textures = new_parse_textures(lines);
+	printf("txtparse result: %d\n", validate_parsed_textures(textures));
 	if (argc < 2)
 		return (printf(USAGE), 1);
 	level = parse(argv[1]);
@@ -91,8 +94,8 @@ static t_data	*allocate_data(t_level *level, mlx_t *mlx)
  */
 static void	exit_program(mlx_t *mlx, t_data *data)
 {
+	mlx_terminate(mlx);
 	free_level(data->level);
 	free(data->gif);
 	free(data);
-	mlx_terminate(mlx);
 }

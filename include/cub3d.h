@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/23 12:53:01 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 09:28:03 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
+/*   Updated: 2025/10/27 18:44:57 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdbool.h>
 # include <math.h>
 # include <sys/time.h>
+# include <limits.h>
 # include "MLX42/MLX42.h"
 # include "../libft/libft.h"
 
@@ -80,6 +81,26 @@ typedef enum e_hit_side
 	VERTICAL = 0,
 	HORIZONTAL = 1,
 }	t_hit_side;
+
+typedef enum e_tex_info_type
+{
+	TI_NONE,
+	TI_NORTH,
+	TI_EAST,
+	TI_SOUTH,
+	TI_WEST,
+	TI_FLOOR,
+	TI_CEILING
+}	t_tex_info_type;
+
+typedef enum e_parse_tex_res
+{
+	TIS_SUCCESS,
+	TIS_TEXTURE_LOAD_FAIL,
+	TIS_INVALID_COLOR_FORMAT,
+	TIS_MALLOC_FAIL,
+	TIS_REDEFINE,
+}	t_parse_tex_res;
 
 typedef struct s_point
 {
@@ -189,6 +210,13 @@ void			free_textures(t_textures *textures);
 void			free_map(int **map, int i);
 void			free_level(t_level *level);
 t_textures		*allocate_textures(void);
+
+/* new parser */
+bool			cub_strcmp(char *s1, char *s2);
+bool			is_cub_file(char *fn);
+char			**read_cub_file(char *fn);
+t_textures		*new_parse_textures(char **lines);
+t_parse_tex_res	validate_parsed_textures(t_textures *tex);
 
 /* game loop */
 void			run_game(mlx_t *mlx, t_data *data);
