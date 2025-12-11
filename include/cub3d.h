@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/11 14:32:42 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/11 17:10:05 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@
 
 # define TEXTURE_WIDTH 64			// width of the texture
 # define TEXTURE_HEIGHT 64			// height of the texture
+
+# define PORTAL_FRAME_COUNT 6		// the amount of frames in the portal animation
+# define DOOR_FRAME_COUNT 21		// the amount of frames in the door animation
 
 # define SOURCE 0
 # define TARGET 1
@@ -143,8 +146,8 @@ typedef struct s_textures
 	mlx_texture_t	*east;
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
-	mlx_texture_t	*portal[6];
-	mlx_texture_t	*door[21];
+	mlx_texture_t	*portal[PORTAL_FRAME_COUNT];
+	mlx_texture_t	*door[DOOR_FRAME_COUNT];
 	int				floor;
 	int				ceiling;
 }	t_textures;
@@ -237,7 +240,7 @@ void			exit_program(mlx_t *mlx, t_data *data);
 t_level			*parse(char *fn_map);
 t_textures		*parse_textures(int fd);
 t_textures		*sort_texture_data(char **raw, t_textures *textures);
-t_level			*parse_map(int fd);
+t_level			*parse_map(char *map_str);
 bool			map_is_valid(int **map);
 bool			get_portals(int **map, t_portal_list **portals);
 bool			get_doors(int **map, t_door_list **doors);
@@ -257,6 +260,8 @@ t_textures		*new_parse_textures(char **lines);
 t_parse_tex_res	validate_parsed_textures(t_textures *tex);
 char			*join_map_lines(t_textures *tex, char **lines);
 bool			update_tex_defined(t_tex_info_type type, t_tex_redef_check *redef);
+bool			load_door_tex(t_textures *tex);
+bool			load_portal_tex(t_textures *tex);
 
 /* game loop */
 void			run_game(mlx_t *mlx, t_data *data);

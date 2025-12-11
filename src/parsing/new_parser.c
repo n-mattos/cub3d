@@ -6,7 +6,7 @@
 /*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:26:59 by mschippe          #+#    #+#             */
-/*   Updated: 2025/12/11 15:22:47 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/12/11 17:24:23 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	get_line_count(char *fn)
 		count++;
 	}
 	free(line);
+	close(fd);
 	return (count);
 }
 
@@ -99,16 +100,19 @@ char	**read_cub_file(char *fn)
 	if (!is_cub_file(fn))
 		return (perror("Error\nFile is not a .cub file\n"), NULL);
 	size = get_line_count(fn);
+	if (size == -1)
+		return (perror("Error\nFailed to open .cub file\n"), NULL);
 	fd = open(fn, O_RDONLY);
-	if (fd == -1 || size == -1)
+	if (fd == -1)
 		return (perror("Error\nFailed to open .cub file\n"), NULL);
 	if (size < 9)
-		return (perror("Error\nFile too small to be valid\n"), NULL);
+		return (close(fd), perror("Error\nFile too small to be valid\n"), NULL);
 	lines = ft_calloc(size + 1, sizeof(char *));
 	if (!lines)
-		return(perror("Error\nMemory alloc failed for file read\n"), NULL);
+		return(close(fd), perror("Error\nMemory alloc failed for file read\n"), NULL);
 	if (!read_into_array(lines, fd, size))
-		return (perror("Error\nFound more lines than expected\n"), NULL);
+		return (close(fd), perror("Error\nFound more lines than expected\n"), NULL);
+	close(fd);
 	return (lines);
 }
 
@@ -291,6 +295,63 @@ void	insert_tex(t_textures *tex, t_tex_info_type type, char *value)
 		tex->floor = string_to_rgb(value);
 	else if (type == TI_CEILING)
 		tex->ceiling = string_to_rgb(value);
+}
+
+char	*create_filename(char *pre, int num, char *post)
+{
+	char	*tmp;
+	char	*part2;
+
+	tmp = ft_itoa(num);
+	if (!tmp)
+		return (false);
+	part2 = ft_strjoin(pre, tmp);
+	free(tmp);
+	if (!part2)
+		return(false);
+	tmp = ft_strjoin(part2, post);
+	free(part2);
+	return (tmp);
+}
+
+bool	load_portal_tex(t_textures *tex)
+{
+	int		index;
+	char	*filename;
+
+	index = 0;
+	while (index < PORTAL_FRAME_COUNT)
+	{
+		filename = create_filename("textures/portal/", index + 1, ".png");
+		if (!filename)
+			return (false);
+		tex->portal[index] = mlx_load_png(filename);
+		free(filename);
+		if (!tex->portal[index])
+			return (false);
+		index++;
+	}
+	return (true);
+}
+
+bool	load_door_tex(t_textures *tex)
+{
+	int		index;
+	char	*filename;
+
+	index = 0;
+	while (index < DOOR_FRAME_COUNT)
+	{
+		filename = create_filename("textures/door/", index + 1, ".png");
+		if (!filename)
+			return (false);
+		tex->door[index] = mlx_load_png(filename);
+		free(filename);
+		if (!tex->door[index])
+			return (false);
+		index++;
+	}
+	return (true);
 }
 
 t_textures	*new_parse_textures(char **lines)

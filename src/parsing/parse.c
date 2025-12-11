@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/10/07 16:54:06 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/11 17:16:49 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,28 @@
  */
 t_level	*parse(char *fn_map)
 {
-	t_level		*level;
-	t_textures	*textures;
-	int			fd;
+	t_level			*level;
+	t_textures		*textures;
+	char			**lines;
+	char			*map_str;
+	t_parse_tex_res	parse_result;
 
-	fd = open(fn_map, O_RDONLY);
-	if (fd == -1)
-		return (perror("Error\nFailed to open .cub file"), NULL);
-	textures = parse_textures(fd);
+
+	lines = read_cub_file(fn_map);
+	if (!lines)
+		return (NULL);
+	textures = new_parse_textures(lines);
 	if (textures == NULL)
-		return (perror("Error\ntextures == NULL"), NULL);
-	level = parse_map(fd);
+		return (perror("Error\nFailed to parse textures"), NULL);
+	parse_result = validate_parsed_textures(textures);
+	if (parse_result != TIS_SUCCESS)
+		return (printf("Parse result bad %d\n", parse_result), NULL); //TODO: Print all error types
+	if (!load_door_tex(textures) || !load_portal_tex(textures))
+		return (perror("Error\nFailed to load static textures (door/portal)\n"), NULL);
+	map_str = join_map_lines(textures, lines);
+	if (!map_str)
+		return (printf("Error\nMap combining failed\n"), NULL);
+	level = parse_map(map_str);
 	if (level == NULL)
 		return (perror("Error\nmap == NULL"), free_textures(textures), NULL);
 	level->textures = textures;

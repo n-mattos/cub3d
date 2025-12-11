@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/11/17 16:37:48 by mika             ###   ########.fr       */
+/*   Updated: 2025/12/11 16:10:53 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ t_textures	*allocate_textures(void)
 	textures->east = NULL;
 	textures->south = NULL;
 	textures->west = NULL;
-	textures->door = NULL;
 	textures->tex_line_offset = 0;
 	textures->floor = -5;
 	textures->ceiling = -5;
