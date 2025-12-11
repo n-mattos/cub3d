@@ -50,13 +50,18 @@ void	free_textures(t_textures *textures)
 		mlx_delete_texture(textures->south);
 	if (textures->west != NULL)
 		mlx_delete_texture(textures->west);
-	if (textures->door != NULL)
-		mlx_delete_texture(textures->door);
 	i = 0;
 	while (i < 6)
 	{
 		if (textures->portal[i] != NULL)
 			mlx_delete_texture(textures->portal[i]);
+		i++;
+	}
+	i = 0;
+	while (i < 21)
+	{
+		if (textures->door[i] != NULL)
+			mlx_delete_texture(textures->door[i]);
 		i++;
 	}
 	free(textures);

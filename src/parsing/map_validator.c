@@ -15,6 +15,8 @@
 static bool		fetch_portal(int **map, t_portal_list **portals,
 					size_t x, size_t y);
 static t_point	get_portal_target(int **map, int x, int y);
+static bool		fetch_door(int **map, t_door_list **doors,
+					size_t x, size_t y);
 static bool		invalid_tile(int **map, size_t y, size_t x);
 
 /**
@@ -51,8 +53,8 @@ bool	map_is_valid(int **map)
 
 bool	get_portals(int **map, t_portal_list **portals)
 {
-	size_t			x;
-	size_t			y;
+	size_t	x;
+	size_t	y;
 
 	x = 0;
 	y = 0;
@@ -110,6 +112,41 @@ static t_point	get_portal_target(int **map, int x, int y)
 	if (x > 0 && map[y][x - 1] == FLOOR)
 		return ((t_point){x - 1, y});
 	return ((t_point){-1, -1});
+}
+
+bool	get_doors(int **map, t_door_list **doors)
+{
+	size_t	x;
+	size_t	y;
+
+	x = 0;
+	y = 0;
+	while (map[y] != NULL)
+	{
+		x = 0;
+		while (map[y][x] != '\0')
+		{
+			if (!fetch_door(map, doors, x, y))
+				return (false);
+			x++;
+		}
+		y++;
+	}
+	return (true);
+}
+
+static bool	fetch_door(int **map, t_door_list **doors,
+			size_t x, size_t y)
+{
+	t_door_list	*door;
+
+	if (map[y][x] == DOOR)
+	{
+		door = append_door_node(doors, create_door_node((t_point){x, y}));
+		if (!door)
+			return (false);
+	}
+	return (true);
 }
 
 /**

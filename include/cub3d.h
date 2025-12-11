@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/11 14:13:22 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:32:42 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 
 # define TURNSPEED 0.05		// radians
 # define MOVESPEED 0.1
-# define COLLISION_BUFFER 0.1
+# define COLLISION 0.15
 
 # define IMG_HEIGHT 1080
 # define IMG_WIDTH 1920
@@ -137,16 +137,16 @@ typedef struct s_tex_redef_check
 
 typedef struct s_textures
 {
-	mlx_texture_t		*north;
-	mlx_texture_t		*east;
-	mlx_texture_t		*south;
-	mlx_texture_t		*west;
-	mlx_texture_t		*portal[6];
-	mlx_texture_t		*door;
-	int					floor;
-	int					ceiling;
 	int					tex_line_offset;
 	t_tex_redef_check	redef_check;
+	mlx_texture_t	*north;
+	mlx_texture_t	*east;
+	mlx_texture_t	*south;
+	mlx_texture_t	*west;
+	mlx_texture_t	*portal[6];
+	mlx_texture_t	*door[21];
+	int				floor;
+	int				ceiling;
 }	t_textures;
 
 typedef struct s_raycast
@@ -166,6 +166,7 @@ typedef struct s_raycast
 	int			txt_y;
 	int			tile;
 	int			frame;
+	bool		transparent;
 }	t_raycast;
 
 typedef struct s_portal_list
@@ -175,6 +176,22 @@ typedef struct s_portal_list
 	t_point					b[2];
 	struct s_portal_list	*next;
 }	t_portal_list;
+
+typedef enum e_door_state
+{
+	CLOSED = 0,
+	OPENING = 1,
+	OPEN = 2,
+	CLOSING = 3
+}	t_door_state;
+
+typedef struct s_door_list {
+	t_point				pos;
+	t_door_state		state;
+	mlx_texture_t		*texture;
+	int					index;
+	struct s_door_list	*next;
+}	t_door_list;
 
 typedef struct s_gif
 {
@@ -186,7 +203,9 @@ typedef struct s_gif
 typedef struct s_level
 {
 	int				**map;
+	int				portal_effect_opacity;
 	t_portal_list	*portals;
+	t_door_list		*doors;
 	t_textures		*textures;
 	t_playerdata	*player;
 }	t_level;
@@ -197,17 +216,22 @@ typedef struct s_data
 	mlx_image_t	*minimap;
 	mlx_image_t	*last_frame;
 	mlx_image_t	*background;
+	mlx_image_t	*portal_effect;
+	mlx_image_t	*crosshair;
 	t_level		*level;
-	t_gif		*gif;
+	t_gif		*gif_portal;
 	int			rect;
 	double		delta_time;
 	double		move_speed;
 	double		turn_speed;
 	double		prev_mouse_x;
+	bool		mouse_enabled;
 }	t_data;
 
 /*	Function Prototypes
 \************************************************************************/
+
+void			exit_program(mlx_t *mlx, t_data *data);
 
 /* parse */
 t_level			*parse(char *fn_map);
@@ -216,6 +240,7 @@ t_textures		*sort_texture_data(char **raw, t_textures *textures);
 t_level			*parse_map(int fd);
 bool			map_is_valid(int **map);
 bool			get_portals(int **map, t_portal_list **portals);
+bool			get_doors(int **map, t_door_list **doors);
 
 /* parse_memory */
 void			free_raw_textures(char **raw_textures);
@@ -276,19 +301,23 @@ void			fill_circle(mlx_image_t *img, t_point center, int radius,
 bool			in_circle(t_point point, t_point center, int radius);
 void			drawvert(mlx_image_t *img, t_point a, t_point b,
 					uint32_t color);
-void			draw_textured_wall(t_raycast *ray, t_data *d, int x);
+void			draw_textured_wall(t_raycast *ray, t_data *d, int x, bool draw_door);
 void			draw_wall(mlx_image_t *img, double perp_dist,
 					int side, int x);
 void			drawline(mlx_image_t *img, t_point a, t_point b,
 					uint32_t color);
 void			drawrectangle(mlx_image_t *img, t_point wh, t_point coord,
 					uint32_t color);
-uint32_t		get_pixel_color(t_textures *textures, t_raycast *ray);
-
-/* draw/minimap */
+uint32_t		get_pixel_color(t_level *level, t_raycast *ray);
 void			draw_minimap(t_data *d);
 void			draw_minimap_rays(t_data *d, t_playerdata p,
 					t_vect intersect, int x);
+void			draw_floor_ceiling(mlx_image_t *img, t_textures *textures);
+void			create_background(t_data *d);
+void			create_last_frame(t_data *d);
+void			create_minimap(t_data *d);
+void			create_portal_effect(t_data *d);
+void			create_crosshair(t_data *d);
 
 /* utils */
 size_t			chars_till_eol(char *str);
@@ -305,5 +334,14 @@ t_portal_list	*find_portal_node(t_portal_list *head, char id);
 void			update_portal_node(t_portal_list *node,
 					t_point sourceB, t_point targetA);
 t_portal_list	*free_portal_list(t_portal_list **head);
+
+/* door list */
+t_door_list		*create_door_node(t_point position);
+t_door_list		*append_door_node(t_door_list **head, t_door_list *new_node);
+t_door_list		*find_door_node(t_door_list *head, t_point pos);
+t_door_list		*free_door_list(t_door_list **head);
+mlx_texture_t	*get_door_texture(t_door_list *door, t_point door_pos);
+void			update_doors(t_door_list *doors, t_level *level);
+void			trigger_door(t_level *level, t_point door_pos);
 
 #endif

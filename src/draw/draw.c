@@ -6,13 +6,14 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 15:00:31 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:35:02 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures);
+static void	draw_portal_effect(t_data *d);
+static bool	draw_pixel(t_data *d, t_raycast *ray, t_point pxl, bool draw_door);
 
 /**
  * Draws the entire game frame, including the minimap and the main view.
@@ -20,52 +21,40 @@ static void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures);
  */
 void	draw_all(t_data *d)
 {
-	mlx_t	*mlx;
-
-	mlx = d->mlx;
-	if (!d->background)
-	{
-		d->background = mlx_new_image(mlx, IMG_WIDTH, IMG_HEIGHT);
-		mlx_image_to_window(mlx, d->background, 0, 0);
-		draw_floor_ceiling(d->background, d->level->textures);
-	}
-	if (!d->last_frame)
-	{
-		d->last_frame = mlx_new_image(mlx, IMG_WIDTH, IMG_HEIGHT);
-		mlx_image_to_window(mlx, d->last_frame, 0, 0);
-	}
-	if (!d->minimap)
-	{
-		d->minimap = mlx_new_image(mlx, 400, 400);
-		mlx_image_to_window(mlx, d->minimap, 0, 0);
-	}
-	draw_minimap(d);
+	create_background(d);
+	create_last_frame(d);
 	ft_memset(d->last_frame->pixels, 0,
 		d->last_frame->width * d->last_frame->height * 4);
+	create_minimap(d);
+	draw_minimap(d);
 	raycast_dda(d);
-	mlx_set_mouse_pos(d->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
+	create_portal_effect(d);
+	draw_portal_effect(d);
+	create_crosshair(d);
+	if (d->mouse_enabled)
+		mlx_set_mouse_pos(d->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 }
 
-static void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures)
+static void	draw_portal_effect(t_data *d)
 {
-	int	y;
-	int	x;
+	int	i;
 
-	y = 0;
-	while (y < (int)img->height / 2)
+	i = 0;
+	if (d->level->portal_effect_opacity > 0x00)
+		d->level->portal_effect_opacity -= 3;
+	if (d->level->portal_effect_opacity < 0x00)
+		d->level->portal_effect_opacity = 0x00;
+	while (i < IMG_WIDTH * IMG_HEIGHT * 4)
 	{
-		x = 0;
-		while (x < (int)img->width)
-		{
-			mlx_put_pixel(img, x, y, textures->ceiling);
-			mlx_put_pixel(img, x, img->height - y - 1, textures->floor);
-			x++;
-		}
-		y++;
+		d->portal_effect->pixels[i] = 0x00;
+		d->portal_effect->pixels[i + 1] = 0xFF;
+		d->portal_effect->pixels[i + 2] = 0x00;
+		d->portal_effect->pixels[i + 3] = d->level->portal_effect_opacity;
+		i += 4;
 	}
 }
 
-void	draw_textured_wall(t_raycast *ray, t_data *d, int x)
+void	draw_textured_wall(t_raycast *ray, t_data *d, int x, bool draw_door)
 {
 	double	step;
 	int		y;
@@ -87,11 +76,32 @@ void	draw_textured_wall(t_raycast *ray, t_data *d, int x)
 	while (++y < ray->draw_end)
 	{
 		ray->txt_y = (int)ray->txt_pos & (TEXTURE_HEIGHT - 1);
-		if (x < IMG_WIDTH && y < IMG_HEIGHT && x >= 0 && y >= 0)
-			mlx_put_pixel(d->last_frame, x, y,
-				get_pixel_color(d->level->textures, ray));
+		if (draw_pixel(d, ray, (t_point){x, y}, draw_door) == 1)
+			break ;
 		ray->txt_pos += step;
 	}
+}
+
+static bool	draw_pixel(t_data *d, t_raycast *ray, t_point pxl, bool draw_door)
+{
+	uint32_t	color;
+
+	color = get_pixel_color(d->level, ray);
+	if (color == 0x00000000)
+	{
+		if (draw_door)
+			return (0);
+		calculate_ray((&ray->map), ray, d->level, false);
+		ray->perp_wall_dist = calculate_perpendicular_distance(
+				*d->level->player, ray, ray->map);
+		draw_textured_wall(ray, d, pxl.x, draw_door);
+		if (pxl.x < IMG_WIDTH && pxl.y < IMG_HEIGHT && pxl.x >= 0 && pxl.y >= 0)
+			mlx_put_pixel(d->last_frame, pxl.x, pxl.y, color);
+		return (1);
+	}
+	if (pxl.x < IMG_WIDTH && pxl.y < IMG_HEIGHT && pxl.x >= 0 && pxl.y >= 0)
+		mlx_put_pixel(d->last_frame, pxl.x, pxl.y, color);
+	return (0);
 }
 
 /**

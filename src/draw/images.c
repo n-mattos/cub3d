@@ -1,0 +1,85 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   images.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/02 12:19:59 by nmattos-          #+#    #+#             */
+/*   Updated: 2025/10/07 16:21:50 by nmattos-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/cub3d.h"
+
+void	create_background(t_data *d)
+{
+	if (!d->background)
+	{
+		d->background = mlx_new_image(d->mlx, IMG_WIDTH, IMG_HEIGHT);
+		if (!d->background)
+			return ;
+		draw_floor_ceiling(d->background, d->level->textures);
+		mlx_image_to_window(d->mlx, d->background, 0, 0);
+	}
+}
+
+void	create_last_frame(t_data *d)
+{
+	if (!d->last_frame)
+	{
+		d->last_frame = mlx_new_image(d->mlx, IMG_WIDTH, IMG_HEIGHT);
+		if (!d->last_frame)
+			return ;
+		mlx_image_to_window(d->mlx, d->last_frame, 0, 0);
+	}
+}
+
+void	create_minimap(t_data *d)
+{
+	if (!d->minimap)
+	{
+		d->minimap = mlx_new_image(d->mlx, 401, 401);
+		if (!d->minimap)
+			return ;
+		mlx_image_to_window(d->mlx, d->minimap, 0, 0);
+	}
+}
+
+void	create_portal_effect(t_data *d)
+{
+	if (!d->portal_effect)
+	{
+		d->portal_effect = mlx_new_image(d->mlx, IMG_WIDTH, IMG_HEIGHT);
+		if (!d->portal_effect)
+			return ;
+		mlx_image_to_window(d->mlx, d->portal_effect, 0, 0);
+	}
+}
+
+void	create_crosshair(t_data *d)
+{
+	mlx_texture_t	*texture;
+
+	if (!d->crosshair)
+	{
+		texture = mlx_load_png("textures/crosshair.png");
+		if (!texture)
+			return ;
+		d->crosshair = mlx_new_image(d->mlx, texture->width, texture->height);
+		if (!d->crosshair)
+		{
+			mlx_delete_texture(texture);
+			return ;
+		}
+		ft_memcpy(d->crosshair->pixels, texture->pixels,
+			texture->width * texture->height * 4);
+		mlx_delete_texture(texture);
+		if (d->crosshair)
+		{
+			mlx_image_to_window(d->mlx, d->crosshair,
+				(IMG_WIDTH / 2) - (16 / 2),
+				(IMG_HEIGHT / 2) - (16 / 2));
+		}
+	}
+}

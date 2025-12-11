@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse_textures.c                                   :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/24 09:10:46 by nmattos       #+#    #+#                 */
-/*   Updated: 2025/09/30 09:38:11 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse_textures.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/24 09:10:46 by nmattos           #+#    #+#             */
+/*   Updated: 2025/10/07 16:54:31 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_textures	*parse_textures(int fd)
 	if (raw_textures == NULL)
 	{
 		free(textures);
+		close(fd);
 		return (NULL);
 	}
 	textures = sort_texture_data(raw_textures, textures);
@@ -61,7 +62,7 @@ static char	**get_raw_texture_data(int fd)
 	raw_textures = get_raw_texture(fd, line, raw_textures);
 	if (raw_textures == NULL)
 		return (perror("Error\nMalloc for textures failed"), NULL);
-	free(line);
+	// free(line);
 	return (raw_textures);
 }
 
@@ -71,7 +72,7 @@ static char	**get_raw_texture(int fd, char *line, char **raw_textures)
 	size_t	i;
 
 	n_data = 0;
-	while (line && n_data < 7)
+	while (line && n_data < 6)
 	{
 		i = skip_whitespaces(line, 0);
 		if (line[i] != '\n' && line[i] != '\0')
@@ -84,6 +85,7 @@ static char	**get_raw_texture(int fd, char *line, char **raw_textures)
 		free(line);
 		line = get_next_line(fd);
 	}
+	free(line);
 	return (raw_textures);
 }
 

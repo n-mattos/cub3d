@@ -37,13 +37,16 @@ SRCS =	src/main.c \
 		src/draw/draw.c \
 		src/draw/draw_texture.c \
 		src/draw/draw_shapes.c \
+		src/draw/images.c \
 		src/player_input/input.c \
 		src/player_input/door.c \
 		src/player_input/collision.c \
 		src/player_input/move.c \
 		src/player_input/turn.c \
 		src/player/player.c \
-		src/list/portals.c
+		src/list/portals.c \
+		src/list/doors_list.c \
+		src/list/doors_animation.c
 
 OBJDIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJDIR)/%.o)

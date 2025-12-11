@@ -6,7 +6,7 @@
 /*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/11 15:57:42 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:04:10 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static mlx_t	*initialize_mlx(t_level *level);
 static t_data	*allocate_data(t_level *level, mlx_t *mlx);
-static void		exit_program(mlx_t *mlx, t_data *data);
 
 int	main(int argc, char **argv)
 {
@@ -83,8 +82,8 @@ static t_data	*allocate_data(t_level *level, mlx_t *mlx)
 	}
 	data->level = level;
 	data->mlx = mlx;
-	data->gif = ft_calloc(1, sizeof(t_gif));
-	if (!data->gif)
+	data->gif_portal = ft_calloc(1, sizeof(t_gif));
+	if (!data->gif_portal)
 	{
 		perror("Error\nFailed to allocate memory for gif data");
 		free_level(level);
@@ -98,10 +97,11 @@ static t_data	*allocate_data(t_level *level, mlx_t *mlx)
 /**
  * Frees all allocated resources and exits the program.
  */
-static void	exit_program(mlx_t *mlx, t_data *data)
+void	exit_program(mlx_t *mlx, t_data *data)
 {
-	mlx_terminate(mlx);
+	free_door_list(&data->level->doors);
+	free_portal_list(&data->level->portals);
 	free_level(data->level);
-	free(data->gif);
+	free(data->gif_portal);
 	free(data);
 }

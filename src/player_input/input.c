@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:53:45 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 16:10:25 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:37:03 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,20 @@ void	single_press_interactions(mlx_key_data_t keydata, void *data)
 	d = (t_data *)data;
 	door_interaction(d, keydata);
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	{
 		mlx_close_window(d->mlx);
+		return ;
+	}
+	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
+		d->minimap->enabled = !d->minimap->enabled;
+	if (keydata.key == MLX_KEY_LEFT_ALT && keydata.action == MLX_PRESS)
+	{
+		d->mouse_enabled = !d->mouse_enabled;
+		if (d->mouse_enabled)
+			mlx_set_cursor_mode(d->mlx, MLX_MOUSE_HIDDEN);
+		else
+			mlx_set_cursor_mode(d->mlx, MLX_MOUSE_NORMAL);
+	}
 }
 
 /**
