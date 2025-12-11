@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:31:19 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/09 11:30:07 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:35:40 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	run_game(mlx_t *mlx, t_data *data)
 	data->gif_portal->last = 0;
 	data->gif_portal->current = 0;
 	data->gif_portal->frame = 0;
+	data->mouse_enabled = true;
 	mlx_set_mouse_pos(data->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
 	mlx_key_hook(mlx, &single_press_interactions, (void *)data);

@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/09 12:36:28 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:32:42 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ typedef struct s_data
 	double		move_speed;
 	double		turn_speed;
 	double		prev_mouse_x;
+	bool		mouse_enabled;
 }	t_data;
 
 /*	Function Prototypes

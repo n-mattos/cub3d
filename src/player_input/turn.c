@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   turn.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/09/25 15:52:49 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 13:46:55 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   turn.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/25 15:52:49 by nmattos-          #+#    #+#             */
+/*   Updated: 2025/12/11 14:35:35 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	mouse_move(double x, double y, void *d)
 
 	(void)y;
 	data = (t_data *)d;
+	if (!data->mouse_enabled)
+		return ;
 	if (data->prev_mouse_x == -1)
 	{
 		data->prev_mouse_x = x;

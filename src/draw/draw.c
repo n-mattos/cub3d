@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/07 16:14:49 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:35:02 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	draw_all(t_data *d)
 	create_portal_effect(d);
 	draw_portal_effect(d);
 	create_crosshair(d);
-	mlx_set_mouse_pos(d->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
+	if (d->mouse_enabled)
+		mlx_set_mouse_pos(d->mlx, IMG_WIDTH / 2, IMG_HEIGHT / 2);
 }
 
 static void	draw_portal_effect(t_data *d)
