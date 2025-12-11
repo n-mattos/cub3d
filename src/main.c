@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/11/17 16:17:18 by mika             ###   ########.fr       */
+/*   Updated: 2025/12/11 15:57:42 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,15 @@ int	main(int argc, char **argv)
 	t_level		*level;
 	t_data		*data;
 
-	char	**lines = read_cub_file("maps/subject_example1.cub");
-	t_textures *textures = new_parse_textures(lines);
-	printf("txtparse result: %d\n", validate_parsed_textures(textures));
-	if (validate_parsed_textures(textures) == TIS_SUCCESS)
-		join_map_lines(textures, lines);
-	printf("\n\n%d F\n%d C\n", textures->floor, textures->ceiling);
+	// char	**lines = read_cub_file("maps/subject_example1.cub");
+	// t_textures *textures = new_parse_textures(lines);
+	// printf("txtparse result: %d\n", validate_parsed_textures(textures));
+	// if (validate_parsed_textures(textures) == TIS_SUCCESS)
+	// {
+	// 	if (!join_map_lines(textures, lines))
+	// 		printf("DAS EEN PROBLEEM\n");
+	// }
+	// printf("\n\n%d F\n%d C\n", textures->floor, textures->ceiling);
 	if (argc < 2)
 		return (printf(USAGE), 1);
 	level = parse(argv[1]);

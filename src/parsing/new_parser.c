@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:26:59 by mschippe          #+#    #+#             */
-/*   Updated: 2025/11/17 16:48:08 by mika             ###   ########.fr       */
+/*   Updated: 2025/12/11 15:22:47 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,17 @@ bool	update_tex_defined(t_tex_info_type type, t_tex_redef_check *redef)
 {
 	if (type == TI_NORTH && !redef->north++)
 		return (false);
+	if (type == TI_EAST && !redef->east++)
+		return (false);
+	if (type == TI_SOUTH && !redef->south++)
+		return (false);
+	if (type == TI_WEST && !redef->west++)
+		return (false);
+	if (type == TI_FLOOR && !redef->floor++)
+		return (false);
+	if (type == TI_CEILING && !redef->ceiling++)
+		return (false);
+	return (true);
 }
 
 void	insert_tex(t_textures *tex, t_tex_info_type type, char *value)
@@ -296,7 +307,11 @@ t_textures	*new_parse_textures(char **lines)
 		if (*(lines[i]) == '\n' && lines[i++] != NULL)
 			continue ;
 		if (is_info_line(lines[i]))
+		{
+			if (update_tex_defined(get_tex_type(lines[i]), &tex->redef_check))
+				break ;
 			insert_tex(tex, get_tex_type(lines[i]), get_tex_value(lines[i]));
+		}
 		else
 			break ;
 		i++;
@@ -305,19 +320,31 @@ t_textures	*new_parse_textures(char **lines)
 	return (tex);
 }
 
+t_parse_tex_res is_redef_err(t_parse_tex_res res, t_tex_redef_check *redef)
+{
+	if (redef->north > 1
+		|| redef->east > 1
+		|| redef->south > 1
+		|| redef->west > 1
+		|| redef->floor > 1
+		|| redef->ceiling > 1)
+		return (TIS_REDEFINE);
+	return (res);
+}
+
 t_parse_tex_res	validate_parsed_textures(t_textures *tex)
 {
 	if (!tex->north || !tex->east || !tex->south || !tex->west)
-		return (TIS_TEXTURE_LOAD_FAIL);
+		return (is_redef_err(TIS_TEXTURE_LOAD_FAIL, &tex->redef_check));
 	if (tex->floor == -2 || tex->ceiling == -2)
-		return (TIS_MALLOC_FAIL);
+		return (is_redef_err(TIS_MALLOC_FAIL, &tex->redef_check));
 	if (tex->floor == -3 || tex->ceiling == -3)
-		return (TIS_INVALID_COLOR_FORMAT);
+		return (is_redef_err(TIS_INVALID_COLOR_FORMAT, &tex->redef_check));
 	if (tex->floor == -4 || tex->ceiling == -4)
-		return (TIS_INVALID_COLOR_FORMAT);
-	if (tex->floor == -5 || tex->ceiling == -5)
-		return (TIS_COLOR_MISSING);
-	return (TIS_SUCCESS);
+		return (is_redef_err(TIS_INVALID_COLOR_FORMAT, &tex->redef_check));
+	if (tex->floor == -5 || tex->ceiling == -5) //TODO MAKE MACROS FOR THE NEGS
+		return (is_redef_err(TIS_COLOR_MISSING, &tex->redef_check));
+	return (is_redef_err(TIS_SUCCESS, &tex->redef_check));
 }
 
 /**
@@ -329,15 +356,20 @@ char	*join_map_lines(t_textures *tex, char **lines)
 	size_t	index;
 	char	*res;
 	char	*tmp;
+	bool	last_is_nl;
 
 	index = 0;
+	last_is_nl = false;
 	res = ft_calloc(1, sizeof(char));
 	if (!res || !tex || !lines)
 		return (free(res), NULL);
-	while (lines[index] && index < tex->tex_line_offset)
+	while ((lines[index] && index < tex->tex_line_offset) || lines[index][0] == '\n')
 		index++;
 	while (lines[index])
 	{
+		if (last_is_nl && lines[index][0] != '\n')
+			return (free(res), NULL);
+		last_is_nl = (lines[index][0] == '\n');
 		tmp = ft_strjoin(res, lines[index]);
 		if (!tmp)
 			return (free(res), NULL);
@@ -345,6 +377,5 @@ char	*join_map_lines(t_textures *tex, char **lines)
 		res = tmp;
 		index++;
 	}
-	printf("MAP IS:\n\n%s", res);
 	return (res);
 }

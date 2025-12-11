@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   map_validator.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmattos- <nmattos-@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/24 13:57:43 by nmattos-      #+#    #+#                 */
-/*   Updated: 2025/09/30 09:19:16 by nmattos       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   map_validator.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/24 13:57:43 by nmattos-          #+#    #+#             */
+/*   Updated: 2025/12/11 15:57:37 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,13 @@ static bool	fetch_portal(int **map, t_portal_list **portals,
 
 static t_point	get_portal_target(int **map, int x, int y)
 {
-	if (map[y + 1][x] == FLOOR)
+	if (map[y + 1] != NULL && map[y + 1][x] == FLOOR)
 		return ((t_point){x, y + 1});
-	if (map[y - 1][x] == FLOOR)
+	if (y > 0 && map[y - 1][x] == FLOOR)
 		return ((t_point){x, y - 1});
 	if (map[y][x + 1] == FLOOR)
 		return ((t_point){x + 1, y});
-	if (map[y][x - 1] == FLOOR)
+	if (x > 0 && map[y][x - 1] == FLOOR)
 		return ((t_point){x - 1, y});
 	return ((t_point){-1, -1});
 }

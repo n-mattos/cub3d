@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/11/17 16:57:02 by mika             ###   ########.fr       */
+/*   Updated: 2025/12/11 14:13:22 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,6 +231,7 @@ char			**read_cub_file(char *fn);
 t_textures		*new_parse_textures(char **lines);
 t_parse_tex_res	validate_parsed_textures(t_textures *tex);
 char			*join_map_lines(t_textures *tex, char **lines);
+bool			update_tex_defined(t_tex_info_type type, t_tex_redef_check *redef);
 
 /* game loop */
 void			run_game(mlx_t *mlx, t_data *data);
