@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/09/25 12:33:47 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:37:48 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,10 @@ t_textures	*allocate_textures(void)
 	textures->south = NULL;
 	textures->west = NULL;
 	textures->door = NULL;
+	textures->tex_line_offset = 0;
+	textures->floor = -5;
+	textures->ceiling = -5;
+	textures->redef_check = (t_tex_redef_check){0, 0, 0, 0, 0, 0};
 	i = 0;
 	while (i < 6)
 		textures->portal[i++] = NULL;

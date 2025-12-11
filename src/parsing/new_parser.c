@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:26:59 by mschippe          #+#    #+#             */
-/*   Updated: 2025/10/27 19:27:05 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:48:08 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,12 @@ int	string_to_rgb(char *value)
 	return ((red << 24) | (green << 16) | (blue << 8) | 0xFF);
 }
 
+bool	update_tex_defined(t_tex_info_type type, t_tex_redef_check *redef)
+{
+	if (type == TI_NORTH && !redef->north++)
+		return (false);
+}
+
 void	insert_tex(t_textures *tex, t_tex_info_type type, char *value)
 {
 	if (type == TI_NORTH)
@@ -295,6 +301,7 @@ t_textures	*new_parse_textures(char **lines)
 			break ;
 		i++;
 	}
+	tex->tex_line_offset = i;
 	return (tex);
 }
 
@@ -308,5 +315,36 @@ t_parse_tex_res	validate_parsed_textures(t_textures *tex)
 		return (TIS_INVALID_COLOR_FORMAT);
 	if (tex->floor == -4 || tex->ceiling == -4)
 		return (TIS_INVALID_COLOR_FORMAT);
+	if (tex->floor == -5 || tex->ceiling == -5)
+		return (TIS_COLOR_MISSING);
 	return (TIS_SUCCESS);
+}
+
+/**
+ * Stitches lines (back) together into one big map string because the map parsing
+ * of old parsing should still suffice, and this is the format it expects the map to be in
+ */
+char	*join_map_lines(t_textures *tex, char **lines)
+{
+	size_t	index;
+	char	*res;
+	char	*tmp;
+
+	index = 0;
+	res = ft_calloc(1, sizeof(char));
+	if (!res || !tex || !lines)
+		return (free(res), NULL);
+	while (lines[index] && index < tex->tex_line_offset)
+		index++;
+	while (lines[index])
+	{
+		tmp = ft_strjoin(res, lines[index]);
+		if (!tmp)
+			return (free(res), NULL);
+		free(res);
+		res = tmp;
+		index++;
+	}
+	printf("MAP IS:\n\n%s", res);
+	return (res);
 }

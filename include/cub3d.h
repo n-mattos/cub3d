@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/27 18:44:57 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:57:02 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef enum e_parse_tex_res
 	TIS_INVALID_COLOR_FORMAT,
 	TIS_MALLOC_FAIL,
 	TIS_REDEFINE,
+	TIS_COLOR_MISSING,
 }	t_parse_tex_res;
 
 typedef struct s_point
@@ -124,16 +125,28 @@ typedef struct s_playerdata
 	double	plane_y;
 }	t_playerdata;
 
+typedef struct s_tex_redef_check
+{
+	int	north;
+	int	east;
+	int	south;
+	int	west;
+	int	floor;
+	int	ceiling;
+}	t_tex_redef_check;
+
 typedef struct s_textures
 {
-	mlx_texture_t	*north;
-	mlx_texture_t	*east;
-	mlx_texture_t	*south;
-	mlx_texture_t	*west;
-	mlx_texture_t	*portal[6];
-	mlx_texture_t	*door;
-	int				floor;
-	int				ceiling;
+	mlx_texture_t		*north;
+	mlx_texture_t		*east;
+	mlx_texture_t		*south;
+	mlx_texture_t		*west;
+	mlx_texture_t		*portal[6];
+	mlx_texture_t		*door;
+	int					floor;
+	int					ceiling;
+	int					tex_line_offset;
+	t_tex_redef_check	redef_check;
 }	t_textures;
 
 typedef struct s_raycast
@@ -217,6 +230,7 @@ bool			is_cub_file(char *fn);
 char			**read_cub_file(char *fn);
 t_textures		*new_parse_textures(char **lines);
 t_parse_tex_res	validate_parsed_textures(t_textures *tex);
+char			*join_map_lines(t_textures *tex, char **lines);
 
 /* game loop */
 void			run_game(mlx_t *mlx, t_data *data);
