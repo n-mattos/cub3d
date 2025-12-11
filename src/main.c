@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
 /*   Updated: 2025/10/07 17:04:10 by nmattos-         ###   ########.fr       */
@@ -21,6 +21,15 @@ int	main(int argc, char **argv)
 	t_level		*level;
 	t_data		*data;
 
+	// char	**lines = read_cub_file("maps/subject_example1.cub");
+	// t_textures *textures = new_parse_textures(lines);
+	// printf("txtparse result: %d\n", validate_parsed_textures(textures));
+	// if (validate_parsed_textures(textures) == TIS_SUCCESS)
+	// {
+	// 	if (!join_map_lines(textures, lines))
+	// 		printf("DAS EEN PROBLEEM\n");
+	// }
+	// printf("\n\n%d F\n%d C\n", textures->floor, textures->ceiling);
 	if (argc < 2)
 		return (printf(USAGE), 1);
 	level = parse(argv[1]);
@@ -95,5 +104,4 @@ void	exit_program(mlx_t *mlx, t_data *data)
 	free_level(data->level);
 	free(data->gif_portal);
 	free(data);
-	mlx_terminate(mlx);
 }

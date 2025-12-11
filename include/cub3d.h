@@ -19,6 +19,7 @@
 # include <stdbool.h>
 # include <math.h>
 # include <sys/time.h>
+# include <limits.h>
 # include "MLX42/MLX42.h"
 # include "../libft/libft.h"
 
@@ -81,6 +82,27 @@ typedef enum e_hit_side
 	HORIZONTAL = 1,
 }	t_hit_side;
 
+typedef enum e_tex_info_type
+{
+	TI_NONE,
+	TI_NORTH,
+	TI_EAST,
+	TI_SOUTH,
+	TI_WEST,
+	TI_FLOOR,
+	TI_CEILING
+}	t_tex_info_type;
+
+typedef enum e_parse_tex_res
+{
+	TIS_SUCCESS,
+	TIS_TEXTURE_LOAD_FAIL,
+	TIS_INVALID_COLOR_FORMAT,
+	TIS_MALLOC_FAIL,
+	TIS_REDEFINE,
+	TIS_COLOR_MISSING,
+}	t_parse_tex_res;
+
 typedef struct s_point
 {
 	int	x;
@@ -103,8 +125,20 @@ typedef struct s_playerdata
 	double	plane_y;
 }	t_playerdata;
 
+typedef struct s_tex_redef_check
+{
+	int	north;
+	int	east;
+	int	south;
+	int	west;
+	int	floor;
+	int	ceiling;
+}	t_tex_redef_check;
+
 typedef struct s_textures
 {
+	int					tex_line_offset;
+	t_tex_redef_check	redef_check;
 	mlx_texture_t	*north;
 	mlx_texture_t	*east;
 	mlx_texture_t	*south;
@@ -214,6 +248,15 @@ void			free_textures(t_textures *textures);
 void			free_map(int **map, int i);
 void			free_level(t_level *level);
 t_textures		*allocate_textures(void);
+
+/* new parser */
+bool			cub_strcmp(char *s1, char *s2);
+bool			is_cub_file(char *fn);
+char			**read_cub_file(char *fn);
+t_textures		*new_parse_textures(char **lines);
+t_parse_tex_res	validate_parsed_textures(t_textures *tex);
+char			*join_map_lines(t_textures *tex, char **lines);
+bool			update_tex_defined(t_tex_info_type type, t_tex_redef_check *redef);
 
 /* game loop */
 void			run_game(mlx_t *mlx, t_data *data);
