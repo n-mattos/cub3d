@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/12/11 17:16:49 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:28:37 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_level	*parse(char *fn_map)
 	if (level == NULL)
 		return (perror("Error\nmap == NULL"), free_textures(textures), NULL);
 	level->textures = textures;
+	level->player = NULL;
 	if (!map_is_valid(level->map))
 		return (perror("Error\nMap is invalid\n"), free_map(level->map, -1),
 			free_textures(textures), NULL);
