@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:26:59 by mschippe          #+#    #+#             */
-/*   Updated: 2025/12/12 12:11:17 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/12 14:46:17 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ bool	read_into_array(char **arr, int fd, int size)
 		arr[index++] = line;
 		line = get_next_line(fd);
 		if (line && index == size)
-			return(free_array((void **)arr, NULL), false);
+			return (free_array((void **)arr, NULL), false);
 	}
 	arr[size] = NULL;
 	return (true);
@@ -109,9 +109,11 @@ char	**read_cub_file(char *fn)
 		return (close(fd), perror("Error\nFile too small to be valid\n"), NULL);
 	lines = ft_calloc(size + 1, sizeof(char *));
 	if (!lines)
-		return(close(fd), perror("Error\nMemory alloc failed for file read\n"), NULL);
+		return (close(fd),
+			perror("Error\nMemory alloc failed for file read\n"), NULL);
 	if (!read_into_array(lines, fd, size))
-		return (close(fd), perror("Error\nFound more lines than expected\n"), NULL);
+		return (close(fd),
+			perror("Error\nFound more lines than expected\n"), NULL);
 	close(fd);
 	return (lines);
 }
@@ -130,11 +132,11 @@ bool	is_info_line(char *line)
 {
 	line += num_spaces(line);
 	return ((!ft_strncmp(line, "NO ", 3)
-		|| !ft_strncmp(line, "EA ", 3)
-		|| !ft_strncmp(line, "SO ", 3)
-		|| !ft_strncmp(line, "WE ", 3)
-		|| !ft_strncmp(line, "F ", 2)
-		|| !ft_strncmp(line, "C ", 2)));
+			|| !ft_strncmp(line, "EA ", 3)
+			|| !ft_strncmp(line, "SO ", 3)
+			|| !ft_strncmp(line, "WE ", 3)
+			|| !ft_strncmp(line, "F ", 2)
+			|| !ft_strncmp(line, "C ", 2)));
 }
 
 bool	is_map_char(char c)
@@ -183,7 +185,7 @@ char	*get_tex_value(char *line)
 	count = 0;
 	line += num_spaces(line);
 	while (!is_whitespace(*line++))
-		continue;
+		continue ;
 	line += num_spaces(line);
 	start = line;
 	while (line && *line && !is_whitespace(*line++))
@@ -256,11 +258,13 @@ int	string_to_rgb(char *value)
 	blue = 0;
 	split = ft_split(value, ',');
 	if (!split)
-		return (-2); //malloc fail, can NOT use -1 as that is a possible valid RGB int
+		return (-2);
 	if (ft_arrlen((void **)split) != 3)
-		return (-3); // invalid format
-	if (!rgb_atoi(split[0], &red) || !rgb_atoi(split[1], &green) || !rgb_atoi(split[2], &blue))
-		return (-4); // not a number or not within 0-255 range
+		return (-3);
+	if (!rgb_atoi(split[0], &red)
+		|| !rgb_atoi(split[1], &green)
+		|| !rgb_atoi(split[2], &blue))
+		return (-4);
 	return ((red << 24) | (green << 16) | (blue << 8) | 0xFF);
 }
 
@@ -308,7 +312,7 @@ char	*create_filename(char *pre, int num, char *post)
 	part2 = ft_strjoin(pre, tmp);
 	free(tmp);
 	if (!part2)
-		return(false);
+		return (false);
 	tmp = ft_strjoin(part2, post);
 	free(part2);
 	return (tmp);
@@ -381,7 +385,7 @@ t_textures	*new_parse_textures(char **lines)
 	return (tex);
 }
 
-t_parse_tex_res is_redef_err(t_parse_tex_res res, t_tex_redef_check *redef)
+t_parse_tex_res	is_redef_err(t_parse_tex_res res, t_tex_redef_check *redef)
 {
 	if (redef->north > 1
 		|| redef->east > 1
@@ -410,7 +414,8 @@ t_parse_tex_res	validate_parsed_textures(t_textures *tex)
 
 /**
  * Stitches lines (back) together into one big map string because the map parsing
- * of old parsing should still suffice, and this is the format it expects the map to be in
+ * of old parsing should still suffice,
+ * and this is the format it expects the map to be in
  */
 char	*join_map_lines(t_textures *tex, char **lines)
 {
@@ -424,7 +429,8 @@ char	*join_map_lines(t_textures *tex, char **lines)
 	res = ft_calloc(1, sizeof(char));
 	if (!res || !tex || !lines)
 		return (free(res), NULL);
-	while ((lines[index] && index < (size_t)tex->tex_line_offset) || lines[index][0] == '\n')
+	while ((lines[index] && index < (size_t)tex->tex_line_offset)
+		|| lines[index][0] == '\n')
 		index++;
 	while (lines[index])
 	{

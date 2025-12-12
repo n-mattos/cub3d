@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/12 12:09:46 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/12 14:41:07 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,6 @@ int	main(int argc, char **argv)
 	t_level		*level;
 	t_data		*data;
 
-	// char	**lines = read_cub_file("maps/subject_example1.cub");
-	// t_textures *textures = new_parse_textures(lines);
-	// printf("txtparse result: %d\n", validate_parsed_textures(textures));
-	// if (validate_parsed_textures(textures) == TIS_SUCCESS)
-	// {
-	// 	if (!join_map_lines(textures, lines))
-	// 		printf("DAS EEN PROBLEEM\n");
-	// }
-	// printf("\n\n%d F\n%d C\n", textures->floor, textures->ceiling);
 	if (argc < 2)
 		return (printf(USAGE), 1);
 	level = parse(argv[1]);
@@ -37,14 +28,6 @@ int	main(int argc, char **argv)
 		return (1);
 	mlx = initialize_mlx(level);
 	data = allocate_data(level, mlx);
-	for (int i = 0; data->level->map[i] != NULL; i++)
-	{
-		for (int j = 0; data->level->map[i][j] != '\0'; j++)
-		{
-			printf("%d", data->level->map[i][j]);
-		}
-		printf("\n");
-	}
 	run_game(mlx, data);
 	exit_program(mlx, data);
 	return (0);

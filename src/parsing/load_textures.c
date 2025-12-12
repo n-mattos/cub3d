@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 09:25:18 by nmattos           #+#    #+#             */
-/*   Updated: 2025/10/03 11:59:16 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/12 14:43:06 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ t_textures	*sort_texture_data(char **raw, t_textures *textures)
 	textures->portal[3] = mlx_load_png("textures/portal/4.png");
 	textures->portal[4] = mlx_load_png("textures/portal/5.png");
 	textures->portal[5] = mlx_load_png("textures/portal/6.png");
+	textures = load_door_textures(textures);
+	if (check_texture_validity(textures) == false)
+		return (free_raw_textures(raw), free_textures(textures), NULL);
+	return (free_raw_textures(raw), textures);
+}
+
+static t_textures	*load_door_textures(t_textures *textures)
+{
 	textures->door[0] = mlx_load_png("textures/door/1.png");
 	textures->door[1] = mlx_load_png("textures/door/2.png");
 	textures->door[2] = mlx_load_png("textures/door/3.png");
@@ -56,9 +64,7 @@ t_textures	*sort_texture_data(char **raw, t_textures *textures)
 	textures->door[18] = mlx_load_png("textures/door/19.png");
 	textures->door[19] = mlx_load_png("textures/door/20.png");
 	textures->door[20] = mlx_load_png("textures/door/21.png");
-	if (check_texture_validity(textures) == false)
-		return (free_raw_textures(raw), free_textures(textures), NULL);
-	return (free_raw_textures(raw), textures);
+	return (textures);
 }
 
 /**

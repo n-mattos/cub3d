@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:31:19 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/11 14:35:40 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/12 14:40:36 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,14 @@ static void	calc_fps(t_data *d)
 static void	set_title(mlx_t *mlx, double delta_time)
 {
 	char	title[50];
-    char	*fps_str;
+	char	*fps_str;
 
-    ft_strlcpy(title, "cub3D | FPS: ", 50);
-    fps_str = ft_itoa((int)(1.0 / delta_time));
-    if (fps_str)
-    {
-        ft_strlcat(title, fps_str, 50);
-        free(fps_str);
-    }
-    mlx_set_window_title(mlx, title);
+	ft_strlcpy(title, "cub3D | FPS: ", 50);
+	fps_str = ft_itoa((int)(1.0 / delta_time));
+	if (fps_str)
+	{
+		ft_strlcat(title, fps_str, 50);
+		free(fps_str);
+	}
+	mlx_set_window_title(mlx, title);
 }

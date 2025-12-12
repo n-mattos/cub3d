@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/12/12 12:28:37 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/12 14:46:56 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_level	*parse(char *fn_map)
 	char			**lines;
 	char			*map_str;
 	t_parse_tex_res	parse_result;
-
 
 	lines = read_cub_file(fn_map);
 	if (!lines)
