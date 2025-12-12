@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:14:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/11 16:20:29 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:36:43 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static char		*get_raw_map_data(int fd);
+// static char		*get_raw_map_data(int fd);
 static int		**create_map(t_level *level, char *raw_map);
 static size_t	calc_longest(char *str);
 static int		get_tile(char c);
@@ -49,26 +49,26 @@ t_level	*parse_map(char *map_str)
  * @param fd The file descriptor to read from.
  * @return A string containing the raw map data, or NULL if an error occurs.
  */
-static char	*get_raw_map_data(int fd)
-{
-	char	*line;
-	char	*raw_map;
-	char	*temp;
+// static char	*get_raw_map_data(int fd)
+// {
+// 	char	*line;
+// 	char	*raw_map;
+// 	char	*temp;
 
-	raw_map = get_next_line(fd);
-	line = get_next_line(fd);
-	while (line)
-	{
-		temp = ft_strjoin(raw_map, line);
-		free(raw_map);
-		free(line);
-		if (temp == NULL)
-			return (NULL);
-		raw_map = temp;
-		line = get_next_line(fd);
-	}
-	return (raw_map);
-}
+// 	raw_map = get_next_line(fd);
+// 	line = get_next_line(fd);
+// 	while (line)
+// 	{
+// 		temp = ft_strjoin(raw_map, line);
+// 		free(raw_map);
+// 		free(line);
+// 		if (temp == NULL)
+// 			return (NULL);
+// 		raw_map = temp;
+// 		line = get_next_line(fd);
+// 	}
+// 	return (raw_map);
+// }
 
 /**
  * Creates a 2D int array from the raw map data.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:26:59 by mschippe          #+#    #+#             */
-/*   Updated: 2025/12/11 17:24:23 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:37:54 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -424,7 +424,7 @@ char	*join_map_lines(t_textures *tex, char **lines)
 	res = ft_calloc(1, sizeof(char));
 	if (!res || !tex || !lines)
 		return (free(res), NULL);
-	while ((lines[index] && index < tex->tex_line_offset) || lines[index][0] == '\n')
+	while ((lines[index] && index < (size_t)tex->tex_line_offset) || lines[index][0] == '\n')
 		index++;
 	while (lines[index])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/07 17:04:10 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:36:18 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,5 @@ void	exit_program(mlx_t *mlx, t_data *data)
 	free_level(data->level);
 	free(data->gif_portal);
 	free(data);
+	mlx_terminate(mlx);
 }
