@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/12 11:36:18 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:09:46 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ int	main(int argc, char **argv)
 		return (1);
 	mlx = initialize_mlx(level);
 	data = allocate_data(level, mlx);
+	for (int i = 0; data->level->map[i] != NULL; i++)
+	{
+		for (int j = 0; data->level->map[i][j] != '\0'; j++)
+		{
+			printf("%d", data->level->map[i][j]);
+		}
+		printf("\n");
+	}
 	run_game(mlx, data);
 	exit_program(mlx, data);
 	return (0);

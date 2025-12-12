@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:26:59 by mschippe          #+#    #+#             */
-/*   Updated: 2025/12/12 11:37:54 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:11:17 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ bool	read_into_array(char **arr, int fd, int size)
 {
 	int		index;
 	char	*line;
-	
+
 	index = 0;
 	line = get_next_line(fd);
 	while (line)

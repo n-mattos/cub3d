@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:01:23 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/03 14:14:15 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:19:03 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,31 @@ void	collision(t_level *level, t_vect new)
  */
 static int	collision_y(t_level *level, t_playerdata *p, t_vect new)
 {
+	int	max_y;
+
+	max_y = 0;
+	while (level->map[max_y] != NULL)
+		max_y++;
 	if (new.y > p->y)
 	{
+		if (new.y + COLLISION < 0 || (int)(new.y + COLLISION) >= max_y)
+			return (0);
 		if (handle_portal(level, p, (int)(new.y + COLLISION), (int)p->x))
 			return (PORTAL);
 		if (level->map[(int)(new.y + COLLISION)][(int)p->x] != WALL
-			&& level->map[(int)(new.y + COLLISION)][(int)p->x] != DOOR)
+			&& level->map[(int)(new.y + COLLISION)][(int)p->x] != DOOR
+			&& level->map[(int)(new.y + COLLISION)][(int)p->x] != EMPTY)
 			p->y = new.y;
 	}
 	else
 	{
+		if (new.y - COLLISION < 0 || (int)(new.y - COLLISION) >= max_y)
+			return (0);
 		if (handle_portal(level, p, (int)(new.y - COLLISION), (int)p->x))
 			return (PORTAL);
 		if (level->map[(int)(new.y - COLLISION)][(int)p->x] != WALL
-			&& level->map[(int)(new.y - COLLISION)][(int)p->x] != DOOR)
+			&& level->map[(int)(new.y - COLLISION)][(int)p->x] != DOOR
+			&& level->map[(int)(new.y - COLLISION)][(int)p->x] != EMPTY)
 			p->y = new.y;
 	}
 	return (0);
@@ -73,20 +84,31 @@ static int	collision_y(t_level *level, t_playerdata *p, t_vect new)
  */
 static void	collision_x(t_level *level, t_playerdata *p, t_vect new)
 {
+	int	max_x;
+
+	max_x = 0;
+	while (level->map[(int)p->y][max_x] != '\0')
+		max_x++;
 	if (new.x < p->x)
 	{
+		if (new.x - COLLISION < 0 || (int)(new.x - COLLISION) >= max_x)
+			return ;
 		if (handle_portal(level, p, (int)p->y, (int)(new.x - COLLISION)))
 			return ;
 		if (level->map[(int)p->y][(int)(new.x - COLLISION)] != WALL
-			&& level->map[(int)p->y][(int)(new.x - COLLISION)] != DOOR)
+			&& level->map[(int)p->y][(int)(new.x - COLLISION)] != DOOR
+			&& level->map[(int)p->y][(int)(new.x - COLLISION)] != EMPTY)
 			p->x = new.x;
 	}
 	else
 	{
+		if (new.x + COLLISION < 0 || (int)(new.x + COLLISION) >= max_x)
+			return ;
 		if (handle_portal(level, p, (int)p->y, (int)(new.x + COLLISION)))
 			return ;
 		if (level->map[(int)p->y][(int)(new.x + COLLISION)] != WALL
-			&& level->map[(int)p->y][(int)(new.x + COLLISION)] != DOOR)
+			&& level->map[(int)p->y][(int)(new.x + COLLISION)] != DOOR
+			&& level->map[(int)p->y][(int)(new.x + COLLISION)] != EMPTY)
 			p->x = new.x;
 	}
 }
