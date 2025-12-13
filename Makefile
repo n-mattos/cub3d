@@ -19,8 +19,6 @@ SRCS =	src/main.c \
 		src/game.c \
 		src/parsing/parse.c \
 		src/parsing/parse_map.c \
-		src/parsing/parse_textures.c \
-		src/parsing/load_textures.c \
 		src/parsing/map_validator.c \
 		src/parsing/parse_memory.c \
 		src/parsing/new_parser.c \
