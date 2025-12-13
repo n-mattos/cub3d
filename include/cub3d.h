@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/13 15:16:14 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/13 16:52:14 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,36 @@
 # include "MLX42/MLX42.h"
 # include "../libft/libft.h"
 
-# define USAGE "Please specify which map to use.\n./cub3D [dir/map.cub]\n"
+# define USAGE \
+"Please specify which map to use.\n./cub3D [dir/map.cub]\n"
+# define MSG_COMBINE_FAIL \
+"Error\nMap combining failed\n"
+# define MSG_ERR_BUT_SUCCESS \
+"Error\nParsing was successful but error still thrown\n"
+# define MSG_ERR_TEX_LOAD_FAIL \
+"Error\nTexture(s) missing from file or failed to load\n"
+# define MSG_ERR_WRONG_COLOR \
+"Error\nFloor or ceiling is formatted incorrectly\n"
+# define MSG_ERR_MALLOC_FAIL \
+"Error\nA memory allocation failed during parsing\n"
+# define MSG_ERR_REDEFINE \
+"Error\nAt least one field in the file was redefined\n"
+# define MSG_ERR_COLOR_MISSING \
+"Error\nAt least one color is missing from the file\n"
+# define MSG_ERR_PARSE_FAIL \
+"Error\nSomething went wrong in map parsing\n"
+# define MSG_ERR_MAP_INVALID \
+"Error\nMap is invalid\n"
+# define MSG_ERR_PORTALS_INVALID \
+"Error\nMap contains invalid portals (could be placement or amount related)\n"
+# define MSG_ERR_DOORS_INVALID \
+"Error\nInvalid doors (could be placement or amount related)\n"
+# define MSG_ERR_NO_PLAYER \
+"Error\nNo player found\n"
+# define MSG_ERR_TEX_PARSE_FAIL \
+"Error\nFailed to parse textures\n"
+# define MSG_ERR_STATIC_TEX_FAIL \
+"Error\nFailed to load static textures\n"
 
 /* Colors: [RGBA] */
 # define BLACK 0x00000088
