@@ -6,7 +6,7 @@
 /*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/12/13 16:52:50 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/12/13 17:13:37 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ t_level	*parse_error(t_parse_tex_res parse_result)
 /**
  * Does the second half of parsing, blame norminette or making me split it up
  */
-t_level	*continue_parse(t_level *level, t_textures *textures, char *map_str)
+t_level	*continue_parse(t_textures *textures, char *map_str)
 {
+	t_level *level;
+
 	if (!map_str)
 		return (free_textures(textures), printf(MSG_COMBINE_FAIL), NULL);
 	level = parse_map(map_str);
@@ -62,7 +64,6 @@ t_level	*continue_parse(t_level *level, t_textures *textures, char *map_str)
  */
 t_level	*parse(char *fn_map)
 {
-	t_level			*level;
 	t_textures		*tex;
 	char			**lines;
 	char			*map_str;
@@ -86,5 +87,5 @@ t_level	*parse(char *fn_map)
 	}
 	map_str = join_map_lines(tex, lines);
 	free_2d_array(lines);
-	return (continue_parse(level, tex, map_str));
+	return (continue_parse(tex, map_str));
 }

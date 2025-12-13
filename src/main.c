@@ -6,7 +6,7 @@
 /*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/13 15:53:37 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/12/13 17:11:50 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static mlx_t	*initialize_mlx(t_level *level)
 	mlx = mlx_init(IMG_WIDTH, IMG_HEIGHT, "cub3D", false);
 	if (!mlx)
 	{
-		printf("Error\nFailed to initialize mlx");
+		printf(MSG_ERR_MLX_INIT_FAIL);
 		free_level(level);
 		exit (1);
 	}
@@ -66,7 +66,7 @@ static t_data	*allocate_data(t_level *level, mlx_t *mlx)
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 	{
-		printf("Error\nFailed to allocate memory for game data");
+		printf(MSG_ERR_DATA_ALLOC_FAIL);
 		free_level(level);
 		mlx_terminate(mlx);
 		exit (1);
@@ -76,7 +76,7 @@ static t_data	*allocate_data(t_level *level, mlx_t *mlx)
 	data->gif_portal = ft_calloc(1, sizeof(t_gif));
 	if (!data->gif_portal)
 	{
-		printf("Error\nFailed to allocate memory for gif data");
+		printf(MSG_ERR_ANIM_ALLOC_FAIL);
 		free_level(level);
 		mlx_terminate(mlx);
 		free(data);

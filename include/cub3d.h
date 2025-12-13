@@ -6,7 +6,7 @@
 /*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/13 16:52:14 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/12/13 17:37:25 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,24 @@
 "Error\nFailed to parse textures\n"
 # define MSG_ERR_STATIC_TEX_FAIL \
 "Error\nFailed to load static textures\n"
+# define MSG_ERR_NOT_CUB \
+"Error\nFile is not a .cub file\n"
+# define MSG_ERR_SIZE_CALC_FAIL \
+"Error\nFailed to open .cub file during map size calculation\n"
+# define MSG_ERR_FILE_OPEN_FAIL \
+"Error\nFailed to open .cub file\n"
+# define MSG_ERR_FILE_TOO_SMALL \
+"Error\nFile too small to be valid\n"
+#define MSG_ERR_FILE_READ_MALLOC_FAIL \
+"Error\nMemory allocation failed for file read\n"
+# define MSG_ERR_FILE_SIZE_MISMATCH \
+"Error\nFound more lines than expected\n"
+# define MSG_ERR_MLX_INIT_FAIL \
+"Error\nFailed to initialize mlx\n"
+# define MSG_ERR_DATA_ALLOC_FAIL \
+"Error\nFailed to allocate memory for game data\n"
+# define MSG_ERR_ANIM_ALLOC_FAIL \
+"Error\nFailed to allocate memory for gif data\n"
 
 /* Colors: [RGBA] */
 # define BLACK 0x00000088
@@ -289,9 +307,27 @@ char			**read_cub_file(char *fn);
 t_textures		*new_parse_textures(char **lines);
 t_parse_tex_res	validate_parsed_textures(t_textures *tex);
 char			*join_map_lines(t_textures *tex, char **lines);
-bool			update_tex_defined(t_tex_info_type type, t_tex_redef_check *redef);
+bool			update_tex_defined(t_tex_info_type type,
+					t_tex_redef_check *redef);
 bool			load_door_tex(t_textures *tex);
 bool			load_portal_tex(t_textures *tex);
+void			free_array(void **arr, void (*del)(void *));
+int				get_line_count(char *fn);
+bool			read_into_array(char **arr, int fd, int size);
+size_t			num_spaces(char *str);
+bool			is_info_line(char *line);
+bool			is_map_char(char c);
+bool			is_map_line(char *line);
+t_tex_info_type	get_tex_type(char *line);
+char			*get_tex_value(char *line);
+bool			rgb_atoi(const char *nptr, int *target);
+size_t			ft_arrlen(void **arr);
+int				string_to_rgb(char *value);
+void			insert_tex(t_textures *tex, t_tex_info_type type, char *value);
+char			*create_filename(char *pre, int num, char *post);
+bool			load_portal_tex(t_textures *tex);
+bool			load_door_tex(t_textures *tex);
+t_parse_tex_res	is_redef_err(t_parse_tex_res res, t_tex_redef_check *redef);
 
 /* game loop */
 void			run_game(mlx_t *mlx, t_data *data);

@@ -22,7 +22,11 @@ SRCS =	src/main.c \
 		src/parsing/map_validator.c \
 		src/parsing/parse_free.c \
 		src/parsing/parse_allocate.c \
-		src/parsing/new_parser.c \
+		src/parsing/cub_parser.c \
+		src/parsing/cub_parser2.c \
+		src/parsing/cub_parser3.c \
+		src/parsing/cub_parser4.c \
+		src/parsing/cub_parser5.c \
 		src/parsing/get_doors.c \
 		src/parsing/get_portals.c \
 		src/utils/chars_till_eol.c \
