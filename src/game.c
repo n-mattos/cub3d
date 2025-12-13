@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:31:19 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/12 14:40:36 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:28:56 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	calc_fps(t_data *d)
 	d->move_speed = MOVESPEED * d->delta_time * 60;
 	d->turn_speed = TURNSPEED * d->delta_time * 60;
 	if (d->move_speed == 0)
-		d->move_speed = MOVESPEED;
+		d->move_speed = MOVESPEED + 1;
 	if (d->turn_speed == 0)
 		d->turn_speed = TURNSPEED;
 }

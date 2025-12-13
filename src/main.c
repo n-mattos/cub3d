@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:13:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/12 14:41:07 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:53:37 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static mlx_t	*initialize_mlx(t_level *level)
 	mlx = mlx_init(IMG_WIDTH, IMG_HEIGHT, "cub3D", false);
 	if (!mlx)
 	{
-		perror("Error\nFailed to initialize mlx");
+		printf("Error\nFailed to initialize mlx");
 		free_level(level);
 		exit (1);
 	}
@@ -66,7 +66,7 @@ static t_data	*allocate_data(t_level *level, mlx_t *mlx)
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 	{
-		perror("Error\nFailed to allocate memory for game data");
+		printf("Error\nFailed to allocate memory for game data");
 		free_level(level);
 		mlx_terminate(mlx);
 		exit (1);
@@ -76,7 +76,7 @@ static t_data	*allocate_data(t_level *level, mlx_t *mlx)
 	data->gif_portal = ft_calloc(1, sizeof(t_gif));
 	if (!data->gif_portal)
 	{
-		perror("Error\nFailed to allocate memory for gif data");
+		printf("Error\nFailed to allocate memory for gif data");
 		free_level(level);
 		mlx_terminate(mlx);
 		free(data);

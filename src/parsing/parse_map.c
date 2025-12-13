@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:14:46 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/12 11:36:43 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:31:07 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,33 +42,6 @@ t_level	*parse_map(char *map_str)
 		return (NULL);
 	return (level);
 }
-
-/**
- * Reads the entire map from the file descriptor and
- * returns it as a single string.
- * @param fd The file descriptor to read from.
- * @return A string containing the raw map data, or NULL if an error occurs.
- */
-// static char	*get_raw_map_data(int fd)
-// {
-// 	char	*line;
-// 	char	*raw_map;
-// 	char	*temp;
-
-// 	raw_map = get_next_line(fd);
-// 	line = get_next_line(fd);
-// 	while (line)
-// 	{
-// 		temp = ft_strjoin(raw_map, line);
-// 		free(raw_map);
-// 		free(line);
-// 		if (temp == NULL)
-// 			return (NULL);
-// 		raw_map = temp;
-// 		line = get_next_line(fd);
-// 	}
-// 	return (raw_map);
-// }
 
 /**
  * Creates a 2D int array from the raw map data.

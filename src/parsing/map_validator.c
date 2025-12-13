@@ -6,7 +6,7 @@
 /*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 13:57:43 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/11 15:57:37 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:52:36 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ bool	get_portals(int **map, t_portal_list **portals)
 {
 	size_t	x;
 	size_t	y;
-
+	t_portal_list	*curr;
+	
 	x = 0;
 	y = 0;
 	while (map[y] != NULL)
@@ -68,6 +69,13 @@ bool	get_portals(int **map, t_portal_list **portals)
 			x++;
 		}
 		y++;
+	}
+	curr = *portals;
+	while (curr != NULL)
+	{
+		if (curr->b[SOURCE].x == -1)
+			return (false);
+		curr = curr->next;
 	}
 	return (true);
 }

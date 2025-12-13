@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:26:59 by mschippe          #+#    #+#             */
-/*   Updated: 2025/12/13 15:20:20 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:53:37 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,22 +98,22 @@ char	**read_cub_file(char *fn)
 	char	**lines;
 
 	if (!is_cub_file(fn))
-		return (perror("Error\nFile is not a .cub file\n"), NULL);
+		return (printf("Error\nFile is not a .cub file\n"), NULL);
 	size = get_line_count(fn);
 	if (size == -1)
-		return (perror("Error\nFailed to open .cub file\n"), NULL);
+		return (printf("Error\nFailed to open .cub file\n"), NULL);
 	fd = open(fn, O_RDONLY);
 	if (fd == -1)
-		return (perror("Error\nFailed to open .cub file\n"), NULL);
+		return (printf("Error\nFailed to open .cub file\n"), NULL);
 	if (size < 9)
-		return (close(fd), perror("Error\nFile too small to be valid\n"), NULL);
+		return (close(fd), printf("Error\nFile too small to be valid\n"), NULL);
 	lines = ft_calloc(size + 1, sizeof(char *));
 	if (!lines)
 		return (close(fd),
-			perror("Error\nMemory alloc failed for file read\n"), NULL);
+			printf("Error\nMemory alloc failed for file read\n"), NULL);
 	if (!read_into_array(lines, fd, size))
 		return (close(fd),
-			perror("Error\nFound more lines than expected\n"), NULL);
+			printf("Error\nFound more lines than expected\n"), NULL);
 	close(fd);
 	return (lines);
 }
