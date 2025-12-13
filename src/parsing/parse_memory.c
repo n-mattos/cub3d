@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/13 15:16:17 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/13 16:15:18 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,9 @@ t_textures	*allocate_textures(void)
 	i = 0;
 	while (i < 6)
 		textures->portal[i++] = NULL;
+	i = 0;
+	while (i < 21)
+		textures->door[i++] = NULL;
 	return (textures);
 }
 

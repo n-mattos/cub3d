@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/12/13 15:53:37 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/12/13 16:10:21 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ t_level	*parse(char *fn_map)
 		return (free_2d_array(lines), printf("Error\nFailed to parse textures"), NULL);
 	parse_result = validate_parsed_textures(textures);
 	if (parse_result != TIS_SUCCESS)
-		return (free_2d_array(lines), parse_error(parse_result));
+		return (free_2d_array(lines), free_textures(textures), parse_error(parse_result));
 	if (!load_door_tex(textures) || !load_portal_tex(textures))
-		return (free_2d_array(lines), printf("Error\nFailed to load static textures (door/portal)\n"), NULL);
+		return (free_2d_array(lines), free_textures(textures), printf("Error\nFailed to load static textures (door/portal)\n"), NULL);
 	map_str = join_map_lines(textures, lines);
 	free_2d_array(lines);
 	if (!map_str)
-		return (printf("Error\nMap combining failed\n"), NULL);
+		return (free_textures(textures), printf("Error\nMap combining failed\n"), NULL);
 	level = parse_map(map_str);
 	if (level == NULL)
 		return (printf("Error\nmap == NULL"), free_textures(textures), NULL);
