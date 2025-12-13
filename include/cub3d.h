@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/11 17:10:05 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:16:14 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,7 @@ void			free_textures(t_textures *textures);
 void			free_map(int **map, int i);
 void			free_level(t_level *level);
 t_textures		*allocate_textures(void);
+void			free_2d_array(char **array);
 
 /* new parser */
 bool			cub_strcmp(char *s1, char *s2);

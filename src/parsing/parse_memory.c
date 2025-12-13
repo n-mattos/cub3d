@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/11 16:10:53 by mschippe         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:16:17 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,4 +125,16 @@ t_textures	*allocate_textures(void)
 	while (i < 6)
 		textures->portal[i++] = NULL;
 	return (textures);
+}
+
+void free_2d_array(char **array)
+{
+	int i;
+
+	if (array == NULL)
+		return;
+	i = 0;
+	while (array[i] != NULL)
+		free(array[i++]);
+	free(array);
 }

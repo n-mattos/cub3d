@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:26:59 by mschippe          #+#    #+#             */
-/*   Updated: 2025/12/12 14:46:17 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:20:20 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,11 +260,12 @@ int	string_to_rgb(char *value)
 	if (!split)
 		return (-2);
 	if (ft_arrlen((void **)split) != 3)
-		return (-3);
+		return (free_2d_array(split), -3);
 	if (!rgb_atoi(split[0], &red)
 		|| !rgb_atoi(split[1], &green)
 		|| !rgb_atoi(split[2], &blue))
-		return (-4);
+		return (free_2d_array(split), -4);
+	free_2d_array(split);
 	return ((red << 24) | (green << 16) | (blue << 8) | 0xFF);
 }
 
@@ -287,6 +288,8 @@ bool	update_tex_defined(t_tex_info_type type, t_tex_redef_check *redef)
 
 void	insert_tex(t_textures *tex, t_tex_info_type type, char *value)
 {
+	if (!value)
+		return ;
 	if (type == TI_NORTH)
 		tex->north = mlx_load_png(value);
 	else if (type == TI_EAST)
@@ -299,6 +302,7 @@ void	insert_tex(t_textures *tex, t_tex_info_type type, char *value)
 		tex->floor = string_to_rgb(value);
 	else if (type == TI_CEILING)
 		tex->ceiling = string_to_rgb(value);
+	free(value);
 }
 
 char	*create_filename(char *pre, int num, char *post)
