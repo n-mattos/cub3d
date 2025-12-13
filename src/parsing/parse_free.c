@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_memory.c                                     :+:      :+:    :+:   */
+/*   parse_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 09:39:41 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/13 16:15:18 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/13 16:39:57 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,12 @@ void	free_textures(t_textures *textures)
 		mlx_delete_texture(textures->west);
 	i = 0;
 	while (i < 6)
-	{
-		if (textures->portal[i] != NULL)
-			mlx_delete_texture(textures->portal[i]);
-		i++;
-	}
+		if (textures->portal[i++] != NULL)
+			mlx_delete_texture(textures->portal[i - 1]);
 	i = 0;
 	while (i < 21)
-	{
-		if (textures->door[i] != NULL)
-			mlx_delete_texture(textures->door[i]);
-		i++;
-	}
+		if (textures->door[i++] != NULL)
+			mlx_delete_texture(textures->door[i - 1]);
 	free(textures);
 }
 
@@ -101,41 +95,12 @@ void	free_level(t_level *level)
 	free(level);
 }
 
-/**
- * Allocates memory for a t_textures structure and its string members.
- * @return Pointer to the allocated t_textures structure, or NULL on failure.
- */
-t_textures	*allocate_textures(void)
+void	free_2d_array(char **array)
 {
-	t_textures	*textures;
-	int			i;
-
-	textures = malloc(sizeof(t_textures));
-	if (textures == NULL)
-		return (NULL);
-	textures->north = NULL;
-	textures->east = NULL;
-	textures->south = NULL;
-	textures->west = NULL;
-	textures->tex_line_offset = 0;
-	textures->floor = -5;
-	textures->ceiling = -5;
-	textures->redef_check = (t_tex_redef_check){0, 0, 0, 0, 0, 0};
-	i = 0;
-	while (i < 6)
-		textures->portal[i++] = NULL;
-	i = 0;
-	while (i < 21)
-		textures->door[i++] = NULL;
-	return (textures);
-}
-
-void free_2d_array(char **array)
-{
-	int i;
+	int	i;
 
 	if (array == NULL)
-		return;
+		return ;
 	i = 0;
 	while (array[i] != NULL)
 		free(array[i++]);
