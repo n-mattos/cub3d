@@ -6,14 +6,16 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:01:23 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/12 12:19:03 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/13 16:41:13 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static int		collision_y(t_level *level, t_playerdata *p, t_vect new);
-static void		collision_x(t_level *level, t_playerdata *p, t_vect new);
+static int		collision_y(t_level *level, t_playerdata *p,
+					t_vect new, int max_y);
+static void		collision_x(t_level *level, t_playerdata *p,
+					t_vect new, int max_x);
 static int		handle_portal(t_level *level, t_playerdata *p, int y, int x);
 static int		get_direction(t_point A, t_point B);
 
@@ -28,9 +30,20 @@ static int		get_direction(t_point A, t_point B);
  */
 void	collision(t_level *level, t_vect new)
 {
-	if (collision_y(level, level->player, new) == PORTAL)
+	int	max_x;
+	int	max_y;
+
+	max_x = 0;
+	while (level->map[(int)level->player->y][max_x] != '\0')
+		max_x++;
+	max_y = 0;
+	while (level->map[max_y] != NULL)
+		max_y++;
+	while (level->map[(int)level->player->y][max_x] != '\0')
+		max_x++;
+	if (collision_y(level, level->player, new, max_y) == PORTAL)
 		return ;
-	collision_x(level, level->player, new);
+	collision_x(level, level->player, new, max_x);
 }
 
 /**
@@ -42,13 +55,8 @@ void	collision(t_level *level, t_vect new)
  * 					Updates the player's y-coordinate if the new y-coordinate
  * 					does not collide with walls.
  */
-static int	collision_y(t_level *level, t_playerdata *p, t_vect new)
+static int	collision_y(t_level *level, t_playerdata *p, t_vect new, int max_y)
 {
-	int	max_y;
-
-	max_y = 0;
-	while (level->map[max_y] != NULL)
-		max_y++;
 	if (new.y > p->y)
 	{
 		if (new.y + COLLISION < 0 || (int)(new.y + COLLISION) >= max_y)
@@ -82,13 +90,8 @@ static int	collision_y(t_level *level, t_playerdata *p, t_vect new)
  * @returns void; Updates the player's x-coordinate if the new x-coordinate
  * 				  does not collide with walls.
  */
-static void	collision_x(t_level *level, t_playerdata *p, t_vect new)
+static void	collision_x(t_level *level, t_playerdata *p, t_vect new, int max_x)
 {
-	int	max_x;
-
-	max_x = 0;
-	while (level->map[(int)p->y][max_x] != '\0')
-		max_x++;
 	if (new.x < p->x)
 	{
 		if (new.x - COLLISION < 0 || (int)(new.x - COLLISION) >= max_x)

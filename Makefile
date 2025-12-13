@@ -1,7 +1,7 @@
 NAME = cub3D
 CC = cc
-# CFLAGS = -Wall -Wextra -Werror -O2 -march=native -ffast-math
-CFLAGS = -g
+CFLAGS = -Wall -Wextra -Werror -O2 -march=native -ffast-math
+# CFLAGS = -g
 
 # Library paths
 MLX42_PATH = ./include/MLX42
@@ -20,8 +20,11 @@ SRCS =	src/main.c \
 		src/parsing/parse.c \
 		src/parsing/parse_map.c \
 		src/parsing/map_validator.c \
-		src/parsing/parse_memory.c \
+		src/parsing/parse_free.c \
+		src/parsing/parse_allocate.c \
 		src/parsing/new_parser.c \
+		src/parsing/get_doors.c \
+		src/parsing/get_portals.c \
 		src/utils/chars_till_eol.c \
 		src/utils/count_char.c \
 		src/utils/is_player.c \
