@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/13 17:37:25 by mschippe         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mschippe <mschippe@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/23 12:53:01 by nmattos-      #+#    #+#                 */
+/*   Updated: 2025/12/16 12:09:29 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@
 "Error\nFailed to open .cub file\n"
 # define MSG_ERR_FILE_TOO_SMALL \
 "Error\nFile too small to be valid\n"
-#define MSG_ERR_FILE_READ_MALLOC_FAIL \
+# define MSG_ERR_FILE_READ_MALLOC_FAIL \
 "Error\nMemory allocation failed for file read\n"
 # define MSG_ERR_FILE_SIZE_MISMATCH \
 "Error\nFound more lines than expected\n"
@@ -95,14 +95,14 @@
 # define MMAP_BORDER_THICKNESS 2
 # define MMAP_SQUARE_BORDER 2
 
-# define TOTAL_RAYS IMG_WIDTH		// total rays to cast (width of the screen)
-# define PERCENTAGE_RAYS 10			// percentage of rays to display (minimap)
+# define TOTAL_RAYS IMG_WIDTH	// total rays to cast (width of the screen)
+# define PERCENTAGE_RAYS 10		// percentage of rays to display (minimap)
 
-# define TEXTURE_WIDTH 64			// width of the texture
-# define TEXTURE_HEIGHT 64			// height of the texture
+# define TEXTURE_WIDTH 64		// width of the texture
+# define TEXTURE_HEIGHT 64		// height of the texture
 
-# define PORTAL_FRAME_COUNT 6		// the amount of frames in the portal animation
-# define DOOR_FRAME_COUNT 21		// the amount of frames in the door animation
+# define PORTAL_FRAME_COUNT 6	// the amount of frames in the portal animation
+# define DOOR_FRAME_COUNT 21	// the amount of frames in the door animation
 
 # define SOURCE 0
 # define TARGET 1
@@ -189,14 +189,14 @@ typedef struct s_textures
 {
 	int					tex_line_offset;
 	t_tex_redef_check	redef_check;
-	mlx_texture_t	*north;
-	mlx_texture_t	*east;
-	mlx_texture_t	*south;
-	mlx_texture_t	*west;
-	mlx_texture_t	*portal[PORTAL_FRAME_COUNT];
-	mlx_texture_t	*door[DOOR_FRAME_COUNT];
-	int				floor;
-	int				ceiling;
+	mlx_texture_t		*north;
+	mlx_texture_t		*east;
+	mlx_texture_t		*south;
+	mlx_texture_t		*west;
+	mlx_texture_t		*portal[PORTAL_FRAME_COUNT];
+	mlx_texture_t		*door[DOOR_FRAME_COUNT];
+	int					floor;
+	int					ceiling;
 }	t_textures;
 
 typedef struct s_raycast
@@ -235,7 +235,8 @@ typedef enum e_door_state
 	CLOSING = 3
 }	t_door_state;
 
-typedef struct s_door_list {
+typedef struct s_door_list
+{
 	t_point				pos;
 	t_door_state		state;
 	mlx_texture_t		*texture;
@@ -372,7 +373,8 @@ void			fill_circle(mlx_image_t *img, t_point center, int radius,
 bool			in_circle(t_point point, t_point center, int radius);
 void			drawvert(mlx_image_t *img, t_point a, t_point b,
 					uint32_t color);
-void			draw_textured_wall(t_raycast *ray, t_data *d, int x, bool draw_door);
+void			draw_textured_wall(t_raycast *ray, t_data *d,
+					int x, bool draw_door);
 void			draw_wall(mlx_image_t *img, double perp_dist,
 					int side, int x);
 void			drawline(mlx_image_t *img, t_point a, t_point b,
