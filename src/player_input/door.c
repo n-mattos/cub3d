@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:09:25 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/03 14:08:44 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/16 17:14:36 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	door_interaction(t_data *d, mlx_key_data_t keydata)
 	ray = door_ray(d);
 	if ((ray.tile == DOOR || ray.tile == DOOR_OPEN)
 		&& ray.perp_wall_dist < 1.5
-		&& d->level->map[(int)p->x][(int)p->y] != DOOR_OPEN)
+		&& d->level->map[(int)p->y][(int)p->x] != DOOR_OPEN)
 	{
 		if (keydata.key == MLX_KEY_E && keydata.action == MLX_PRESS)
 			trigger_door(d->level, ray.map);
