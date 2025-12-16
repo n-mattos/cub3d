@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 09:10:52 by nmattos           #+#    #+#             */
-/*   Updated: 2025/12/13 17:13:37 by mschippe         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mschippe <mschippe@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/24 09:10:52 by nmattos       #+#    #+#                 */
+/*   Updated: 2025/12/16 12:03:02 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_level	*parse_error(t_parse_tex_res parse_result)
  */
 t_level	*continue_parse(t_textures *textures, char *map_str)
 {
-	t_level *level;
+	t_level	*level;
 
 	if (!map_str)
 		return (free_textures(textures), printf(MSG_COMBINE_FAIL), NULL);
