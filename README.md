@@ -11,4 +11,5 @@ E - Interact with Doors\
 M - Toggle Minimap\
 -/+ - Zoom In/Out (Minimap)\
 
+ALT - Toggle Mouse Capture\
 ESC - Exit Game
