@@ -6,7 +6,7 @@
 /*   By: mschippe <mschippe@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/24 09:10:52 by nmattos       #+#    #+#                 */
-/*   Updated: 2025/12/16 12:03:02 by nmattos       ########   odam.nl         */
+/*   Updated: 2025/12/16 12:31:39 by nmattos       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ t_level	*continue_parse(t_textures *textures, char *map_str)
 	level->textures = textures;
 	level->player = NULL;
 	if (!map_is_valid(level->map))
-		return (printf(MSG_ERR_MAP_INVALID), free_map(level->map, -1),
-			free_textures(textures), NULL);
+		return (printf(MSG_ERR_MAP_INVALID), free_level(level), NULL);
 	if (!get_portals(level->map, &level->portals))
 		return (printf(MSG_ERR_PORTALS_INVALID), free_level(level), NULL);
 	if (!get_doors(level->map, &level->doors))
