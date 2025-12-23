@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:53:01 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/23 13:37:06 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/23 13:37:51 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,8 +286,6 @@ void			exit_program(mlx_t *mlx, t_data *data);
 
 /* parse */
 t_level			*parse(char *fn_map);
-t_textures		*parse_textures(int fd);
-t_textures		*sort_texture_data(char **raw, t_textures *textures);
 t_level			*parse_map(char *map_str);
 bool			map_is_valid(int **map);
 bool			get_portals(int **map, t_portal_list **portals);
