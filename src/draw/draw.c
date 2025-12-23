@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:59:36 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/11 14:35:02 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/23 13:32:47 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	draw_portal_effect(t_data *d);
 static bool	draw_pixel(t_data *d, t_raycast *ray, t_point pxl, bool draw_door);
+static int	calculate_initial_y(t_raycast *ray, double step);
 
 /**
  * Draws the entire game frame, including the minimap and the main view.
@@ -72,14 +73,27 @@ void	draw_textured_wall(t_raycast *ray, t_data *d, int x, bool draw_door)
 		ray->draw_end = IMG_HEIGHT - 1;
 	ray->txt_pos = (ray->draw_start - IMG_HEIGHT / 2 + ray->line_height / 2)
 		* step;
-	y = ray->draw_start - 1;
-	while (++y < ray->draw_end)
+	y = calculate_initial_y(ray, step);
+	while (++y <= ray->draw_end)
 	{
 		ray->txt_y = (int)ray->txt_pos & (TEXTURE_HEIGHT - 1);
 		if (draw_pixel(d, ray, (t_point){x, y}, draw_door) == 1)
 			break ;
 		ray->txt_pos += step;
 	}
+}
+
+static int	calculate_initial_y(t_raycast *ray, double step)
+{
+	int	y;
+
+	y = ray->draw_start - 1;
+	if (y < 0)
+	{
+		ray->txt_pos += (-y - 1) * step;
+		y = -1;
+	}
+	return (y);
 }
 
 static bool	draw_pixel(t_data *d, t_raycast *ray, t_point pxl, bool draw_door)
@@ -102,33 +116,4 @@ static bool	draw_pixel(t_data *d, t_raycast *ray, t_point pxl, bool draw_door)
 	if (pxl.x < IMG_WIDTH && pxl.y < IMG_HEIGHT && pxl.x >= 0 && pxl.y >= 0)
 		mlx_put_pixel(d->last_frame, pxl.x, pxl.y, color);
 	return (0);
-}
-
-/**
- * Draws a wall segment in the frame image
- * based on the perpendicular distance and side hit.
- * @param img Pointer to the frame image where the wall will be drawn.
- * @param perp_dist Perpendicular distance to the wall.
- * @param side Side of the wall hit (0 for vertical, 1 for horizontal).
- * @param x X-coordinate of the column where the wall is drawn.
- */
-void	draw_wall(mlx_image_t *img, double perp_dist, int side, int x)
-{
-	int			line_height;
-	int			draw_start;
-	int			draw_end;
-	uint32_t	color;
-
-	line_height = (int)(IMG_HEIGHT / perp_dist);
-	draw_start = -line_height / 2 + IMG_HEIGHT / 2;
-	if (draw_start < 0)
-		draw_start = 0;
-	draw_end = line_height / 2 + IMG_HEIGHT / 2;
-	if (draw_end >= IMG_HEIGHT)
-		draw_end = IMG_HEIGHT - 1;
-	if (side == 0)
-		color = 0xFF00FFFF;
-	else
-		color = 0xFFFF00FF;
-	drawvert(img, (t_point){x, draw_start}, (t_point){x, draw_end}, color);
 }

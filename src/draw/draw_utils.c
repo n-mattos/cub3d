@@ -6,7 +6,7 @@
 /*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:37:23 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/10/02 12:22:30 by nmattos-         ###   ########.fr       */
+/*   Updated: 2025/12/23 13:26:16 by nmattos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,41 +75,6 @@ bool	in_circle(t_point point, t_point center, int radius)
 	dx = point.x - center.x;
 	dy = point.y - center.y;
 	return (dx * dx + dy * dy <= radius * radius);
-}
-
-/**
- * Draws a vertical line in the image
- * from point a to point b with the specified color.
- * @param img Pointer to the image where the line will be drawn.
- * @param a First point defining the vertical line.
- * @param b Second point defining the vertical line.
- * @param color Color of the line to be drawn.
- */
-void	drawvert(mlx_image_t *img, t_point a, t_point b, uint32_t color)
-{
-	int			y_start;
-	int			y_end;
-	int			y;
-	int			x;
-
-	if (a.x == b.x)
-	{
-		x = a.x;
-		if (x < 0 || x >= (int)img->width)
-			return ;
-		y_start = fmin(a.y, b.y);
-		y_end = fmax(a.y, b.y);
-		if (y_start < 0)
-			y_start = 0;
-		if (y_end >= (int)img->height)
-			y_end = img->height - 1;
-		y = y_start;
-		while (y <= y_end)
-		{
-			mlx_put_pixel(img, x, y, color);
-			y++;
-		}
-	}
 }
 
 void	draw_floor_ceiling(mlx_image_t *img, t_textures *textures)
