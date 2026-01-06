@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validator.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattos- <nmattos-@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: mschippe <mschippe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 13:57:43 by nmattos-          #+#    #+#             */
-/*   Updated: 2025/12/13 16:43:00 by nmattos-         ###   ########.fr       */
+/*   Updated: 2026/01/06 15:56:54 by mschippe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ bool	map_is_valid(int **map)
  */
 static bool	invalid_tile(int **map, size_t y, size_t x)
 {
-	if (map[y][x] != FLOOR)
+	if (map[y][x] != FLOOR && !is_player(map[y][x]))
 		return (false);
 	if (x == 0 || map[y][x] == '\0' || map[y][x + 1] == '\0' ||
 		y == 0 || map[y + 1] == NULL)
